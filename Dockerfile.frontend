@@ -1,0 +1,19 @@
+# Multi-stage build: build Vue app then serve with nginx
+FROM node:18-alpine AS build
+WORKDIR /app
+
+# Copy frontend sources
+COPY dev/frontend/package*.json ./
+COPY dev/frontend/ .
+
+RUN npm ci
+RUN npm run build
+
+# Production image
+FROM nginx:stable-alpine
+COPY --from=build /app/dist /usr/share/nginx/html
+# Custom nginx config to proxy /api to backend
+COPY nginx/frontend.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

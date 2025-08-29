@@ -1,0 +1,17 @@
+FROM node:18-alpine
+
+# Backend Dockerfile for FAQ Chatbot
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV PORT=3000
+
+# Copy backend source (assumes backend code is in dev/backend)
+COPY dev/backend/package*.json ./
+COPY dev/backend/ .
+
+RUN npm ci --only=production || npm install --production
+
+EXPOSE 3000
+
+CMD ["node", "server.js"]
