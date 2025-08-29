@@ -38,5 +38,89 @@
   {
     "question": "How does TRESA protect consumers?",
     "answer": "TRESA protects consumers through mandatory representation agreements, enhanced disclosure requirements, stricter professional standards, and improved complaint resolution processes."
+  },
+  {
+    "question": "What are administrative penalties under TRESA?",
+    "answer": "Administrative penalties are financial penalties up to $25,000 that can be imposed for TRESA violations. They are designed to promote compliance and prevent economic benefit from violations."
+  },
+  {
+    "question": "How are administrative penalties appealed?",
+    "answer": "Administrative penalty orders can be appealed within 15 days of receiving the order. If not appealed, the order is confirmed. An appeal body will hold a hearing and can confirm, revoke, or vary the penalty."
+  },
+  {
+    "question": "What happens if I don't pay an administrative penalty?",
+    "answer": "If you don't pay an administrative penalty, it can be filed with the Superior Court of Justice and enforced as a court order. The director may also create liens against your property."
+  },
+  {
+    "question": "Can I be charged criminally and receive an administrative penalty for the same violation?",
+    "answer": "No, if you pay an administrative penalty, you cannot be charged with a criminal offence for the same violation under TRESA."
+  },
+  {
+    "question": "What education requirements exist under TRESA?",
+    "answer": "TRESA requires registrants to obtain prescribed education from designated organizations. Education requirements apply to initial registration, renewal, and ongoing professional development."
+  },
+  {
+    "question": "Can real estate professionals specialize under TRESA?",
+    "answer": "Yes, TRESA allows registrants to hold themselves out as specialists in specific areas. This requires certification through prescribed education, testing, and meeting specific criteria for each specialization area."
+  },
+  {
+    "question": "What insurance requirements exist under TRESA?",
+    "answer": "TRESA requires brokerages, brokers, and salespersons to have prescribed insurance coverage. This includes minimum amounts for different types of insurance and may include mandatory participation in group insurance."
+  },
+  {
+    "question": "What records must be kept under TRESA?",
+    "answer": "Brokerages must maintain detailed documents, records, and trust accounts as prescribed. Records must be kept in specified locations for prescribed time periods, and the registrar can specify additional requirements."
+  },
+  {
+    "question": "What are the disclosure requirements for conflicts of interest?",
+    "answer": "Registrants must disclose any holdings in other brokerages, material facts that could affect decisions, and any circumstances that could create conflicts of interest with their clients."
+  },
+  {
+    "question": "Can real estate professionals represent multiple parties?",
+    "answer": "TRESA governs multiple representation situations with specific rules about when it's permitted, disclosure requirements, and circumstances where it may be prohibited entirely."
+  },
+  {
+    "question": "What information must be provided to the registrar?",
+    "answer": "The registrar can request information from registrants about their trades, business operations, and other persons who may be interested parties. Information must be provided in prescribed forms and timeframes."
+  },
+  {
+    "question": "How are fines collected under TRESA?",
+    "answer": "If fines are unpaid for 60+ days, the director can report to credit agencies and create liens against property. Liens can be registered against both personal and real property."
+  },
+  {
+    "question": "What is the discipline committee under TRESA?",
+    "answer": "The discipline committee investigates complaints and violations. It has jurisdiction to impose penalties, suspend or revoke registrations, and make other disciplinary orders as prescribed by regulation."
+  },
+  {
+    "question": "Are there confidentiality requirements under TRESA?",
+    "answer": "Yes, persons administering TRESA must preserve secrecy of information obtained, except when required for proceedings, administration, consumer protection, or law enforcement purposes."
+  },
+  {
+    "question": "How are legal documents served under TRESA?",
+    "answer": "Notices and orders can be served personally, by registered mail, or by other methods where receipt can be proven. Registered mail service is deemed effective on the third day after mailing."
+  },
+  {
+    "question": "What fees are payable under TRESA?",
+    "answer": "The Minister can establish fees for registration, renewal, late filings, and other administrative matters. These fees support the administration and enforcement of TRESA."
+  },
+  {
+    "question": "What public information is available about registrants?",
+    "answer": "The registrar must make available to the public the names of registrants and other prescribed information about their registration status and any relevant public records."
+  },
+  {
+    "question": "How does TRESA handle electronic commerce?",
+    "answer": "TRESA regulations can govern how the Electronic Commerce Act applies to real estate transactions, ensuring digital transactions comply with legal requirements."
+  },
+  {
+    "question": "Can TRESA penalties be paid in cryptocurrency?",
+    "answer": "No, TRESA administrative penalties and fines must be paid through traditional payment methods to the provincial government. Cryptocurrency payments are not accepted for regulatory penalties, fines, or fees under TRESA."
+  },
+  {
+    "question": "What payment methods are accepted for TRESA penalties?",
+    "answer": "TRESA penalties and fines must be paid through conventional payment methods such as certified cheques, money orders, or electronic transfers to the government. Only government-approved payment methods are accepted."
+  },
+  {
+    "question": "Can I pay TRESA fees with digital currency?",
+    "answer": "No, all TRESA-related payments including registration fees, penalties, and fines must be made using traditional government-approved payment methods. Digital currencies and cryptocurrencies are not accepted."
   }
 ]

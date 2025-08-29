@@ -128,7 +128,43 @@ class SearchService {
       };
     }
 
-    // PRIORITY 3: Pricing questions
+    // PRIORITY 3: Payment method questions
+    const paymentKeywords = [
+      "cryptocurrency",
+      "crypto",
+      "bitcoin",
+      "digital currency",
+      "blockchain",
+      "payment method",
+      "pay with",
+      "paying with",
+      "accept cryptocurrency",
+      "accept crypto",
+    ];
+    const isPaymentQuestion = paymentKeywords.some((keyword) =>
+      message.toLowerCase().includes(keyword)
+    );
+
+    if (isPaymentQuestion) {
+      console.log("💳 Payment method question detected");
+      const paymentFaq = faqData.find(
+        (item) =>
+          item.question.toLowerCase().includes("cryptocurrency") ||
+          item.question.toLowerCase().includes("crypto") ||
+          item.question.toLowerCase().includes("payment") ||
+          item.question.toLowerCase().includes("digital currency")
+      );
+      if (paymentFaq) {
+        console.log("✓ Found payment method in FAQ:", paymentFaq.question);
+        return {
+          response: paymentFaq.answer,
+          source: "FAQ Database - Payment Methods",
+          sourceType: "faq",
+        };
+      }
+    }
+
+    // PRIORITY 4: Pricing questions
     const pricingKeywords = [
       "cost",
       "price",
@@ -161,7 +197,7 @@ class SearchService {
       }
     }
 
-    // PRIORITY 4: Legal questions
+    // PRIORITY 5: Legal questions
     const legalKeywords = [
       "penalty",
       "penalties",
@@ -209,7 +245,7 @@ class SearchService {
       }
     }
 
-    // PRIORITY 5: Fuzzy search in misc data
+    // PRIORITY 6: Fuzzy search in misc data
     if (this.miscFuse) {
       console.log("🔍 Fuzzy searching misc/greeting data...");
       const miscResults = this.miscFuse.search(message);
@@ -226,7 +262,7 @@ class SearchService {
       }
     }
 
-    // PRIORITY 6: Enhanced FAQ search
+    // PRIORITY 7: Enhanced FAQ search
     console.log("🔍 Fuzzy searching FAQ database...");
     const faqResults = this.faqFuse.search(message);
     if (faqResults.length > 0 && faqResults[0].score <= 0.5) {
@@ -285,7 +321,7 @@ class SearchService {
       }
     }
 
-    // PRIORITY 7: Legal fuzzy search
+    // PRIORITY 8: Legal fuzzy search
     console.log("🔍 Fuzzy searching legal database...");
     const legalResults = this.legalFuse.search(message);
     if (legalResults.length > 0 && legalResults[0].score <= 0.4) {
@@ -300,7 +336,7 @@ class SearchService {
       };
     }
 
-    // PRIORITY 8: PDF fallback
+    // PRIORITY 9: PDF fallback
     if (this.pdfFuse) {
       console.log("📄 Searching PDF fallback...");
       const pdfResults = this.pdfFuse.search(message);
@@ -320,7 +356,7 @@ class SearchService {
       }
     }
 
-    // PRIORITY 9: Best available matches
+    // PRIORITY 10: Best available matches
     return this.findBestAvailableMatch(message);
   }
 

@@ -1,50 +1,126 @@
 [
   {
     "question": "Hello",
-    "answer": "Hi! How can I help you today?"
+    "answer": "Hi! How can I help you today? I can answer questions about TRESA, real estate law, and professional requirements."
   },
   {
     "question": "Hi",
-    "answer": "Hello! What can I do for you today?"
+    "answer": "Hello! What can I do for you today? Feel free to ask about TRESA compliance, penalties, or registration requirements."
   },
   {
     "question": "Hey",
-    "answer": "Hey there — how can I assist you?"
+    "answer": "Hey there — how can I assist you? I'm here to help with TRESA questions and real estate law guidance."
   },
   {
     "question": "Good morning",
-    "answer": "Good morning! How can I help you today?"
+    "answer": "Good morning! How can I help you today? Whether it's about buyer representation agreements or compliance requirements, I'm here to help."
   },
   {
     "question": "Good afternoon",
-    "answer": "Good afternoon! What can I assist you with?"
+    "answer": "Good afternoon! What can I assist you with? I can provide information on TRESA regulations, penalties, or professional standards."
   },
   {
     "question": "Good evening",
-    "answer": "Good evening! How may I help you?"
+    "answer": "Good evening! How may I help you? I'm available to answer questions about real estate law and TRESA compliance."
   },
   {
     "question": "Thanks",
-    "answer": "You're welcome! If you have more questions, ask away."
+    "answer": "You're welcome! If you have more questions about TRESA or real estate regulations, feel free to ask."
   },
   {
     "question": "Thank you",
-    "answer": "My pleasure — glad I could help."
+    "answer": "My pleasure — glad I could help with your TRESA questions. Ask away if you need more information!"
   },
   {
     "question": "Who are you",
-    "answer": "I'm the support assistant for this demo. I can answer questions about our policies and help find information in documents."
+    "answer": "I'm a TRESA and real estate law assistant. I can answer questions about compliance requirements, penalties, registration, and professional standards under the Trust in Real Estate Services Act."
   },
   {
     "question": "What can you do",
-    "answer": "I can answer frequently asked questions, summarize legal items, and search our documents for relevant information. Try asking about TRESA or fees."
+    "answer": "I can help with TRESA compliance questions, explain administrative penalties, discuss buyer representation agreements, clarify disclosure requirements, and provide information from real estate legislation and regulations."
   },
   {
     "question": "Help",
-    "answer": "Sure — tell me what you need help with, and I'll do my best to assist."
+    "answer": "I'm here to help with TRESA and real estate law questions. You can ask about penalties, compliance requirements, registration, buyer representation agreements, or any other aspect of Ontario real estate regulations."
   },
   {
     "question": "Contact support",
-    "answer": "You can reach support at support@company.com or call 1-800-SUPPORT during business hours."
+    "answer": "For official TRESA matters, contact RECO (Real Estate Council of Ontario) or consult with a qualified legal professional for specific legal advice."
+  },
+  {
+    "question": "What's new in TRESA",
+    "answer": "TRESA introduced mandatory buyer representation agreements, enhanced disclosure requirements, administrative penalties up to $25,000, and stricter professional standards compared to the previous REBBA legislation."
+  },
+  {
+    "question": "Do I need a lawyer",
+    "answer": "While I can provide general information about TRESA, for specific legal situations or complex compliance issues, it's always best to consult with a qualified real estate lawyer or legal professional."
+  },
+  {
+    "question": "How do I get registered",
+    "answer": "To get registered under TRESA, you need to complete prescribed education, pass examinations, meet eligibility requirements, and apply through the proper registration process with RECO."
+  },
+  {
+    "question": "Can I pay penalties online",
+    "answer": "Payment methods for administrative penalties and fines would be specified in the penalty order. Contact the issuing authority for specific payment instructions and accepted methods."
+  },
+  {
+    "question": "What if I disagree with a penalty",
+    "answer": "You can appeal administrative penalties within 15 days of receiving the order. If you don't appeal within this timeframe, the penalty order becomes final and enforceable."
+  },
+  {
+    "question": "How long do I have to keep records",
+    "answer": "Record retention periods are prescribed by regulation under TRESA. The registrar can specify exactly how long different types of records must be kept and where they must be stored."
+  },
+  {
+    "question": "What insurance do I need",
+    "answer": "TRESA requires prescribed insurance coverage for brokerages, brokers, and salespersons. The specific types and amounts are set by regulation and may include mandatory group insurance participation."
+  },
+  {
+    "question": "Can I represent both buyer and seller",
+    "answer": "Multiple representation is governed by specific TRESA rules. There are disclosure requirements and some circumstances where representing multiple parties may be prohibited entirely."
+  },
+  {
+    "question": "What's a material fact",
+    "answer": "A material fact is information that would affect a reasonable person's decision about a real estate transaction. Under TRESA, all material facts must be disclosed to clients."
+  },
+  {
+    "question": "How do I become a specialist",
+    "answer": "TRESA allows specialist certifications in prescribed areas. You need to complete specialized education, pass testing requirements, and meet ongoing maintenance standards for each specialization."
+  },
+  {
+    "question": "What happens if I don't comply",
+    "answer": "Non-compliance with TRESA can result in administrative penalties up to $25,000, license suspension or revocation, additional registration conditions, and in serious cases, criminal charges."
+  },
+  {
+    "question": "Are there exemptions from TRESA",
+    "answer": "Regulations may provide exemptions for certain persons or types of trades from specific TRESA requirements, but exemptions come with prescribed conditions and criteria."
+  },
+  {
+    "question": "How are complaints investigated",
+    "answer": "RECO investigates complaints through a process that includes preliminary review, formal investigation if warranted, and potential disciplinary proceedings with hearing rights."
+  },
+  {
+    "question": "What's the difference from REBBA",
+    "answer": "TRESA replaced REBBA with enhanced consumer protection, mandatory buyer representation agreements, administrative penalties, stricter disclosure requirements, and improved complaint processes."
+  },
+  {
+    "question": "Can I work from home",
+    "answer": "TRESA requires registrants to maintain business premises that comply with prescribed rules. Check the specific regulations for requirements about home-based real estate operations."
+  },
+  {
+    "question": "What education do I need",
+    "answer": "TRESA requires prescribed education from designated organizations for initial registration, renewal, and ongoing professional development. Specific requirements are set by regulation."
+  },
+  {
+    "question": "How often do I renew registration",
+    "answer": "Registration renewal periods and requirements are prescribed by regulation under TRESA. You must meet all renewal conditions including education and fee payment."
+  },
+  {
+    "question": "What if I forget to renew",
+    "answer": "Late renewal may result in additional fees and potential registration suspension. Check with RECO about late renewal procedures and any penalties for delayed renewal."
+  },
+  {
+    "question": "Can I advertise however I want",
+    "answer": "No, TRESA regulates advertising and representations intended to induce real estate trades. The registrar can specify advertising requirements that all registrants must follow."
   }
 ]
