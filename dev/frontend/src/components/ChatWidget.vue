@@ -57,7 +57,8 @@ export default {
       inputMessage.value = "";
 
       try {
-        const response = await fetch("http://localhost:3000/chat", {
+        const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || "/api";
+        const response = await fetch(`${apiBaseUrl}/chat`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
