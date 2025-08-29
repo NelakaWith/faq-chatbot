@@ -133,6 +133,7 @@ class SearchService {
       "cryptocurrency",
       "crypto",
       "bitcoin",
+      "ethereum",
       "digital currency",
       "blockchain",
       "payment method",
@@ -140,6 +141,18 @@ class SearchService {
       "paying with",
       "accept cryptocurrency",
       "accept crypto",
+      "online payment",
+      "digital payment",
+      "electronic payment",
+      "virtual currency",
+      "digital wallet",
+      "bitcoin payment",
+      "crypto payment",
+      "how to pay",
+      "payment options",
+      "payment accepted",
+      "fee payment",
+      "penalty payment",
     ];
     const isPaymentQuestion = paymentKeywords.some((keyword) =>
       message.toLowerCase().includes(keyword)
@@ -201,6 +214,18 @@ class SearchService {
     const legalKeywords = [
       "penalty",
       "penalties",
+      "administrative penalty",
+      "fine",
+      "fines",
+      "violation",
+      "violations",
+      "compliance",
+      "non-compliance",
+      "enforcement",
+      "disciplinary",
+      "discipline",
+      "suspension",
+      "revocation",
       "terms",
       "policy",
       "policies",
@@ -219,9 +244,39 @@ class SearchService {
       "copyright",
       "payment",
       "refund",
-      "compliance",
-      "violation",
       "disclosure",
+      "confidential",
+      "confidentiality",
+      "appeal",
+      "appeals",
+      "hearing",
+      "tribunal",
+      "court",
+      "judgment",
+      "order",
+      "investigation",
+      "complaint",
+      "complaint process",
+      "regulatory",
+      "regulation",
+      "legislation",
+      "statutory",
+      "bylaw",
+      "code of ethics",
+      "professional conduct",
+      "misconduct",
+      "breach",
+      "contravention",
+      "non-compliance",
+      "administrative authority",
+      "registrar",
+      "director",
+      "RECO",
+      "real estate council",
+      "ontario real estate",
+      "professional standards",
+      "consumer protection",
+      "client protection",
     ];
     const isLegalQuestion = legalKeywords.some((keyword) =>
       message.toLowerCase().includes(keyword)
@@ -279,6 +334,165 @@ class SearchService {
 
     // Enhanced keyword matching
     const messageLower = message.toLowerCase();
+
+    // Registration and licensing queries
+    if (
+      messageLower.includes("registration") ||
+      messageLower.includes("license") ||
+      messageLower.includes("licence") ||
+      messageLower.includes("renew") ||
+      messageLower.includes("qualify")
+    ) {
+      console.log("🎯 Detected registration/licensing query");
+      const registrationQuery = faqData.find(
+        (item) =>
+          item.question.toLowerCase().includes("registration") ||
+          item.question.toLowerCase().includes("license") ||
+          item.question.toLowerCase().includes("licence") ||
+          item.answer.toLowerCase().includes("registration") ||
+          item.answer.toLowerCase().includes("license")
+      );
+      if (registrationQuery) {
+        console.log("✓ Found registration match:", registrationQuery.question);
+        return {
+          response: registrationQuery.answer,
+          source: "FAQ Database - Registration",
+          sourceType: "faq",
+        };
+      }
+    }
+
+    // Education and training queries
+    if (
+      messageLower.includes("education") ||
+      messageLower.includes("training") ||
+      messageLower.includes("course") ||
+      messageLower.includes("continuing education") ||
+      messageLower.includes("professional development")
+    ) {
+      console.log("🎯 Detected education query");
+      const educationQuery = faqData.find(
+        (item) =>
+          item.question.toLowerCase().includes("education") ||
+          item.question.toLowerCase().includes("training") ||
+          item.question.toLowerCase().includes("course") ||
+          item.answer.toLowerCase().includes("education") ||
+          item.answer.toLowerCase().includes("training")
+      );
+      if (educationQuery) {
+        console.log("✓ Found education match:", educationQuery.question);
+        return {
+          response: educationQuery.answer,
+          source: "FAQ Database - Education",
+          sourceType: "faq",
+        };
+      }
+    }
+
+    // Insurance and bonding queries
+    if (
+      messageLower.includes("insurance") ||
+      messageLower.includes("bond") ||
+      messageLower.includes("coverage") ||
+      messageLower.includes("liability coverage")
+    ) {
+      console.log("🎯 Detected insurance query");
+      const insuranceQuery = faqData.find(
+        (item) =>
+          item.question.toLowerCase().includes("insurance") ||
+          item.question.toLowerCase().includes("bond") ||
+          item.answer.toLowerCase().includes("insurance") ||
+          item.answer.toLowerCase().includes("bond")
+      );
+      if (insuranceQuery) {
+        console.log("✓ Found insurance match:", insuranceQuery.question);
+        return {
+          response: insuranceQuery.answer,
+          source: "FAQ Database - Insurance",
+          sourceType: "faq",
+        };
+      }
+    }
+
+    // Trust account queries
+    if (
+      messageLower.includes("trust account") ||
+      messageLower.includes("trust fund") ||
+      messageLower.includes("client money") ||
+      messageLower.includes("deposit")
+    ) {
+      console.log("🎯 Detected trust account query");
+      const trustQuery = faqData.find(
+        (item) =>
+          item.question.toLowerCase().includes("trust") ||
+          item.answer.toLowerCase().includes("trust") ||
+          item.question.toLowerCase().includes("deposit") ||
+          item.answer.toLowerCase().includes("deposit")
+      );
+      if (trustQuery) {
+        console.log("✓ Found trust account match:", trustQuery.question);
+        return {
+          response: trustQuery.answer,
+          source: "FAQ Database - Trust Accounts",
+          sourceType: "faq",
+        };
+      }
+    }
+
+    // Specialization queries
+    if (
+      messageLower.includes("specialist") ||
+      messageLower.includes("specialization") ||
+      messageLower.includes("certification") ||
+      messageLower.includes("designation")
+    ) {
+      console.log("🎯 Detected specialization query");
+      const specializationQuery = faqData.find(
+        (item) =>
+          item.question.toLowerCase().includes("specialist") ||
+          item.question.toLowerCase().includes("specialization") ||
+          item.answer.toLowerCase().includes("specialist") ||
+          item.answer.toLowerCase().includes("specialization")
+      );
+      if (specializationQuery) {
+        console.log(
+          "✓ Found specialization match:",
+          specializationQuery.question
+        );
+        return {
+          response: specializationQuery.answer,
+          source: "FAQ Database - Specialization",
+          sourceType: "faq",
+        };
+      }
+    }
+
+    // Multiple representation queries
+    if (
+      messageLower.includes("multiple representation") ||
+      messageLower.includes("dual agency") ||
+      messageLower.includes("conflict of interest")
+    ) {
+      console.log("🎯 Detected multiple representation query");
+      const multipleRepQuery = faqData.find(
+        (item) =>
+          item.question.toLowerCase().includes("multiple representation") ||
+          item.question.toLowerCase().includes("multiple parties") ||
+          item.answer.toLowerCase().includes("multiple representation") ||
+          item.answer.toLowerCase().includes("multiple parties")
+      );
+      if (multipleRepQuery) {
+        console.log(
+          "✓ Found multiple representation match:",
+          multipleRepQuery.question
+        );
+        return {
+          response: multipleRepQuery.answer,
+          source: "FAQ Database - Multiple Representation",
+          sourceType: "faq",
+        };
+      }
+    }
 
     // Effective date queries
     if (messageLower.includes("effective") && messageLower.includes("date")) {

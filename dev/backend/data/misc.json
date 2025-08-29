@@ -122,5 +122,85 @@
   {
     "question": "Can I advertise however I want",
     "answer": "No, TRESA regulates advertising and representations intended to induce real estate trades. The registrar can specify advertising requirements that all registrants must follow."
+  },
+  {
+    "question": "I need guidance on real estate regulations",
+    "answer": "I'm here to help with TRESA-related questions! You can ask about licensing requirements, compliance obligations, penalties, professional conduct standards, or any other aspect of Ontario's real estate regulations."
+  },
+  {
+    "question": "Can you explain real estate law?",
+    "answer": "I can help explain TRESA (Trust in Real Estate Services Act) requirements, which govern real estate professionals in Ontario. This includes licensing, conduct standards, disclosure requirements, and consumer protection measures."
+  },
+  {
+    "question": "I'm confused about the regulations",
+    "answer": "TRESA can seem complex, but I'm here to break it down for you! Whether you're asking about registration processes, professional obligations, or compliance requirements, I'll provide clear, accurate information to help you understand."
+  },
+  {
+    "question": "What should I know as a new real estate professional?",
+    "answer": "As a new real estate professional in Ontario, you'll need to understand TRESA requirements including licensing, continuing education, professional conduct standards, disclosure obligations, and consumer protection measures. I can help guide you through these requirements."
+  },
+  {
+    "question": "I'm having compliance issues",
+    "answer": "Compliance with TRESA is essential for maintaining your registration and protecting consumers. I can help you understand specific requirements, but for serious compliance concerns, you should consult with RECO or legal counsel for personalized advice."
+  },
+  {
+    "question": "Where can I get more detailed legal advice?",
+    "answer": "While I can provide general TRESA information, for specific legal advice about your situation, you should consult with a qualified lawyer specializing in real estate law or contact RECO (Real Estate Council of Ontario) directly."
+  },
+  {
+    "question": "How current is your information?",
+    "answer": "My information is based on TRESA as consolidated to December 1, 2023. For the most current regulations, amendments, or specific interpretations, please check the official e-Laws website or consult with RECO."
+  },
+  {
+    "question": "Can you help with specific case situations?",
+    "answer": "I can provide general guidance about TRESA requirements and principles, but for specific case situations or legal matters, you should seek advice from qualified legal counsel or contact RECO for regulatory guidance."
+  },
+  {
+    "question": "I'm researching real estate careers",
+    "answer": "Great choice! Ontario's real estate industry is regulated by TRESA, which establishes professional standards and consumer protections. I can help you understand licensing requirements, education needs, and professional obligations."
+  },
+  {
+    "question": "What's the difference between TRESA and REBBA?",
+    "answer": "TRESA (Trust in Real Estate Services Act) replaced REBBA (Real Estate and Business Brokers Act) on December 1, 2023. TRESA provides enhanced consumer protection, clearer professional standards, and improved regulatory framework."
+  },
+  {
+    "question": "I need to understand consumer protection",
+    "answer": "TRESA includes comprehensive consumer protection measures such as mandatory representation agreements, enhanced disclosure requirements, professional conduct standards, and improved complaint resolution processes."
+  },
+  {
+    "question": "How does TRESA protect buyers and sellers?",
+    "answer": "TRESA protects consumers through mandatory written agreements, material facts disclosure, conflict of interest management, professional standards enforcement, and accessible complaint procedures through RECO."
+  },
+  {
+    "question": "Can you explain professional obligations?",
+    "answer": "Under TRESA, real estate professionals have obligations including maintaining competency through education, adhering to conduct standards, proper disclosure of material facts, managing conflicts of interest, and protecting client interests."
+  },
+  {
+    "question": "I want to understand the regulatory framework",
+    "answer": "TRESA creates a comprehensive regulatory framework administered by the designated administrative authority, with registration requirements, ongoing compliance obligations, and enforcement mechanisms to ensure professional standards."
+  },
+  {
+    "question": "How do I stay compliant with regulations?",
+    "answer": "Stay compliant by completing required education, following professional conduct standards, making proper disclosures, managing conflicts appropriately, maintaining required insurance, and keeping current with regulatory updates."
+  },
+  {
+    "question": "What are the key changes under TRESA?",
+    "answer": "Key TRESA changes include enhanced consumer protection, mandatory buyer representation agreements, stricter disclosure requirements, improved complaint processes, clearer professional standards, and strengthened enforcement mechanisms."
+  },
+  {
+    "question": "I need help understanding my obligations",
+    "answer": "Your obligations under TRESA include professional conduct standards, continuing education, proper disclosure, conflict management, client protection, and compliance with all prescribed requirements. I can help explain specific areas."
+  },
+  {
+    "question": "Can you clarify regulatory requirements?",
+    "answer": "Absolutely! TRESA establishes various requirements for registration, professional conduct, education, disclosure, and consumer protection. I can help clarify specific requirements - just ask about the area you need help with."
+  },
+  {
+    "question": "I'm preparing for a real estate career",
+    "answer": "Excellent! To succeed in Ontario real estate, you'll need to understand TRESA requirements, complete prescribed education, maintain professional standards, and commit to ongoing learning and ethical practice."
+  },
+  {
+    "question": "What resources are available for professionals?",
+    "answer": "Resources include RECO (regulatory authority), prescribed education providers, professional development programs, industry associations, and regulatory guidance materials. Official e-Laws provides current legislation."
   }
 ]
