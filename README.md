@@ -6,9 +6,9 @@ A sophisticated Node.js chatbot with fuzzy search capabilities, PDF document pro
 
 ```
 faq-chatbot/
-├── .git/                    # Git repository
-├── .gitignore              # Git ignore rules
-├── documents/              # PDF documents for knowledge base
+├── .git/                  # Git repository
+├── .gitignore             # Git ignore rules
+├── documents/             # PDF documents for knowledge base
 │   └── doc01.pdf          # TRESA legislation document
 ├── dev/
 │   ├── backend/           # Node.js + Express API server
