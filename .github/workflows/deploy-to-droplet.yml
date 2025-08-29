@@ -1,0 +1,82 @@
+name: Deploy to Droplet
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: Install backend dependencies
+        run: |
+          cd dev/backend
+          npm ci --ignore-scripts
+
+      - name: Build frontend
+        run: |
+          cd dev/frontend
+          npm ci
+          npm run build
+
+      - name: Archive build
+        run: |
+          mkdir -p deploy_bundle
+          cp -r dev/backend deploy_bundle/backend
+          cp -r dev/frontend/dist deploy_bundle/frontend_dist
+          tar -czf deploy_bundle.tar.gz deploy_bundle
+
+      - name: Copy to droplet
+        uses: appleboy/scp-action@v0.1.3
+        with:
+          host: "${{ secrets.DROPLET_HOST }}"
+          username: "${{ secrets.DROPLET_USER }}"
+          key: "${{ secrets.DROPLET_SSH_KEY }}"
+          port: "${{ secrets.DROPLET_SSH_PORT }}"
+          source: "deploy_bundle.tar.gz"
+          target: "/home/${{ secrets.DROPLET_USER }}/faq-chatbot-deploy"
+
+      - name: Deploy and restart
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: "${{ secrets.DROPLET_HOST }}"
+          username: "${{ secrets.DROPLET_USER }}"
+          key: "${{ secrets.DROPLET_SSH_KEY }}"
+          port: "${{ secrets.DROPLET_SSH_PORT }}"
+          script: |
+            set -e
+            mkdir -p ~/faq-chatbot-deploy
+            cd ~/faq-chatbot-deploy
+            tar -xzf deploy_bundle.tar.gz
+
+            # Install backend dependencies
+            cd backend
+            npm ci --production
+
+            # Move frontend build to nginx directory
+            cd ..
+            sudo mkdir -p /var/www/faq-chatbot
+            sudo rm -rf /var/www/faq-chatbot/* || true
+            sudo cp -r frontend_dist/* /var/www/faq-chatbot/
+
+            # Install PM2 if missing
+            if ! command -v pm2 > /dev/null; then
+              sudo npm install -g pm2
+            fi
+            cd backend
+            pm2 stop faq-chatbot || true
+            pm2 start server.js --name faq-chatbot --update-env
+            pm2 save
+
+            # Reload nginx
+            sudo systemctl reload nginx || true
