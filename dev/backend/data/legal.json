@@ -174,5 +174,101 @@
   {
     "title": "Industry Standards and Best Practices",
     "content": "TRESA establishes minimum standards for real estate practice while encouraging adoption of best practices in client service, transaction management, and professional conduct throughout the industry."
+  },
+  {
+    "title": "Real Estate Definition and Scope",
+    "content": "TRESA defines real estate broadly to include leasehold interests, businesses with or without premises, fixtures, stock-in-trade, and goods connected with business operations. Regulations may prescribe specific exclusions."
+  },
+  {
+    "title": "Associated Persons and Business Relationships",
+    "content": "TRESA defines associated persons including corporate officers/directors, partnership members, and persons with beneficial interests or control over business operations. These relationships affect registration eligibility and compliance obligations."
+  },
+  {
+    "title": "Brokerage Registration and Structure",
+    "content": "Brokerages must be registered as corporations, partnerships, sole proprietorships, or other legal entities. Each brokerage requires a designated broker of record and must maintain proper business premises and supervision structures."
+  },
+  {
+    "title": "Multiple Office Registration Requirements",
+    "content": "Brokerages operating from multiple locations must register each office separately. One office must be designated as the main office, with proper supervision and management structures for all branch offices."
+  },
+  {
+    "title": "Trust Account Regulations and Requirements",
+    "content": "Brokerages must maintain trust accounts in approved financial institutions, properly segregate client funds, maintain detailed records, and follow prescribed procedures for handling and disbursing trust monies."
+  },
+  {
+    "title": "Unclaimed Trust Money Procedures",
+    "content": "If trust money remains unclaimed for specified periods, brokerages must follow prescribed procedures including reasonable efforts to locate rightful owners before transferring funds to regulatory authorities."
+  },
+  {
+    "title": "Financial Responsibility and Interested Persons",
+    "content": "Registrants must demonstrate financial responsibility and disclose relationships with interested persons who may have beneficial interests, control, or financial involvement in their business operations."
+  },
+  {
+    "title": "Registration Refusal and Appeal Rights",
+    "content": "The registrar may refuse registration applications that don't meet prescribed requirements. Applicants have appeal rights to the Tribunal with specific notice and hearing procedures."
+  },
+  {
+    "title": "Immediate Suspension Authority",
+    "content": "The registrar can immediately suspend registrations in cases of public interest, with appeal rights and automatic expiration of temporary suspensions if hearings are requested within specified timeframes."
+  },
+  {
+    "title": "Inspector and Investigator Appointment",
+    "content": "The registrar appoints inspectors for compliance monitoring and investigators for formal inquiries. Both receive certificates of appointment and have defined powers and duties under TRESA."
+  },
+  {
+    "title": "Search Warrant and Investigation Powers",
+    "content": "Investigators can obtain search warrants for premises and electronic devices, conduct searches with expert assistance, and seize relevant documents and evidence for regulatory investigations."
+  },
+  {
+    "title": "Exigent Circumstances Search Authority",
+    "content": "Investigators can conduct warrantless searches if warrant conditions exist but circumstances prevent obtaining judicial authorization, with subsequent reporting requirements to judicial authorities."
+  },
+  {
+    "title": "Evidence Seizure and Return Procedures",
+    "content": "Seized materials must be properly documented, stored securely, and returned to owners within reasonable timeframes unless required for ongoing investigations or legal proceedings."
+  },
+  {
+    "title": "Plain View Seizure Authority",
+    "content": "Investigators can seize evidence discovered in plain view during lawful inspections or searches, even if not specifically mentioned in original warrants or inspection authorizations."
+  },
+  {
+    "title": "Asset Freeze and Preservation Orders",
+    "content": "The director can order preservation of registrant assets during investigations, requiring financial institutions and other holders to retain funds and prevent unauthorized asset transfers."
+  },
+  {
+    "title": "Trust Fund Administration and Unclaimed Property",
+    "content": "Unclaimed trust funds must be transferred to regulatory authorities after prescribed periods, with procedures for claiming funds and administrative authority responsibilities for fund management."
+  },
+  {
+    "title": "Interest Allocation and Administrative Costs",
+    "content": "Interest earned on trust funds can be allocated to administrative costs, with specific rules for capital preservation and cost recovery from trust fund earnings."
+  },
+  {
+    "title": "Director and Deputy Director Authority",
+    "content": "The director oversees regulatory operations with authority to appoint deputies, delegate functions, and ensure consistent administration of TRESA across all regulatory activities."
+  },
+  {
+    "title": "Registrar and Deputy Registrar Functions",
+    "content": "The registrar manages registration processes, conducts investigations, and oversees compliance, with deputy registrars providing continuity and backup administrative functions."
+  },
+  {
+    "title": "Administrative Authority Designation",
+    "content": "The administrative authority designated under the Safety and Consumer Statutes Administration Act, 1996 provides administrative support and oversight for TRESA implementation and enforcement."
+  },
+  {
+    "title": "Ministerial Oversight and Policy Direction",
+    "content": "The Minister of Consumer and Business Services provides policy direction, approves regulations, establishes fees, and ensures TRESA aligns with broader consumer protection objectives."
+  },
+  {
+    "title": "Regulatory Framework and Rule-Making",
+    "content": "The Lieutenant Governor in Council can make regulations prescribing technical details, procedural requirements, and specific standards for TRESA implementation and administration."
+  },
+  {
+    "title": "Transitional and Implementation Provisions",
+    "content": "TRESA includes specific provisions for transitioning from previous legislation, grandfathering existing registrations, and ensuring continuity during regulatory implementation phases."
+  },
+  {
+    "title": "Repeal and Citation Provisions",
+    "content": "TRESA repeals previous legislation while preserving citation references and ensuring legal continuity for existing agreements, registrations, and regulatory actions."
   }
 ]
