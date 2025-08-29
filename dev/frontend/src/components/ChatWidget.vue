@@ -1,26 +1,40 @@
 <template>
   <div class="chat-widget">
+    <div class="chat-header">
+      <span class="chat-title">🤖 FAQ Chatbot</span>
+    </div>
     <div class="chat-messages" ref="messagesContainer">
-      <div
-        v-for="(msg, index) in messages"
-        :key="index"
-        :class="['message', msg.sender]"
-      >
-        <div class="message-content">
-          {{ msg.text }}
-          <div v-if="msg.source" class="message-source">
-            {{ msg.source }}
+      <transition-group name="fade" tag="div">
+        <div
+          v-for="(msg, index) in messages"
+          :key="index"
+          :class="['message', msg.sender]"
+        >
+          <div class="avatar">
+            <span v-if="msg.sender === 'bot'">🤖</span>
+            <span v-else>🧑</span>
+          </div>
+          <div class="message-content">
+            {{ msg.text }}
+            <div v-if="msg.source" class="message-source">
+              {{ msg.source }}
+            </div>
           </div>
         </div>
-      </div>
+      </transition-group>
     </div>
     <div class="chat-input">
       <input
         v-model="inputMessage"
         @keyup.enter="sendMessage"
         placeholder="Type your message..."
+        autocomplete="off"
       />
-      <button @click="sendMessage">Send</button>
+      <button @click="sendMessage">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+        </svg>
+      </button>
     </div>
   </div>
 </template>
@@ -82,79 +96,145 @@ export default {
 
 <style scoped>
 .chat-widget {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  height: 400px;
+  width: 100%;
+  max-width: 720px;
+  height: 680px;
   display: flex;
   flex-direction: column;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.1), 0 1.5px 4px 0 rgba(0, 0, 0, 0.08);
+  background: linear-gradient(135deg, #f8fafc 0%, #e3e9f7 100%);
+  border: none;
+  overflow: hidden;
+  font-family: "Segoe UI", "Roboto", Arial, sans-serif;
+}
+
+.chat-header {
+  background: linear-gradient(90deg, #007bff 0%, #6a82fb 100%);
+  color: #fff;
+  padding: 16px 20px 12px 20px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.04);
+}
+
+.chat-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .chat-messages {
   flex: 1;
   overflow-y: auto;
-  padding: 10px;
+  padding: 18px 12px 12px 12px;
+  background: transparent;
+  transition: background 0.3s;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
 }
 
 .message {
-  margin-bottom: 10px;
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 16px;
+  gap: 8px;
 }
-
 .message.user {
-  text-align: right;
+  flex-direction: row-reverse;
+}
+.message.bot {
+  flex-direction: row;
 }
 
-.message.bot {
-  text-align: left;
+.avatar {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.07);
 }
 
 .message-content {
   display: inline-block;
-  padding: 8px 12px;
+  padding: 10px 16px;
   border-radius: 18px;
-  max-width: 70%;
+  max-width: 75%;
+  font-size: 1rem;
+  word-break: break-word;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.04);
+  position: relative;
+}
+.message.user .message-content {
+  background: linear-gradient(90deg, #007bff 0%, #6a82fb 100%);
+  color: #fff;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 18px;
+}
+.message.bot .message-content {
+  background: #f4f7fb;
+  color: #222;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 18px;
 }
 
 .message-source {
-  font-size: 0.8em;
+  font-size: 0.85em;
   opacity: 0.7;
-  margin-top: 4px;
+  margin-top: 6px;
   font-style: italic;
-}
-
-.message.user .message-content {
-  background-color: #007bff;
-  color: white;
-}
-
-.message.bot .message-content {
-  background-color: #f1f1f1;
-  color: black;
+  color: #6a82fb;
 }
 
 .chat-input {
   display: flex;
-  padding: 10px;
-  border-top: 1px solid #ccc;
+  align-items: center;
+  padding: 14px 12px 14px 12px;
+  background: #f8fafc;
+  border-top: 1px solid #e3e9f7;
+  gap: 10px;
 }
-
 .chat-input input {
   flex: 1;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-right: 10px;
+  padding: 10px 14px;
+  border: 1.5px solid #c7d0e1;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  background: #fff;
+  transition: border 0.2s;
 }
-
+.chat-input input:focus {
+  border-color: #6a82fb;
+}
 .chat-input button {
   padding: 8px 16px;
-  background-color: #007bff;
-  color: white;
+  background: linear-gradient(90deg, #007bff 0%, #6a82fb 100%);
+  color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.07);
 }
-
 .chat-input button:hover {
-  background-color: #0056b3;
+  background: linear-gradient(90deg, #0056b3 0%, #6a82fb 100%);
 }
 </style>

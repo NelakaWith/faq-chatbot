@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <h1>Chatbot Demo</h1>
     <ChatWidget />
   </div>
 </template>
