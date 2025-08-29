@@ -1,0 +1,34 @@
+{
+  "name": "faq-chatbot-api",
+  "version": "1.0.0",
+  "description": "FAQ Chatbot API with PDF document support",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "dev:debug": "nodemon --inspect server.js",
+    "test": "echo \"No tests specified\" && exit 0",
+    "clean": "echo \"Cleaning temporary files...\" && del /q *.log 2>nul || echo \"Clean complete\""
+  },
+  "keywords": [
+    "chatbot",
+    "faq",
+    "api",
+    "pdf",
+    "search"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.0",
+    "fuse.js": "^6.6.2",
+    "cors": "^2.8.5",
+    "pdf-parse": "^1.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

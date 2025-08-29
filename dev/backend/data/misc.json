@@ -1,0 +1,50 @@
+[
+  {
+    "question": "Hello",
+    "answer": "Hi! How can I help you today?"
+  },
+  {
+    "question": "Hi",
+    "answer": "Hello! What can I do for you today?"
+  },
+  {
+    "question": "Hey",
+    "answer": "Hey there — how can I assist you?"
+  },
+  {
+    "question": "Good morning",
+    "answer": "Good morning! How can I help you today?"
+  },
+  {
+    "question": "Good afternoon",
+    "answer": "Good afternoon! What can I assist you with?"
+  },
+  {
+    "question": "Good evening",
+    "answer": "Good evening! How may I help you?"
+  },
+  {
+    "question": "Thanks",
+    "answer": "You're welcome! If you have more questions, ask away."
+  },
+  {
+    "question": "Thank you",
+    "answer": "My pleasure — glad I could help."
+  },
+  {
+    "question": "Who are you",
+    "answer": "I'm the support assistant for this demo. I can answer questions about our policies and help find information in documents."
+  },
+  {
+    "question": "What can you do",
+    "answer": "I can answer frequently asked questions, summarize legal items, and search our documents for relevant information. Try asking about TRESA or fees."
+  },
+  {
+    "question": "Help",
+    "answer": "Sure — tell me what you need help with, and I'll do my best to assist."
+  },
+  {
+    "question": "Contact support",
+    "answer": "You can reach support at support@company.com or call 1-800-SUPPORT during business hours."
+  }
+]
