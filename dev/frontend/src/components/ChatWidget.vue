@@ -24,9 +24,6 @@
               v-if="msg.buttonSuggestions && msg.buttonSuggestions.length > 0"
               class="suggestion-buttons"
             >
-              <div style="font-size: 0.8rem; color: #999; margin-bottom: 5px">
-                🐛 DEBUG: Found {{ msg.buttonSuggestions.length }} suggestions
-              </div>
               <button
                 v-for="(suggestion, suggestionIndex) in msg.buttonSuggestions"
                 :key="suggestionIndex"
@@ -35,18 +32,6 @@
               >
                 {{ suggestion.text }}
               </button>
-            </div>
-            <div
-              v-else-if="
-                msg.sourceType &&
-                (msg.sourceType.includes('suggestions') ||
-                  msg.sourceType.includes('did_you_mean') ||
-                  msg.sourceType.includes('category'))
-              "
-              style="font-size: 0.8rem; color: #f00; margin-top: 5px"
-            >
-              🐛 DEBUG: Should have buttons but buttonSuggestions is
-              {{ msg.buttonSuggestions }}
             </div>
           </div>
         </div>
@@ -95,8 +80,6 @@ export default {
           body: JSON.stringify({ message: userMessage }),
         });
         const data = await response.json();
-        console.log("🐛 DEBUG - Response from backend:", data);
-        console.log("🐛 DEBUG - buttonSuggestions:", data.buttonSuggestions);
 
         messages.value.push({
           sender: "bot",
@@ -106,10 +89,7 @@ export default {
           buttonSuggestions: data.buttonSuggestions || null,
         });
 
-        console.log(
-          "🐛 DEBUG - Last message:",
-          messages.value[messages.value.length - 1]
-        );
+        // push bot response
       } catch (error) {
         messages.value.push({
           sender: "bot",

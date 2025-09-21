@@ -1,0 +1,49 @@
+name: PR Commitlint
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, edited]
+
+jobs:
+  commitlint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: Install deps
+        run: |
+          npm ci || npm install
+
+      - name: Lint PR title
+        run: |
+          PR_TITLE=$(jq -r .pull_request.title "$GITHUB_EVENT_PATH")
+          echo "PR title: $PR_TITLE"
+          REGEX='^(feat|fix|chore|docs|style|refactor|perf|test|build|ci|revert|release|hotfix)(\([a-z0-9_\-]+\))?: .+'
+          if ! echo "$PR_TITLE" | grep -E "$REGEX"; then
+            echo "PR title must follow Conventional Commits (e.g. 'feat(scope): add new API')."
+            exit 1
+          fi
+
+      - name: Run commitlint on PR commits
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # list commits in the PR and run commitlint on each message
+          PR_COMMITS=$(jq -r .pull_request.commits "$GITHUB_EVENT_PATH")
+          if [ "$PR_COMMITS" -eq 0 ]; then
+            echo "No commits to lint"
+            exit 0
+          fi
+          COMMITS=$(git --no-pager log --pretty=format:%B origin/${{ github.base_ref }}..HEAD)
+          echo "$COMMITS" | npx --no-install commitlint --from=origin/${{ github.base_ref }} --to=HEAD
