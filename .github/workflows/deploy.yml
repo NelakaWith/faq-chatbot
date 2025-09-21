@@ -45,13 +45,11 @@ jobs:
       - name: 🔖 Create GitHub Deployment
         id: create_deployment
         uses: actions/github-script@v6
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DEPLOY_REF: ${{ steps.resolve_ref.outputs.ref }}
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const ref = process.env.DEPLOY_REF || context.sha;
-            const response = await github.repos.createDeployment({
+            const response = await github.rest.repos.createDeployment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref,
@@ -61,6 +59,8 @@ jobs:
               auto_merge: false,
             });
             core.setOutput('deployment_id', response.data.id);
+        env:
+          DEPLOY_REF: ${{ steps.resolve_ref.outputs.ref }}
 
       - name: Copy files to droplet via SSH
         uses: appleboy/scp-action@v0.1.7
