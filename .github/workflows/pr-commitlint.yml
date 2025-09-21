@@ -45,5 +45,10 @@ jobs:
             echo "No commits to lint"
             exit 0
           fi
-          COMMITS=$(git --no-pager log --pretty=format:%B origin/${{ github.base_ref }}..HEAD)
+          # collect non-merge commit messages only (skip automatic merge commits)
+          COMMITS=$(git --no-pager log --no-merges --pretty=format:%B origin/${{ github.base_ref }}..HEAD)
+          if [ -z "$COMMITS" ]; then
+            echo "No non-merge commits to lint"
+            exit 0
+          fi
           echo "$COMMITS" | npx --no-install commitlint --from=origin/${{ github.base_ref }} --to=HEAD
