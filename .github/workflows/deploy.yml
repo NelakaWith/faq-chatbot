@@ -45,7 +45,7 @@ jobs:
           script: |
             cd ~/faq-chatbot/dev/backend
             npm install
-            pm2 restart faq-chatbot || pm2 start server.js --name faq-chatbot
+            pm2 restart faq-chatbot-backend || pm2 start server.js --name faq-chatbot-backend
             cd ~/faq-chatbot/dev/frontend
             npm install
             npm run build
