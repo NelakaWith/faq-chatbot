@@ -2,20 +2,54 @@
 
 A sophisticated Node.js chatbot with fuzzy search capabilities, PDF document processing, and multi-source knowledge base integration.
 
-## Project structure (refactored)
+## Project Structure
 
-Top-level layout and purpose of important folders:
+```
+faq-chatbot/
+├── .git/                  # Git repository
+├── .gitignore             # Git ignore rules
+├── documents/             # PDF documents for knowledge base
+│   └── doc01.pdf          # TRESA legislation document
+├── dev/
+│   ├── backend/           # Node.js + Express API server
+│   │   ├── .gitignore     # Backend-specific ignore rules
+│   │   ├── data/          # JSON knowledge base files
+│   │   │   ├── faq.json   # Frequently asked questions
+│   │   │   ├── legal.json # Legal information
+│   │   │   └── misc.json  # Greetings and miscellaneous
+│   │   ├── src/           # Source code (controllers, routes, services, utils)
+│   │   │   ├── app.js     # Express app configuration
+│   │   │   ├── controllers/
+│   │   │   │   └── chatController.js
+│   │   │   ├── routes/
+│   │   │   │   └── chatRoutes.js
+│   │   │   ├── services/
+│   │   │   │   ├── dataService.js
+│   │   │   │   └── searchService.js
+│   │   │   └── utils/
+│   │   │       ├── formatters.js
+│   │   │       └── pdfReader.js
+│   │   ├── server.js       # Main entry point
+│   │   ├── package.json    # Dependencies & scripts
+│   │   ├── README.md       # Backend documentation
+│   │   └── nodemon.json    # Development configuration
+│   └── frontend/           # Vue 3 frontend
+│       ├── src/
+│       │   ├── components/
+│       │   │   └── ChatWidget.vue
+│       │   ├── App.vue
+│       │   └── main.js
+│       ├── index.html
+│       ├── vite.config.js
+│       └── package.json
+├── run-demo.bat           # Windows batch script
+└── README.md              # This file
+```
 
-- `documents/` — PDF source documents used to build the searchable knowledge base (e.g., `doc01.pdf`).
-- `dev/backend/` — Node.js + Express API that implements the chat endpoint, search logic, and PDF processing. Key files:
-  - `src/` — application source code (controllers, routes, services, utils)
-  - `data/` — JSON fixtures and local knowledge files (faq, legal, misc)
-  - `package.json`, `server.js`, `nodemon.json`
-- `dev/frontend/` — Vue 3 frontend (chat UI). Key files: `src/` (components, App.vue, main.js), `vite.config.js`.
-- `.github/workflows/` — CI/CD workflows (release, PR checks, deploy).
-- Tooling and top-level files: `package.json` (root monorepo config), `commitlint.config.js`, `.husky/`, `RELEASES.md`, `README.md`.
+Quick links:
 
-This refactor keeps the README concise while still pointing developers to the directories they will most frequently use. If you'd prefer the full ASCII tree restored, or a deeper breakdown (per-folder file lists), I can expand this section.
+- Backend README: [dev/backend/README.md](dev/backend/README.md)
+- Frontend README: [dev/frontend/README.md](dev/frontend/README.md)
 
 ## Features
 
