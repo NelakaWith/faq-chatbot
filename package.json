@@ -8,7 +8,8 @@
   ],
   "scripts": {
     "install:all": "npm install --workspaces",
-    "release": "semantic-release"
+    "release": "semantic-release",
+    "commitlint": "commitlint --config commitlint.config.js -e"
   },
   "devDependencies": {
     "semantic-release": "^21.0.0",
@@ -17,6 +18,8 @@
     "@semantic-release/changelog": "^6.0.0",
     "@semantic-release/npm": "^8.0.0",
     "@semantic-release/github": "^8.0.0",
-    "@semantic-release/git": "^10.0.0"
+    "@semantic-release/git": "^10.0.0",
+    "@commitlint/cli": "^17.6.0",
+    "@commitlint/config-conventional": "^17.6.0"
   }
 }
