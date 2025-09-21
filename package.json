@@ -9,17 +9,25 @@
   "scripts": {
     "install:all": "npm install --workspaces",
     "release": "semantic-release",
-    "commitlint": "commitlint --config commitlint.config.js -e"
+    "commitlint": "commitlint --config commitlint.config.js -e",
+    "commit": "cz"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   },
   "devDependencies": {
-    "semantic-release": "^21.0.0",
-    "@semantic-release/commit-analyzer": "^9.0.0",
-    "@semantic-release/release-notes-generator": "^10.0.0",
-    "@semantic-release/changelog": "^6.0.0",
-    "@semantic-release/npm": "^8.0.0",
-    "@semantic-release/github": "^8.0.0",
-    "@semantic-release/git": "^10.0.0",
     "@commitlint/cli": "^17.6.0",
-    "@commitlint/config-conventional": "^17.6.0"
+    "@commitlint/config-conventional": "^17.6.0",
+    "@semantic-release/changelog": "^6.0.0",
+    "@semantic-release/commit-analyzer": "^9.0.0",
+    "@semantic-release/git": "^10.0.0",
+    "@semantic-release/github": "^8.0.0",
+    "@semantic-release/npm": "^8.0.0",
+    "@semantic-release/release-notes-generator": "^10.0.0",
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "semantic-release": "^21.0.0"
   }
 }
