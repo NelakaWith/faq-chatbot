@@ -10,7 +10,8 @@
     "install:all": "npm install --workspaces",
     "release": "semantic-release",
     "commitlint": "commitlint --config commitlint.config.js -e",
-    "commit": "cz"
+    "commit": "cz",
+    "prepare": "husky install"
   },
   "config": {
     "commitizen": {
@@ -28,6 +29,7 @@
     "@semantic-release/release-notes-generator": "^10.0.0",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
+    "husky": "^9.1.7",
     "semantic-release": "^21.0.0"
   }
 }
