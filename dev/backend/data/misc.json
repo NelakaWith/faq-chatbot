@@ -1,514 +1,138 @@
 [
   {
     "question": "Hello",
-    "answer": "Hi! How can I help you today? I can answer questions about TRESA, real estate law, and professional requirements."
+    "answer": "Hi! How can I help you today? I'm here to answer your questions and assist you with any inquiries you might have."
   },
   {
     "question": "Hi",
-    "answer": "Hello! What can I do for you today? Feel free to ask about TRESA compliance, penalties, or registration requirements."
+    "answer": "Hello! What can I do for you today? Feel free to ask me anything - I'm here to help!"
   },
   {
     "question": "Hey",
-    "answer": "Hey there — how can I assist you? I'm here to help with TRESA questions and real estate law guidance."
+    "answer": "Hey there! How can I assist you today? I'm ready to help with any questions or concerns you might have."
   },
   {
     "question": "Good morning",
-    "answer": "Good morning! How can I help you today? Whether it's about buyer representation agreements or compliance requirements, I'm here to help."
+    "answer": "Good morning! I hope you're having a great day. How can I help you today?"
   },
   {
     "question": "Good afternoon",
-    "answer": "Good afternoon! What can I assist you with? I can provide information on TRESA regulations, penalties, or professional standards."
+    "answer": "Good afternoon! What can I assist you with today?"
   },
   {
     "question": "Good evening",
-    "answer": "Good evening! How may I help you? I'm available to answer questions about real estate law and TRESA compliance."
+    "answer": "Good evening! How can I help you tonight?"
   },
   {
     "question": "Thanks",
-    "answer": "You're welcome! If you have more questions about TRESA or real estate regulations, feel free to ask."
+    "answer": "You're very welcome! Is there anything else I can help you with today?"
   },
   {
     "question": "Thank you",
-    "answer": "My pleasure — glad I could help with your TRESA questions. Ask away if you need more information!"
+    "answer": "You're most welcome! I'm glad I could help. Don't hesitate to reach out if you need anything else."
   },
   {
     "question": "Who are you",
-    "answer": "I'm a TRESA and real estate law assistant. I can answer questions about compliance requirements, penalties, registration, and professional standards under the Trust in Real Estate Services Act."
+    "answer": "I'm a helpful AI assistant. I can answer questions and provide information on a wide range of topics to help you with your needs."
   },
   {
     "question": "What can you do",
-    "answer": "I can help with TRESA compliance questions, explain administrative penalties, discuss buyer representation agreements, clarify disclosure requirements, and provide information from real estate legislation and regulations."
+    "answer": "I can help answer your questions, provide information, assist with general inquiries, and guide you through various topics. Just let me know what you need help with!"
   },
   {
     "question": "Help",
-    "answer": "I'm here to help with TRESA and real estate law questions. You can ask about penalties, compliance requirements, registration, buyer representation agreements, or any other aspect of Ontario real estate regulations."
+    "answer": "I'm here to help! Please tell me what you need assistance with, and I'll do my best to provide you with helpful information."
   },
   {
     "question": "Contact support",
-    "answer": "For official TRESA matters, contact RECO (Real Estate Council of Ontario) or consult with a qualified legal professional for specific legal advice."
+    "answer": "For additional support or more specific assistance, please contact our customer service team through the appropriate channels provided on our website."
   },
   {
-    "question": "What's new in TRESA",
-    "answer": "TRESA introduced mandatory buyer representation agreements, enhanced disclosure requirements, administrative penalties up to $25,000, and stricter professional standards compared to the previous REBBA legislation."
+    "question": "I need help",
+    "answer": "I'm here to help! Please tell me what you need assistance with, and I'll do my best to provide you with the information you're looking for."
   },
   {
-    "question": "Do I need a lawyer",
-    "answer": "While I can provide general information about TRESA, for specific legal situations or complex compliance issues, it's always best to consult with a qualified real estate lawyer or legal professional."
+    "question": "Can you help me?",
+    "answer": "Absolutely! I'd be happy to help you. What do you need assistance with today?"
   },
   {
-    "question": "How do I get registered",
-    "answer": "To get registered under TRESA, you need to complete prescribed education, pass examinations, meet eligibility requirements, and apply through the proper registration process with RECO."
+    "question": "I have a question",
+    "answer": "Great! I'm here to answer questions. Please go ahead and ask whatever you'd like to know."
   },
   {
-    "question": "Can I pay penalties online",
-    "answer": "Payment methods for administrative penalties and fines would be specified in the penalty order. Contact the issuing authority for specific payment instructions and accepted methods."
+    "question": "I don't understand",
+    "answer": "No worries! I'm here to help clarify things. Could you tell me specifically what you'd like me to explain?"
   },
   {
-    "question": "What if I disagree with a penalty",
-    "answer": "You can appeal administrative penalties within 15 days of receiving the order. If you don't appeal within this timeframe, the penalty order becomes final and enforceable."
+    "question": "Can you explain?",
+    "answer": "Of course! I'd be happy to explain. What would you like me to help you understand?"
   },
   {
-    "question": "How long do I have to keep records",
-    "answer": "Record retention periods are prescribed by regulation under TRESA. The registrar can specify exactly how long different types of records must be kept and where they must be stored."
+    "question": "I'm confused",
+    "answer": "That's okay! Sometimes things can be confusing. Let me help clear things up for you. What specifically are you having trouble with?"
   },
   {
-    "question": "What insurance do I need",
-    "answer": "TRESA requires prescribed insurance coverage for brokerages, brokers, and salespersons. The specific types and amounts are set by regulation and may include mandatory group insurance participation."
+    "question": "How does this work?",
+    "answer": "I'm an AI assistant designed to help answer your questions and provide information. Simply ask me anything you'd like to know, and I'll do my best to help!"
   },
   {
-    "question": "Can I represent both buyer and seller",
-    "answer": "Multiple representation is governed by specific TRESA rules. There are disclosure requirements and some circumstances where representing multiple parties may be prohibited entirely."
+    "question": "I'm having trouble",
+    "answer": "I'm sorry to hear you're having trouble. I'm here to help! Could you tell me more about what specific issue you're facing?"
   },
   {
-    "question": "What's a material fact",
-    "answer": "A material fact is information that would affect a reasonable person's decision about a real estate transaction. Under TRESA, all material facts must be disclosed to clients."
+    "question": "This is frustrating",
+    "answer": "I understand your frustration, and I'm here to help make things easier for you. Let me know what's bothering you, and I'll do my best to assist."
   },
   {
-    "question": "How do I become a specialist",
-    "answer": "TRESA allows specialist certifications in prescribed areas. You need to complete specialized education, pass testing requirements, and meet ongoing maintenance standards for each specialization."
+    "question": "Goodbye",
+    "answer": "Goodbye! Thanks for using our service. Feel free to come back anytime if you have more questions!"
   },
   {
-    "question": "What happens if I don't comply",
-    "answer": "Non-compliance with TRESA can result in administrative penalties up to $25,000, license suspension or revocation, additional registration conditions, and in serious cases, criminal charges."
+    "question": "Bye",
+    "answer": "Bye! Have a wonderful day, and don't hesitate to return if you need any assistance in the future."
   },
   {
-    "question": "Are there exemptions from TRESA",
-    "answer": "Regulations may provide exemptions for certain persons or types of trades from specific TRESA requirements, but exemptions come with prescribed conditions and criteria."
-  },
-  {
-    "question": "How are complaints investigated",
-    "answer": "RECO investigates complaints through a process that includes preliminary review, formal investigation if warranted, and potential disciplinary proceedings with hearing rights."
-  },
-  {
-    "question": "What's the difference from REBBA",
-    "answer": "TRESA replaced REBBA with enhanced consumer protection, mandatory buyer representation agreements, administrative penalties, stricter disclosure requirements, and improved complaint processes."
-  },
-  {
-    "question": "Can I work from home",
-    "answer": "TRESA requires registrants to maintain business premises that comply with prescribed rules. Check the specific regulations for requirements about home-based real estate operations."
-  },
-  {
-    "question": "What education do I need",
-    "answer": "TRESA requires prescribed education from designated organizations for initial registration, renewal, and ongoing professional development. Specific requirements are set by regulation."
-  },
-  {
-    "question": "How often do I renew registration",
-    "answer": "Registration renewal periods and requirements are prescribed by regulation under TRESA. You must meet all renewal conditions including education and fee payment."
-  },
-  {
-    "question": "What if I forget to renew",
-    "answer": "Late renewal may result in additional fees and potential registration suspension. Check with RECO about late renewal procedures and any penalties for delayed renewal."
-  },
-  {
-    "question": "Can I advertise however I want",
-    "answer": "No, TRESA regulates advertising and representations intended to induce real estate trades. The registrar can specify advertising requirements that all registrants must follow."
-  },
-  {
-    "question": "I need guidance on real estate regulations",
-    "answer": "I'm here to help with TRESA-related questions! You can ask about licensing requirements, compliance obligations, penalties, professional conduct standards, or any other aspect of Ontario's real estate regulations."
-  },
-  {
-    "question": "Can you explain real estate law?",
-    "answer": "I can help explain TRESA (Trust in Real Estate Services Act) requirements, which govern real estate professionals in Ontario. This includes licensing, conduct standards, disclosure requirements, and consumer protection measures."
-  },
-  {
-    "question": "I'm confused about the regulations",
-    "answer": "TRESA can seem complex, but I'm here to break it down for you! Whether you're asking about registration processes, professional obligations, or compliance requirements, I'll provide clear, accurate information to help you understand."
-  },
-  {
-    "question": "What should I know as a new real estate professional?",
-    "answer": "As a new real estate professional in Ontario, you'll need to understand TRESA requirements including licensing, continuing education, professional conduct standards, disclosure obligations, and consumer protection measures. I can help guide you through these requirements."
-  },
-  {
-    "question": "I'm having compliance issues",
-    "answer": "Compliance with TRESA is essential for maintaining your registration and protecting consumers. I can help you understand specific requirements, but for serious compliance concerns, you should consult with RECO or legal counsel for personalized advice."
-  },
-  {
-    "question": "Where can I get more detailed legal advice?",
-    "answer": "While I can provide general TRESA information, for specific legal advice about your situation, you should consult with a qualified lawyer specializing in real estate law or contact RECO (Real Estate Council of Ontario) directly."
+    "question": "Where can I get more information?",
+    "answer": "For more detailed information, you can check our documentation, contact our support team, or browse through our frequently asked questions section."
   },
   {
     "question": "How current is your information?",
-    "answer": "My information is based on TRESA as consolidated to December 1, 2023. For the most current regulations, amendments, or specific interpretations, please check the official e-Laws website or consult with RECO."
+    "answer": "I strive to provide current and accurate information. For the most up-to-date details on specific topics, please refer to official sources or contact our support team."
   },
   {
-    "question": "Can you help with specific case situations?",
-    "answer": "I can provide general guidance about TRESA requirements and principles, but for specific case situations or legal matters, you should seek advice from qualified legal counsel or contact RECO for regulatory guidance."
+    "question": "Can you help with specific situations?",
+    "answer": "I can provide general guidance and information, but for specific situations that require personalized advice, you may need to consult with appropriate professionals or specialists."
   },
   {
-    "question": "I'm researching real estate careers",
-    "answer": "Great choice! Ontario's real estate industry is regulated by TRESA, which establishes professional standards and consumer protections. I can help you understand licensing requirements, education needs, and professional obligations."
+    "question": "What should I know?",
+    "answer": "That depends on what you're interested in! I can help with general information on various topics. What specifically would you like to learn about?"
   },
   {
-    "question": "What's the difference between TRESA and REBBA?",
-    "answer": "TRESA (Trust in Real Estate Services Act) replaced REBBA (Real Estate and Business Brokers Act) on December 1, 2023. TRESA provides enhanced consumer protection, clearer professional standards, and improved regulatory framework."
+    "question": "I'm new to this",
+    "answer": "Welcome! I'm here to help guide you through whatever you need to learn. Don't hesitate to ask questions - that's the best way to get started."
   },
   {
-    "question": "I need to understand consumer protection",
-    "answer": "TRESA includes comprehensive consumer protection measures such as mandatory representation agreements, enhanced disclosure requirements, professional conduct standards, and improved complaint resolution processes."
+    "question": "I need guidance",
+    "answer": "I'm here to provide guidance! Please let me know what area you need help with, and I'll do my best to point you in the right direction."
   },
   {
-    "question": "How does TRESA protect buyers and sellers?",
-    "answer": "TRESA protects consumers through mandatory written agreements, material facts disclosure, conflict of interest management, professional standards enforcement, and accessible complaint procedures through RECO."
+    "question": "Can you clarify?",
+    "answer": "Absolutely! I'd be happy to clarify anything for you. What specific topic or information would you like me to explain more clearly?"
   },
   {
-    "question": "Can you explain professional obligations?",
-    "answer": "Under TRESA, real estate professionals have obligations including maintaining competency through education, adhering to conduct standards, proper disclosure of material facts, managing conflicts of interest, and protecting client interests."
+    "question": "I want to understand",
+    "answer": "Great! Understanding is the first step to success. What would you like to learn more about? I'm here to help explain things clearly."
   },
   {
-    "question": "I want to understand the regulatory framework",
-    "answer": "TRESA creates a comprehensive regulatory framework administered by the designated administrative authority, with registration requirements, ongoing compliance obligations, and enforcement mechanisms to ensure professional standards."
+    "question": "How do I get started?",
+    "answer": "Getting started is easy! First, let me know what you're trying to accomplish, and I can guide you through the initial steps."
   },
   {
-    "question": "How do I stay compliant with regulations?",
-    "answer": "Stay compliant by completing required education, following professional conduct standards, making proper disclosures, managing conflicts appropriately, maintaining required insurance, and keeping current with regulatory updates."
+    "question": "What are my options?",
+    "answer": "Your options depend on what you're trying to achieve. Could you tell me more about your specific situation or goal so I can help outline the available choices?"
   },
   {
-    "question": "What are the key changes under TRESA?",
-    "answer": "Key TRESA changes include enhanced consumer protection, mandatory buyer representation agreements, stricter disclosure requirements, improved complaint processes, clearer professional standards, and strengthened enforcement mechanisms."
-  },
-  {
-    "question": "I need help understanding my obligations",
-    "answer": "Your obligations under TRESA include professional conduct standards, continuing education, proper disclosure, conflict management, client protection, and compliance with all prescribed requirements. I can help explain specific areas."
-  },
-  {
-    "question": "Can you clarify regulatory requirements?",
-    "answer": "Absolutely! TRESA establishes various requirements for registration, professional conduct, education, disclosure, and consumer protection. I can help clarify specific requirements - just ask about the area you need help with."
-  },
-  {
-    "question": "I'm preparing for a real estate career",
-    "answer": "Excellent! To succeed in Ontario real estate, you'll need to understand TRESA requirements, complete prescribed education, maintain professional standards, and commit to ongoing learning and ethical practice."
-  },
-  {
-    "question": "What resources are available for professionals?",
-    "answer": "Resources include RECO (regulatory authority), prescribed education providers, professional development programs, industry associations, and regulatory guidance materials. Official e-Laws provides current legislation."
-  },
-  {
-    "question": "I need guidance on real estate regulations",
-    "answer": "I'm here to help with TRESA-related questions! You can ask about licensing requirements, compliance obligations, penalties, registration, buyer representation agreements, or any other aspect of Ontario's real estate regulations."
-  },
-  {
-    "question": "Can you explain real estate law?",
-    "answer": "I can help explain TRESA (Trust in Real Estate Services Act) requirements, which govern real estate professionals in Ontario. This includes licensing, conduct standards, disclosure requirements, and consumer protection measures."
-  },
-  {
-    "question": "I'm confused about the regulations",
-    "answer": "TRESA can seem complex, but I'm here to break it down for you! Whether you're asking about registration processes, professional obligations, compliance requirements, or any other aspect of Ontario real estate regulations, I'll provide clear, accurate information to help you understand."
-  },
-  {
-    "question": "What should I know as a new real estate professional?",
-    "answer": "As a new real estate professional in Ontario, you'll need to understand TRESA requirements including licensing, continuing education, professional conduct standards, disclosure obligations, and consumer protection measures. I can help guide you through these requirements."
-  },
-  {
-    "question": "I'm having compliance issues",
-    "answer": "Compliance with TRESA is essential for maintaining your registration and protecting consumers. I can help you understand specific requirements, but for serious compliance concerns, you should consult with RECO or legal counsel for personalized advice."
-  },
-  {
-    "question": "Where can I get more detailed legal advice?",
-    "answer": "While I can provide general TRESA information, for specific legal advice about your situation, you should consult with a qualified lawyer specializing in real estate law or contact RECO (Real Estate Council of Ontario) directly."
-  },
-  {
-    "question": "How current is your information?",
-    "answer": "My information is based on TRESA as consolidated to December 1, 2023. For the most current regulations, amendments, or specific interpretations, please check the official e-Laws website or consult with RECO."
-  },
-  {
-    "question": "Can you help with specific case situations?",
-    "answer": "I can provide general guidance about TRESA requirements and principles, but for specific case situations or legal matters, you should seek advice from qualified legal counsel or contact RECO for regulatory guidance."
-  },
-  {
-    "question": "I'm researching real estate careers",
-    "answer": "Great choice! Ontario's real estate industry is regulated by TRESA, which establishes professional standards and consumer protections. I can help you understand licensing requirements, education needs, and professional obligations."
-  },
-  {
-    "question": "What's the difference between TRESA and REBBA?",
-    "answer": "TRESA (Trust in Real Estate Services Act) replaced REBBA (Real Estate and Business Brokers Act) on December 1, 2023. TRESA provides enhanced consumer protection, clearer professional standards, and improved regulatory framework."
-  },
-  {
-    "question": "I need to understand consumer protection",
-    "answer": "TRESA includes comprehensive consumer protection measures such as mandatory representation agreements, enhanced disclosure requirements, professional conduct standards, and improved complaint resolution processes."
-  },
-  {
-    "question": "How does TRESA protect buyers and sellers?",
-    "answer": "TRESA protects consumers through mandatory written agreements, material facts disclosure, conflict of interest management, professional standards enforcement, and accessible complaint procedures through RECO."
-  },
-  {
-    "question": "Can you explain professional obligations?",
-    "answer": "Under TRESA, real estate professionals have obligations including maintaining competency through education, adhering to conduct standards, proper disclosure of material facts, managing conflicts of interest, and protecting client interests."
-  },
-  {
-    "question": "I want to understand the regulatory framework",
-    "answer": "TRESA creates a comprehensive regulatory framework administered by the designated administrative authority, with registration requirements, ongoing compliance obligations, and enforcement mechanisms to ensure professional standards."
-  },
-  {
-    "question": "How do I stay compliant with regulations?",
-    "answer": "Stay compliant by completing required education, following professional conduct standards, making proper disclosures, managing conflicts appropriately, maintaining required insurance, and keeping current with regulatory updates."
-  },
-  {
-    "question": "What are the key changes under TRESA?",
-    "answer": "Key TRESA changes include enhanced consumer protection, mandatory buyer representation agreements, stricter disclosure requirements, improved complaint processes, clearer professional standards, and strengthened enforcement mechanisms."
-  },
-  {
-    "question": "I need help understanding my obligations",
-    "answer": "Your obligations under TRESA include professional conduct standards, continuing education, proper disclosure, conflict management, client protection, and compliance with all prescribed requirements. I can help explain specific areas."
-  },
-  {
-    "question": "Can you clarify regulatory requirements?",
-    "answer": "Absolutely! TRESA establishes various requirements for registration, professional conduct, education, disclosure, and consumer protection. I can help clarify specific requirements - just ask about the area you need help with."
-  },
-  {
-    "question": "I'm preparing for a real estate career",
-    "answer": "Excellent! To succeed in Ontario real estate, you'll need to understand TRESA requirements, complete prescribed education, maintain professional standards, and commit to ongoing learning and ethical practice."
-  },
-  {
-    "question": "What resources are available for professionals?",
-    "answer": "Resources include RECO (regulatory authority), prescribed education providers, professional development programs, industry associations, and regulatory guidance materials. Official e-Laws provides current legislation."
-  },
-  {
-    "question": "What is the scope of real estate under TRESA?",
-    "answer": "TRESA covers leasehold interests, businesses with or without premises, fixtures, stock-in-trade, goods connected with business operations, and any other prescribed real estate matters. Regulations may exclude certain matters from the definition."
-  },
-  {
-    "question": "Who are associated persons under TRESA?",
-    "answer": "Associated persons include corporate officers/directors, partnership members, persons with beneficial interests in business operations, those exercising control directly or indirectly, and persons providing financing to business operations."
-  },
-  {
-    "question": "What are the requirements for brokerage registration?",
-    "answer": "Brokerages must be registered as corporations, partnerships, sole proprietorships, or other legal entities. They require a designated broker of record, proper business premises, supervision structures, and compliance with all prescribed requirements."
-  },
-  {
-    "question": "How do multiple office requirements work?",
-    "answer": "Brokerages operating from multiple locations must register each office separately. One office must be designated as the main office, with proper supervision by qualified brokers and management structures for all branch offices."
-  },
-  {
-    "question": "What are trust account requirements?",
-    "answer": "Brokerages must maintain trust accounts in approved financial institutions, properly segregate client funds from business funds, maintain detailed records, and follow prescribed procedures for handling and disbursing trust monies."
-  },
-  {
-    "question": "What happens to unclaimed trust money?",
-    "answer": "If trust money remains unclaimed for prescribed periods (typically 2 years), brokerages must make reasonable efforts to locate owners, then transfer funds to the administrative authority or Minister of Finance for safekeeping."
-  },
-  {
-    "question": "What are interested persons in registration?",
-    "answer": "Interested persons include those with beneficial interests in the applicant's business, persons exercising control directly or indirectly, those providing financing, and associated persons as defined in the legislation."
-  },
-  {
-    "question": "Can registration be refused?",
-    "answer": "Yes, the registrar can refuse registration if applicants don't meet prescribed requirements, lack financial responsibility, have past conduct issues, or if registration would not be in the public interest. Appeal rights exist to the Tribunal."
-  },
-  {
-    "question": "What is immediate suspension?",
-    "answer": "The registrar can immediately suspend registrations in cases of public interest, with appeal rights. Temporary suspensions expire if hearings are requested within 15 days, or the Tribunal can extend the suspension period."
-  },
-  {
-    "question": "What powers do inspectors have?",
-    "answer": "Inspectors can conduct unannounced inspections of business premises, examine records, demand document production, use data processing equipment, take photographs, make recordings, and inquire into financial transactions and matters relevant to compliance."
-  },
-  {
-    "question": "How do search warrants work under TRESA?",
-    "answer": "Investigators can obtain judicial warrants to search premises and seize evidence. Warrants require reasonable grounds, specify search locations and items, and must be executed between 6 a.m. and 9 p.m. unless otherwise authorized."
-  },
-  {
-    "question": "What are exigent circumstances searches?",
-    "answer": "Investigators can conduct warrantless searches if warrant conditions exist but circumstances prevent obtaining judicial authorization. These searches require subsequent reporting to judicial authorities and follow the same procedures as warranted searches."
-  },
-  {
-    "question": "How are seized items handled?",
-    "answer": "Seized items must be properly documented, stored securely, and returned to owners within reasonable timeframes unless required for ongoing investigations or legal proceedings. Copies can be made for evidentiary purposes."
-  },
-  {
-    "question": "What is plain view seizure?",
-    "answer": "Investigators can seize evidence discovered in plain view during lawful inspections or searches, even if not specifically mentioned in original warrants or inspection authorizations, if they have reasonable grounds to believe it relates to violations."
-  },
-  {
-    "question": "How do asset freeze orders work?",
-    "answer": "The director can order preservation of registrant assets during investigations, requiring financial institutions and other asset holders to retain funds and prevent unauthorized transfers to protect client interests."
-  },
-  {
-    "question": "What happens to unclaimed trust funds?",
-    "answer": "Unclaimed trust funds are transferred to regulatory authorities after prescribed periods. The administrative authority holds these funds in trust, uses interest for administrative costs, and facilitates claims by rightful owners."
-  },
-  {
-    "question": "What are the director's responsibilities?",
-    "answer": "The director oversees regulatory operations, appoints deputies and investigators, delegates functions, ensures consistent administration, and has authority to issue freeze orders and take other regulatory actions to protect the public."
-  },
-  {
-    "question": "What is the administrative authority's role?",
-    "answer": "The administrative authority, designated under the Safety and Consumer Statutes Administration Act, 1996, provides administrative support, oversees compliance, manages trust funds, and supports TRESA implementation and enforcement."
-  },
-  {
-    "question": "What ministerial powers exist under TRESA?",
-    "answer": "The Minister of Consumer and Business Services provides policy direction, approves regulations, establishes fees, designates the administrative authority, and ensures TRESA aligns with broader consumer protection and business service objectives."
-  },
-  {
-    "question": "How are regulations made under TRESA?",
-    "answer": "The Lieutenant Governor in Council can make regulations prescribing technical details, procedural requirements, standards for implementation, exemptions, fees, and other matters necessary for TRESA administration and enforcement."
-  },
-  {
-    "question": "What transitional provisions exist?",
-    "answer": "TRESA includes provisions for transitioning from previous legislation (REBBA), grandfathering existing registrations, handling ongoing matters, and ensuring continuity during regulatory implementation and transitional phases."
-  },
-  {
-    "question": "How does TRESA handle previous legislation?",
-    "answer": "TRESA repeals the Real Estate and Business Brokers Act while preserving citation references and ensuring legal continuity for existing agreements, registrations, disciplinary proceedings, and other regulatory actions."
-  },
-  {
-    "question": "What are the requirements for sole proprietorship brokerages?",
-    "answer": "Sole proprietorship brokerages must conduct business in the proprietor's name, cannot use descriptions suggesting multiple owners or corporate structure, and must designate the proprietor as broker of record with proper qualifications."
-  },
-  {
-    "question": "How do employment restrictions work?",
-    "answer": "Brokerages cannot employ unregistered persons for regulated activities or independent contractors who perform regulated functions without proper registration. All real estate activities require appropriate licensing and registration."
-  },
-  {
-    "question": "What are the rules for brokers working for multiple brokerages?",
-    "answer": "Brokers and salespersons can only be employed by one brokerage at a time and cannot perform brokerage functions for other entities without proper authorization, disclosures, and compliance with multiple representation rules."
-  },
-  {
-    "question": "What financial statement requirements exist?",
-    "answer": "Brokerages must provide financial statements certified by licensed public accountants when required by the registrar. These statements must show prescribed matters and are subject to strict confidentiality requirements."
-  },
-  {
-    "question": "How do business address requirements work?",
-    "answer": "Registrants must maintain and promptly notify the registrar of changes to business addresses, contact information, and registration details within prescribed timeframes to ensure accurate public records and regulatory contact."
-  },
-  {
-    "question": "What equity share disclosure is required?",
-    "answer": "Corporations must disclose beneficial owners of 10% or more equity shares and associated persons with combined ownership interests. Ongoing notification requirements apply to changes in ownership and control structures."
-  },
-  {
-    "question": "What are broker of record responsibilities?",
-    "answer": "The broker of record ensures brokerage compliance with TRESA, supervises operations, maintains professional standards, and is accountable for all brokerage activities and registrant conduct under their supervision."
-  },
-  {
-    "question": "How does registration renewal work?",
-    "answer": "Registration continues during renewal applications if fees are paid and applications submitted before expiry. The registrar can impose conditions or refuse renewal based on compliance history, education requirements, and public interest considerations."
-  },
-  {
-    "question": "What are the rules for reapplication after refusal?",
-    "answer": "Persons whose registration is refused, revoked, or not renewed can reapply after prescribed time periods if new evidence demonstrates eligibility, changed circumstances justify reconsideration, or material facts have changed."
-  },
-  {
-    "question": "How do notice and hearing procedures work?",
-    "answer": "The registrar must provide written notice of proposed actions with reasons and appeal rights. Applicants have 15 days to request hearings, with specific service procedures including personal service, registered mail, and other provable delivery methods."
-  },
-  {
-    "question": "What happens with insurance payment suspensions?",
-    "answer": "Registrations are automatically suspended if insurance premiums remain unpaid beyond specified periods. Revival requires payment of unpaid amounts and evidence of current insurance coverage satisfactory to the registrar."
-  },
-  {
-    "question": "How does the complaint investigation process work?",
-    "answer": "The registrar can receive complaints, request information from registrants, attempt mediation or resolution, and refer matters to the discipline committee if warranted. Formal investigations follow prescribed procedures with due process rights."
-  },
-  {
-    "question": "What enforcement options does the registrar have?",
-    "answer": "The registrar can issue warnings, require additional education, refer matters to discipline committee, impose conditions, suspend or revoke registrations, or take other prescribed enforcement actions based on violation severity and circumstances."
-  },
-  {
-    "question": "What is the discipline committee's jurisdiction?",
-    "answer": "The discipline committee has jurisdiction to investigate violations, conduct hearings, impose penalties up to $100,000 for corporations, require education, apply conditions, suspend or revoke registrations, and make other disciplinary orders."
-  },
-  {
-    "question": "What are the maximum penalty limits?",
-    "answer": "Individual penalties cannot exceed $50,000, while brokerage penalties cannot exceed $100,000. The committee considers violation severity, registrant history, public interest, and other factors in determining appropriate penalties."
-  },
-  {
-    "question": "How do appeals to the Tribunal work?",
-    "answer": "Discipline committee orders can be appealed to the Tribunal within 30 days. The Tribunal conducts hearings and can confirm, vary, or overturn decisions, impose any discipline committee remedy, and make final determinations."
-  },
-  {
-    "question": "What are immediate effect provisions?",
-    "answer": "Most disciplinary orders take effect immediately but can include stay provisions. Appeals don't automatically stay enforcement unless specifically ordered by the decision-maker or Tribunal to protect public interest."
-  },
-  {
-    "question": "How does cost recovery work?",
-    "answer": "The discipline committee can order registrants to pay investigation and hearing costs to the administrative authority. Costs are calculated using prescribed procedures and can be enforced as part of disciplinary orders."
-  },
-  {
-    "question": "How are discipline decisions made public?",
-    "answer": "Discipline committee decisions must be made available to the public in prescribed manners, promoting transparency and public awareness of regulatory enforcement actions and professional standards."
-  },
-  {
-    "question": "What inspection powers do inspectors have?",
-    "answer": "Inspectors can conduct unannounced inspections of business premises (excluding dwelling portions), examine records, demand document production, use data processing equipment, take photographs and recordings, and inquire into relevant matters."
-  },
-  {
-    "question": "What are the limitations on inspections?",
-    "answer": "Inspectors cannot enter dwelling portions of premises without warrant, cannot use force to enter, and must limit photographs and recordings to non-private communications and reasonable privacy expectations."
-  },
-  {
-    "question": "What investigative techniques are authorized?",
-    "answer": "Warrants can authorize various investigative techniques including electronic data searches, device examinations, expert consultations, and any other procedures necessary to obtain evidence relevant to regulatory violations."
-  },
-  {
-    "question": "What are the timing restrictions for searches?",
-    "answer": "Entry and access under warrants must occur between 6 a.m. and 9 p.m. unless the warrant specifies otherwise. Warrants expire within 30 days unless extended by judicial authorization for additional periods."
-  },
-  {
-    "question": "How are freeze orders implemented?",
-    "answer": "Freeze orders require persons holding registrant assets to preserve funds and prevent withdrawals. Orders can apply to specific offices, branches, or all assets depending on the circumstances and scope of the investigation."
-  },
-  {
-    "question": "What are the requirements for non-registrant freeze orders?",
-    "answer": "Freeze orders for non-registrants require affidavit evidence of alleged violations and reasonable grounds to believe the person conducted regulated business without registration, with protections for client and self-represented party interests."
-  },
-  {
-    "question": "How are trust funds administered when unclaimed?",
-    "answer": "Unclaimed trust funds are transferred to the administrative authority or Minister of Finance after prescribed periods. Funds are held in trust, interest may be used for administrative costs, and procedures exist for rightful owners to claim funds."
-  },
-  {
-    "question": "What confidentiality requirements apply to administrators?",
-    "answer": "Persons administering TRESA must preserve secrecy of information obtained, except when required for legal proceedings, administration purposes, consumer protection, law enforcement activities, or other prescribed circumstances."
-  },
-  {
-    "question": "How are legal documents served?",
-    "answer": "Legal notices and orders can be served personally, by registered mail, or other provable methods. Registered mail service is deemed effective on the third day after mailing, with specific procedures for different types of service."
-  },
-  {
-    "question": "What fee structure exists under TRESA?",
-    "answer": "The Minister establishes fees for registration, renewal, late filings, examinations, and administrative services. Fee revenue supports TRESA administration, enforcement activities, and consumer protection programs."
-  },
-  {
-    "question": "What public information is maintained?",
-    "answer": "The registrar maintains public records of registrant names, registration status, prescribed information about qualifications, and other matters enabling consumer verification of professional credentials and regulatory status."
-  },
-  {
-    "question": "How does TRESA handle electronic commerce?",
-    "answer": "TRESA regulations govern how the Electronic Commerce Act applies to real estate transactions, ensuring digital processes, contracts, and disclosures meet legal requirements for validity, enforceability, and consumer protection."
-  },
-  {
-    "question": "What quality assurance programs exist?",
-    "answer": "The director and administrative authority conduct quality assurance programs to monitor compliance, assess industry practices, collect data on violations and enforcement, and use findings to improve administration and regulatory effectiveness."
-  },
-  {
-    "question": "What exemptions are available?",
-    "answer": "Regulations may provide exemptions for trustees, receivers, auctioneers, financial institutions, miners, salaried employees, lawyers, and prescribed persons or classes, each with specific conditions and limitations."
-  },
-  {
-    "question": "How do transitional provisions work?",
-    "answer": "TRESA includes specific provisions for transitioning from REBBA, grandfathering existing registrations, handling ongoing disciplinary matters, preserving legal rights, and ensuring continuity during implementation and transitional phases."
-  },
-  {
-    "question": "What citation and reference provisions exist?",
-    "answer": "TRESA repeals previous legislation while preserving citation references and ensuring legal continuity for existing agreements, registrations, disciplinary proceedings, and other regulatory actions under the new legislation."
+    "question": "I'm looking for information",
+    "answer": "I'm here to help you find the information you need! What specific topic or area are you interested in learning about?"
   }
 ]

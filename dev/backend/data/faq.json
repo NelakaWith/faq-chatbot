@@ -1,310 +1,82 @@
 [
   {
-    "question": "What is TRESA?",
-    "answer": "TRESA stands for Trust in Real Estate Services Act. It's Ontario legislation that governs real estate professionals and protects consumers in real estate transactions."
+    "question": "How do I create an account?",
+    "answer": "To create an account, click the 'Sign Up' button on our homepage, enter your email address and create a password. You'll receive a confirmation email to verify your account."
   },
   {
-    "question": "When did TRESA come into effect?",
-    "answer": "TRESA came into effect on December 1, 2023, replacing the Real Estate and Business Brokers Act (REBBA)."
+    "question": "How do I reset my password?",
+    "answer": "Click 'Forgot Password' on the login page, enter your email address, and we'll send you a password reset link. Follow the instructions in the email to create a new password."
   },
   {
-    "question": "Who does TRESA apply to?",
-    "answer": "TRESA applies to all real estate professionals in Ontario, including brokers, salespersons, and brokerages involved in trading real estate."
+    "question": "How can I contact customer support?",
+    "answer": "You can contact our customer support team through email at support@company.com, live chat on our website, or by calling 1-800-SUPPORT during business hours (9 AM - 6 PM EST)."
   },
   {
-    "question": "What are the key changes under TRESA?",
-    "answer": "Key changes include enhanced consumer protection, clearer disclosure requirements, stricter professional standards, and improved complaint processes."
+    "question": "What payment methods do you accept?",
+    "answer": "We accept all major credit cards (Visa, MasterCard, American Express), PayPal, bank transfers, and digital payment methods like Apple Pay and Google Pay."
   },
   {
-    "question": "What is a buyer representation agreement?",
-    "answer": "A buyer representation agreement is a contract between a buyer and a real estate professional that outlines the terms of representation, including commission and duties."
+    "question": "How do I cancel my subscription?",
+    "answer": "You can cancel your subscription anytime by going to Account Settings > Billing > Cancel Subscription. Your service will continue until the end of your current billing cycle."
   },
   {
-    "question": "Are buyer representation agreements mandatory?",
-    "answer": "Yes, under TRESA, buyer representation agreements are mandatory before a real estate professional can show properties to potential buyers."
+    "question": "What are your business hours?",
+    "answer": "Our customer service team is available Monday through Friday from 9 AM to 6 PM EST. Our website and self-service features are available 24/7."
   },
   {
-    "question": "What disclosures are required under TRESA?",
-    "answer": "TRESA requires disclosure of material facts, conflicts of interest, commission arrangements, and any other information that could affect a client's decision."
+    "question": "Do you offer refunds?",
+    "answer": "Yes, we offer a 30-day money-back guarantee for all our services. Contact customer support to initiate a refund request within 30 days of purchase."
   },
   {
-    "question": "How are complaints handled under TRESA?",
-    "answer": "Complaints are handled by the Real Estate Council of Ontario (RECO) through an improved process that includes investigation, mediation, and disciplinary action if necessary."
+    "question": "How do I update my billing information?",
+    "answer": "Go to Account Settings > Billing Information to update your payment method, billing address, or view your payment history. Changes take effect immediately."
   },
   {
-    "question": "What are the penalties for TRESA violations?",
-    "answer": "Penalties can include fines, license suspension or revocation, mandatory education, and other disciplinary measures depending on the severity of the violation."
+    "question": "Is my data secure?",
+    "answer": "Yes, we use industry-standard encryption and security measures to protect your data. We are SOC 2 compliant and follow best practices for data protection."
   },
   {
-    "question": "How does TRESA protect consumers?",
-    "answer": "TRESA protects consumers through mandatory representation agreements, enhanced disclosure requirements, stricter professional standards, and improved complaint resolution processes."
+    "question": "Can I change my plan?",
+    "answer": "Yes, you can upgrade or downgrade your plan anytime from your account dashboard. Changes will be prorated and reflected in your next billing cycle."
   },
   {
-    "question": "What are administrative penalties under TRESA?",
-    "answer": "Administrative penalties are financial penalties up to $25,000 that can be imposed for TRESA violations. They are designed to promote compliance and prevent economic benefit from violations."
+    "question": "Do you offer student discounts?",
+    "answer": "Yes, we offer a 50% discount for students with a valid .edu email address. Contact support with your student ID for verification."
   },
   {
-    "question": "How are administrative penalties appealed?",
-    "answer": "Administrative penalty orders can be appealed within 15 days of receiving the order. If not appealed, the order is confirmed. An appeal body will hold a hearing and can confirm, revoke, or vary the penalty."
+    "question": "How do I delete my account?",
+    "answer": "To delete your account, go to Account Settings > Privacy & Security > Delete Account. This action is permanent and cannot be undone."
   },
   {
-    "question": "What happens if I don't pay an administrative penalty?",
-    "answer": "If you don't pay an administrative penalty, it can be filed with the Superior Court of Justice and enforced as a court order. The director may also create liens against your property."
+    "question": "What happens if I forget my username?",
+    "answer": "If you forget your username, click 'Forgot Username' on the login page and enter your email address. We'll send your username to your registered email."
   },
   {
-    "question": "Can I be charged criminally and receive an administrative penalty for the same violation?",
-    "answer": "No, if you pay an administrative penalty, you cannot be charged with a criminal offence for the same violation under TRESA."
+    "question": "Can I use the service on mobile devices?",
+    "answer": "Yes, our service is fully optimized for mobile devices. You can access it through your mobile browser or download our mobile app from the App Store or Google Play."
   },
   {
-    "question": "What education requirements exist under TRESA?",
-    "answer": "TRESA requires registrants to obtain prescribed education from designated organizations. Education requirements apply to initial registration, renewal, and ongoing professional development."
+    "question": "How do I export my data?",
+    "answer": "You can export your data by going to Account Settings > Data Export. Select the data you want to export and we'll email you a download link within 24 hours."
   },
   {
-    "question": "Can real estate professionals specialize under TRESA?",
-    "answer": "Yes, TRESA allows registrants to hold themselves out as specialists in specific areas. This requires certification through prescribed education, testing, and meeting specific criteria for each specialization area."
+    "question": "What browsers do you support?",
+    "answer": "We support all modern browsers including Chrome, Firefox, Safari, and Edge. For the best experience, please use the latest version of your preferred browser."
   },
   {
-    "question": "What insurance requirements exist under TRESA?",
-    "answer": "TRESA requires brokerages, brokers, and salespersons to have prescribed insurance coverage. This includes minimum amounts for different types of insurance and may include mandatory participation in group insurance."
+    "question": "How do I add team members?",
+    "answer": "Go to Team Management in your dashboard, click 'Invite Member', enter their email address and select their role. They'll receive an invitation email to join your team."
   },
   {
-    "question": "What records must be kept under TRESA?",
-    "answer": "Brokerages must maintain detailed documents, records, and trust accounts as prescribed. Records must be kept in specified locations for prescribed time periods, and the registrar can specify additional requirements."
+    "question": "What is your uptime guarantee?",
+    "answer": "We guarantee 99.9% uptime for our services. If we fall below this threshold, you may be eligible for service credits as outlined in our Service Level Agreement."
   },
   {
-    "question": "What are the disclosure requirements for conflicts of interest?",
-    "answer": "Registrants must disclose any holdings in other brokerages, material facts that could affect decisions, and any circumstances that could create conflicts of interest with their clients."
+    "question": "How do I track my usage?",
+    "answer": "Your usage statistics are available in your account dashboard under 'Usage & Analytics'. You can view detailed reports by date range and export usage data."
   },
   {
-    "question": "Can real estate professionals represent multiple parties?",
-    "answer": "TRESA governs multiple representation situations with specific rules about when it's permitted, disclosure requirements, and circumstances where it may be prohibited entirely."
-  },
-  {
-    "question": "What information must be provided to the registrar?",
-    "answer": "The registrar can request information from registrants about their trades, business operations, and other persons who may be interested parties. Information must be provided in prescribed forms and timeframes."
-  },
-  {
-    "question": "How are fines collected under TRESA?",
-    "answer": "If fines are unpaid for 60+ days, the director can report to credit agencies and create liens against property. Liens can be registered against both personal and real property."
-  },
-  {
-    "question": "What is the discipline committee under TRESA?",
-    "answer": "The discipline committee investigates complaints and violations. It has jurisdiction to impose penalties, suspend or revoke registrations, and make other disciplinary orders as prescribed by regulation."
-  },
-  {
-    "question": "Are there confidentiality requirements under TRESA?",
-    "answer": "Yes, persons administering TRESA must preserve secrecy of information obtained, except when required for proceedings, administration, consumer protection, or law enforcement purposes."
-  },
-  {
-    "question": "How are legal documents served under TRESA?",
-    "answer": "Notices and orders can be served personally, by registered mail, or by other methods where receipt can be proven. Registered mail service is deemed effective on the third day after mailing."
-  },
-  {
-    "question": "What fees are payable under TRESA?",
-    "answer": "The Minister can establish fees for registration, renewal, late filings, and other administrative matters. These fees support the administration and enforcement of TRESA."
-  },
-  {
-    "question": "What public information is available about registrants?",
-    "answer": "The registrar must make available to the public the names of registrants and other prescribed information about their registration status and any relevant public records."
-  },
-  {
-    "question": "How does TRESA handle electronic commerce?",
-    "answer": "TRESA regulations can govern how the Electronic Commerce Act applies to real estate transactions, ensuring digital transactions comply with legal requirements."
-  },
-  {
-    "question": "Can TRESA penalties be paid in cryptocurrency?",
-    "answer": "No, TRESA administrative penalties and fines must be paid through traditional payment methods to the provincial government. Cryptocurrency payments are not accepted for regulatory penalties, fines, or fees under TRESA."
-  },
-  {
-    "question": "What payment methods are accepted for TRESA penalties?",
-    "answer": "TRESA penalties and fines must be paid through conventional payment methods such as certified cheques, money orders, or electronic transfers to the government. Only government-approved payment methods are accepted."
-  },
-  {
-    "question": "Can I pay TRESA fees with digital currency?",
-    "answer": "No, all TRESA-related payments including registration fees, penalties, and fines must be made using traditional government-approved payment methods. Digital currencies and cryptocurrencies are not accepted."
-  },
-  {
-    "question": "What is an administrative authority under TRESA?",
-    "answer": "The administrative authority is the organization designated under section 3 of the Safety and Consumer Statutes Administration Act, 1996 for the purpose of administering TRESA. This authority oversees compliance and enforcement."
-  },
-  {
-    "question": "What constitutes a material fact under TRESA?",
-    "answer": "A material fact is any information that would reasonably be expected to significantly affect the value or desirability of the property or influence a buyer's or seller's decision in a real estate transaction."
-  },
-  {
-    "question": "What are the qualifications to become a broker under TRESA?",
-    "answer": "To become a broker under TRESA, an individual must have the prescribed qualifications as set out in regulations, complete required education and training programs, and be employed by a brokerage to trade in real estate."
-  },
-  {
-    "question": "What is a personal real estate corporation under TRESA?",
-    "answer": "A personal real estate corporation is a corporation that meets prescribed criteria under TRESA regulations. It allows qualified real estate professionals to incorporate their practice while maintaining professional obligations."
-  },
-  {
-    "question": "What business activities are covered under TRESA?",
-    "answer": "TRESA covers any undertaking carried on for the purpose of gain or profit, including trading in real estate, property management, and related real estate services provided on behalf of others for compensation."
-  },
-  {
-    "question": "What types of property are included in TRESA's definition of real estate?",
-    "answer": "Real estate under TRESA includes leasehold interests, businesses, fixtures, stock-in-trade, and goods connected with the operation of a business, subject to any prescribed exclusions in regulations."
-  },
-  {
-    "question": "Who can be designated as an officer under a brokerage?",
-    "answer": "Officers include the chair and vice-chair of the board of directors, president, vice-president, secretary, treasurer, general manager, managing director, and any individual designated by by-law or performing similar functions."
-  },
-  {
-    "question": "What continuing education requirements apply under TRESA?",
-    "answer": "Registrants must complete prescribed continuing education requirements from designated organizations. These requirements apply to registration renewal and ongoing professional development to maintain competency."
-  },
-  {
-    "question": "How are trust accounts regulated under TRESA?",
-    "answer": "Brokerages must maintain trust accounts in compliance with prescribed rules, including proper record-keeping, account management procedures, and protocols for handling client funds and deposits."
-  },
-  {
-    "question": "What disclosure requirements apply to conflict of interest situations?",
-    "answer": "Registrants must disclose any holdings in other brokerages, material facts affecting decisions, circumstances creating conflicts of interest, and any information that could influence client decisions."
-  },
-  {
-    "question": "What information must be provided to the registrar upon request?",
-    "answer": "Registrants must provide information about their trades, business operations, interested parties, and other prescribed matters in the required forms and within specified timeframes as requested by the registrar."
-  },
-  {
-    "question": "How are unpaid fines and penalties collected under TRESA?",
-    "answer": "If fines remain unpaid for 60+ days, the director can report to credit agencies, create liens against personal and real property, and enforce collection through court orders."
-  },
-  {
-    "question": "What is the role of the discipline committee under TRESA?",
-    "answer": "The discipline committee investigates complaints and violations, has jurisdiction to impose penalties, suspend or revoke registrations, and make other disciplinary orders as prescribed by regulation."
-  },
-  {
-    "question": "What confidentiality requirements exist under TRESA?",
-    "answer": "Persons administering TRESA must preserve secrecy of information obtained, except when required for legal proceedings, administration purposes, consumer protection, or law enforcement activities."
-  },
-  {
-    "question": "How are legal documents served under TRESA?",
-    "answer": "Notices and orders can be served personally, by registered mail, or by other methods where receipt can be proven. Registered mail service is deemed effective on the third day after mailing."
-  },
-  {
-    "question": "What fees are established under TRESA?",
-    "answer": "The Minister can establish fees for registration, renewal, late filings, examinations, and other administrative matters. These fees support the administration and enforcement of TRESA."
-  },
-  {
-    "question": "What public information is available about registrants?",
-    "answer": "The registrar must make available to the public the names of registrants, their registration status, and other prescribed information about their licensing and any relevant public records."
-  },
-  {
-    "question": "How does TRESA regulate electronic commerce in real estate?",
-    "answer": "TRESA regulations govern how the Electronic Commerce Act applies to real estate transactions, ensuring digital processes, contracts, and disclosures meet legal requirements for validity and enforceability."
-  },
-  {
-    "question": "What quality assurance programs exist under TRESA?",
-    "answer": "The director and administrative authority can conduct quality assurance programs to monitor compliance, assess industry practices, and use collected information to improve administration and enforcement."
-  },
-  {
-    "question": "What exemptions exist under TRESA?",
-    "answer": "Regulations may exempt certain persons or classes of trades from TRESA requirements with prescribed conditions, based on specific criteria and public interest considerations as determined by the authorities."
-  },
-  {
-    "question": "How do transitional provisions work under TRESA?",
-    "answer": "TRESA includes provisions for transitioning from previous legislation (REBBA), handling existing registrations, and ensuring continuity during regulatory changes and implementation phases."
-  },
-  {
-    "question": "What are the minimum insurance requirements for brokerages?",
-    "answer": "Brokerages, brokers, and salespersons must maintain prescribed insurance coverage, bonds, or collateral security as specified in regulations, which may include mandatory participation in group insurance programs."
-  },
-  {
-    "question": "How are real estate professional designations recognized under TRESA?",
-    "answer": "Professional designations and specializations require certification through prescribed education, testing, and ongoing maintenance of certification standards as established by the regulatory authority."
-  },
-  {
-    "question": "What are the record-keeping obligations for brokerages?",
-    "answer": "Brokerages must maintain detailed documents, records, and trust accounts as prescribed, keeping records in specified locations for prescribed time periods, with additional requirements as specified by the registrar."
-  },
-  {
-    "question": "What is the scope of real estate under TRESA?",
-    "answer": "TRESA covers leasehold interests, businesses with or without premises, fixtures, stock-in-trade, goods connected with business operations, and any other prescribed real estate matters. Regulations may exclude certain matters from the definition."
-  },
-  {
-    "question": "Who are associated persons under TRESA?",
-    "answer": "Associated persons include corporate officers/directors, partnership members, persons with beneficial interests in business operations, those exercising control directly or indirectly, and persons providing financing to business operations."
-  },
-  {
-    "question": "What are the requirements for brokerage registration?",
-    "answer": "Brokerages must be registered as corporations, partnerships, sole proprietorships, or other legal entities. They require a designated broker of record, proper business premises, supervision structures, and compliance with all prescribed requirements."
-  },
-  {
-    "question": "How do multiple office requirements work?",
-    "answer": "Brokerages operating from multiple locations must register each office separately. One office must be designated as the main office, with proper supervision by qualified brokers and management structures for all branch offices."
-  },
-  {
-    "question": "What are trust account requirements?",
-    "answer": "Brokerages must maintain trust accounts in approved financial institutions, properly segregate client funds from business funds, maintain detailed records, and follow prescribed procedures for handling and disbursing trust monies."
-  },
-  {
-    "question": "What happens to unclaimed trust money?",
-    "answer": "If trust money remains unclaimed for prescribed periods (typically 2 years), brokerages must make reasonable efforts to locate owners, then transfer funds to the administrative authority or Minister of Finance for safekeeping."
-  },
-  {
-    "question": "What are interested persons in registration?",
-    "answer": "Interested persons include those with beneficial interests in the applicant's business, persons exercising control directly or indirectly, those providing financing, and associated persons as defined in the legislation."
-  },
-  {
-    "question": "Can registration be refused?",
-    "answer": "Yes, the registrar can refuse registration if applicants don't meet prescribed requirements, lack financial responsibility, have past conduct issues, or if registration would not be in the public interest. Appeal rights exist to the Tribunal."
-  },
-  {
-    "question": "What is immediate suspension?",
-    "answer": "The registrar can immediately suspend registrations in cases of public interest, with appeal rights. Temporary suspensions expire if hearings are requested within 15 days, or the Tribunal can extend the suspension period."
-  },
-  {
-    "question": "What powers do inspectors have?",
-    "answer": "Inspectors can conduct unannounced inspections of business premises, examine records, demand document production, use data processing equipment, take photographs, make recordings, and inquire into financial transactions and matters relevant to compliance."
-  },
-  {
-    "question": "How do search warrants work under TRESA?",
-    "answer": "Investigators can obtain judicial warrants to search premises and seize evidence. Warrants require reasonable grounds, specify search locations and items, and must be executed between 6 a.m. and 9 p.m. unless otherwise authorized."
-  },
-  {
-    "question": "What are exigent circumstances searches?",
-    "answer": "Investigators can conduct warrantless searches if warrant conditions exist but circumstances prevent obtaining judicial authorization. These searches require subsequent reporting to judicial authorities and follow the same procedures as warranted searches."
-  },
-  {
-    "question": "How are seized items handled?",
-    "answer": "Seized items must be properly documented, stored securely, and returned to owners within reasonable timeframes unless required for ongoing investigations or legal proceedings. Copies can be made for evidentiary purposes."
-  },
-  {
-    "question": "What is plain view seizure?",
-    "answer": "Investigators can seize evidence discovered in plain view during lawful inspections or searches, even if not specifically mentioned in original warrants or inspection authorizations, if they have reasonable grounds to believe it relates to violations."
-  },
-  {
-    "question": "How do asset freeze orders work?",
-    "answer": "The director can order preservation of registrant assets during investigations, requiring financial institutions and other asset holders to retain funds and prevent unauthorized transfers to protect client interests."
-  },
-  {
-    "question": "What happens to unclaimed trust funds?",
-    "answer": "Unclaimed trust funds are transferred to regulatory authorities after prescribed periods. The administrative authority holds these funds in trust, uses interest for administrative costs, and facilitates claims by rightful owners."
-  },
-  {
-    "question": "What are the director's responsibilities?",
-    "answer": "The director oversees regulatory operations, appoints deputies and investigators, delegates functions, ensures consistent administration, and has authority to issue freeze orders and take other regulatory actions to protect the public."
-  },
-  {
-    "question": "What is the administrative authority's role?",
-    "answer": "The administrative authority, designated under the Safety and Consumer Statutes Administration Act, 1996, provides administrative support, oversees compliance, manages trust funds, and supports TRESA implementation and enforcement."
-  },
-  {
-    "question": "What ministerial powers exist under TRESA?",
-    "answer": "The Minister of Consumer and Business Services provides policy direction, approves regulations, establishes fees, designates the administrative authority, and ensures TRESA aligns with broader consumer protection and business service objectives."
-  },
-  {
-    "question": "How are regulations made under TRESA?",
-    "answer": "The Lieutenant Governor in Council can make regulations prescribing technical details, procedural requirements, standards for implementation, exemptions, fees, and other matters necessary for TRESA administration and enforcement."
-  },
-  {
-    "question": "What transitional provisions exist?",
-    "answer": "TRESA includes provisions for transitioning from previous legislation (REBBA), grandfathering existing registrations, handling ongoing matters, and ensuring continuity during regulatory implementation and transitional phases."
-  },
-  {
-    "question": "How does TRESA handle previous legislation?",
-    "answer": "TRESA repeals the Real Estate and Business Brokers Act while preserving citation references and ensuring legal continuity for existing agreements, registrations, disciplinary proceedings, and other regulatory actions."
+    "question": "Can I integrate with third-party tools?",
+    "answer": "Yes, we offer APIs and integrations with popular tools like Slack, Zapier, and Salesforce. Check our integrations page for a full list and setup instructions."
   }
 ]

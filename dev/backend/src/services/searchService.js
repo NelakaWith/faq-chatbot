@@ -93,6 +93,216 @@ class SearchService {
     console.log("🔍 Fuse search instances created");
   }
 
+  // Define search strategies configuration
+  getSearchStrategies() {
+    return [
+      {
+        name: "payment",
+        priority: 3,
+        emoji: "💳",
+        keywords: [
+          "payment method",
+          "pay with",
+          "paying with",
+          "online payment",
+          "digital payment",
+          "electronic payment",
+          "how to pay",
+          "payment options",
+          "payment accepted",
+          "fee payment",
+          "billing",
+          "invoice",
+          "credit card",
+          "debit card",
+          "paypal",
+          "bank transfer",
+        ],
+        searchTerms: ["payment", "billing", "invoice", "credit card"],
+        source: "FAQ Database - Payment Methods",
+      },
+      {
+        name: "pricing",
+        priority: 4,
+        emoji: "💰",
+        keywords: [
+          "cost",
+          "price",
+          "pricing",
+          "much",
+          "fee",
+          "charge",
+          "rate",
+          "expensive",
+        ],
+        searchTerms: ["pricing", "cost", "fee"],
+        source: "FAQ Database - Pricing",
+      },
+      {
+        name: "legal",
+        priority: 5,
+        emoji: "⚖️",
+        keywords: [
+          "terms",
+          "policy",
+          "policies",
+          "privacy",
+          "data protection",
+          "legal",
+          "liability",
+          "cancel",
+          "cancellation",
+          "warranty",
+          "warranties",
+          "dispute",
+          "arbitration",
+          "intellectual property",
+          "copyright",
+          "refund",
+          "confidential",
+          "confidentiality",
+          "agreement",
+          "contract",
+          "compliance",
+          "violation",
+          "breach",
+          "terms of service",
+          "user agreement",
+          "acceptable use",
+          "code of conduct",
+        ],
+        searchType: "legal",
+        source: "Legal Database",
+      },
+      {
+        name: "account",
+        priority: 6,
+        emoji: "🎯",
+        keywords: [
+          "account",
+          "profile",
+          "subscription",
+          "service",
+          "membership",
+        ],
+        searchTerms: ["account", "profile", "subscription", "service"],
+        source: "FAQ Database - Account",
+      },
+      {
+        name: "support",
+        priority: 7,
+        emoji: "🎯",
+        keywords: ["help", "support", "tutorial", "guide", "how to"],
+        searchTerms: ["help", "support", "how"],
+        source: "FAQ Database - Support",
+      },
+      {
+        name: "security",
+        priority: 8,
+        emoji: "🎯",
+        keywords: ["security", "protection", "safety", "secure"],
+        searchTerms: ["security", "protection"],
+        source: "FAQ Database - Security",
+      },
+      {
+        name: "billing",
+        priority: 9,
+        emoji: "🎯",
+        keywords: ["billing", "transaction", "payment", "invoice"],
+        searchTerms: ["billing", "payment"],
+        source: "FAQ Database - Billing",
+      },
+      {
+        name: "features",
+        priority: 10,
+        emoji: "🎯",
+        keywords: ["feature", "service", "function", "capability"],
+        searchTerms: ["feature", "service"],
+        source: "FAQ Database - Features",
+      },
+      {
+        name: "terms",
+        priority: 11,
+        emoji: "🎯",
+        keywords: ["terms", "conditions", "agreement", "policy"],
+        searchTerms: ["terms", "policy"],
+        source: "FAQ Database - Terms",
+      },
+      {
+        name: "updates",
+        priority: 12,
+        emoji: "🎯",
+        keywords: ["update", "new", "release", "date", "version"],
+        searchTerms: ["update", "new", "release"],
+        source: "FAQ Database - Updates",
+      },
+      {
+        name: "issues",
+        priority: 13,
+        emoji: "🎯",
+        keywords: ["issue", "problem", "error", "trouble"],
+        searchTerms: ["issue", "problem"],
+        source: "FAQ Database - Issues",
+      },
+    ];
+  }
+
+  // Generic strategy processor
+  processSearchStrategy(strategy, message, faqData, legalData) {
+    const messageLower = message.toLowerCase();
+
+    // Check if message matches strategy keywords
+    const isMatch = strategy.keywords.some((keyword) =>
+      messageLower.includes(keyword.toLowerCase())
+    );
+
+    if (!isMatch) return null;
+
+    console.log(`${strategy.emoji} ${strategy.name} question detected`);
+
+    // Handle legal search differently
+    if (strategy.searchType === "legal") {
+      const directLegalMatch = legalData.find(
+        (item) =>
+          item.title.toLowerCase().includes(messageLower) ||
+          messageLower.includes(item.title.toLowerCase()) ||
+          item.content.toLowerCase().includes(messageLower)
+      );
+
+      if (directLegalMatch) {
+        console.log("✓ Found in legal database:", directLegalMatch.title);
+        return {
+          response: directLegalMatch.content,
+          source: `${strategy.source} - ${directLegalMatch.title}`,
+          sourceType: "legal",
+        };
+      }
+      return null;
+    }
+
+    // Handle FAQ search
+    if (strategy.searchTerms) {
+      const faqMatch = faqData.find((item) =>
+        strategy.searchTerms.some(
+          (term) =>
+            item.question.toLowerCase().includes(term) ||
+            item.answer.toLowerCase().includes(term)
+        )
+      );
+
+      if (faqMatch) {
+        console.log(`✓ Found ${strategy.name} match:`, faqMatch.question);
+        return {
+          response: faqMatch.answer,
+          source: strategy.source,
+          sourceType: "faq",
+        };
+      }
+    }
+
+    return null;
+  }
+
   async searchKnowledgeBase(message) {
     if (!this.initialized) {
       await this.initialize();
@@ -128,175 +338,18 @@ class SearchService {
       };
     }
 
-    // PRIORITY 3: Payment method questions
-    const paymentKeywords = [
-      "cryptocurrency",
-      "crypto",
-      "bitcoin",
-      "ethereum",
-      "digital currency",
-      "blockchain",
-      "payment method",
-      "pay with",
-      "paying with",
-      "accept cryptocurrency",
-      "accept crypto",
-      "online payment",
-      "digital payment",
-      "electronic payment",
-      "virtual currency",
-      "digital wallet",
-      "bitcoin payment",
-      "crypto payment",
-      "how to pay",
-      "payment options",
-      "payment accepted",
-      "fee payment",
-      "penalty payment",
-    ];
-    const isPaymentQuestion = paymentKeywords.some((keyword) =>
-      message.toLowerCase().includes(keyword)
-    );
+    // PRIORITY 3-7: Category-based keyword matching using strategies
+    const strategies = this.getSearchStrategies();
 
-    if (isPaymentQuestion) {
-      console.log("💳 Payment method question detected");
-      const paymentFaq = faqData.find(
-        (item) =>
-          item.question.toLowerCase().includes("cryptocurrency") ||
-          item.question.toLowerCase().includes("crypto") ||
-          item.question.toLowerCase().includes("payment") ||
-          item.question.toLowerCase().includes("digital currency")
+    for (const strategy of strategies) {
+      const result = this.processSearchStrategy(
+        strategy,
+        message,
+        faqData,
+        legalData
       );
-      if (paymentFaq) {
-        console.log("✓ Found payment method in FAQ:", paymentFaq.question);
-        return {
-          response: paymentFaq.answer,
-          source: "FAQ Database - Payment Methods",
-          sourceType: "faq",
-        };
-      }
-    }
-
-    // PRIORITY 4: Pricing questions
-    const pricingKeywords = [
-      "cost",
-      "price",
-      "pricing",
-      "much",
-      "fee",
-      "charge",
-      "rate",
-      "expensive",
-    ];
-    const isPricingQuestion = pricingKeywords.some((keyword) =>
-      message.toLowerCase().includes(keyword)
-    );
-
-    if (isPricingQuestion) {
-      console.log("💰 Pricing question detected");
-      const pricingFaq = faqData.find(
-        (item) =>
-          item.question.toLowerCase().includes("pricing") ||
-          item.question.toLowerCase().includes("cost") ||
-          item.question.toLowerCase().includes("fee")
-      );
-      if (pricingFaq) {
-        console.log("✓ Found pricing in FAQ:", pricingFaq.question);
-        return {
-          response: pricingFaq.answer,
-          source: "FAQ Database - Pricing",
-          sourceType: "faq",
-        };
-      }
-    }
-
-    // PRIORITY 5: Legal questions
-    const legalKeywords = [
-      "penalty",
-      "penalties",
-      "administrative penalty",
-      "fine",
-      "fines",
-      "violation",
-      "violations",
-      "compliance",
-      "non-compliance",
-      "enforcement",
-      "disciplinary",
-      "discipline",
-      "suspension",
-      "revocation",
-      "terms",
-      "policy",
-      "policies",
-      "liability",
-      "legal",
-      "privacy",
-      "data",
-      "cancel",
-      "cancellation",
-      "warranty",
-      "warranties",
-      "dispute",
-      "arbitration",
-      "intellectual",
-      "property",
-      "copyright",
-      "payment",
-      "refund",
-      "disclosure",
-      "confidential",
-      "confidentiality",
-      "appeal",
-      "appeals",
-      "hearing",
-      "tribunal",
-      "court",
-      "judgment",
-      "order",
-      "investigation",
-      "complaint",
-      "complaint process",
-      "regulatory",
-      "regulation",
-      "legislation",
-      "statutory",
-      "bylaw",
-      "code of ethics",
-      "professional conduct",
-      "misconduct",
-      "breach",
-      "contravention",
-      "non-compliance",
-      "administrative authority",
-      "registrar",
-      "director",
-      "RECO",
-      "real estate council",
-      "ontario real estate",
-      "professional standards",
-      "consumer protection",
-      "client protection",
-    ];
-    const isLegalQuestion = legalKeywords.some((keyword) =>
-      message.toLowerCase().includes(keyword)
-    );
-
-    if (isLegalQuestion) {
-      console.log("⚖️ Legal question detected");
-      const directLegalMatch = legalData.find(
-        (item) =>
-          item.title.toLowerCase().includes(message.toLowerCase()) ||
-          message.toLowerCase().includes(item.title.toLowerCase()) ||
-          item.content.toLowerCase().includes(message.toLowerCase())
-      );
-      if (directLegalMatch) {
-        console.log("✓ Found in legal database:", directLegalMatch.title);
-        return {
-          response: directLegalMatch.content,
-          source: `Legal Database - ${directLegalMatch.title}`,
-          sourceType: "legal",
-        };
+      if (result) {
+        return result;
       }
     }
 
@@ -332,210 +385,23 @@ class SearchService {
       };
     }
 
-    // Enhanced keyword matching
-    const messageLower = message.toLowerCase();
+    // PRIORITY 8: Enhanced keyword matching using fallback strategies
+    console.log("🔍 Enhanced keyword matching...");
+    const fallbackStrategies = this.getSearchStrategies();
 
-    // Registration and licensing queries
-    if (
-      messageLower.includes("registration") ||
-      messageLower.includes("license") ||
-      messageLower.includes("licence") ||
-      messageLower.includes("renew") ||
-      messageLower.includes("qualify")
-    ) {
-      console.log("🎯 Detected registration/licensing query");
-      const registrationQuery = faqData.find(
-        (item) =>
-          item.question.toLowerCase().includes("registration") ||
-          item.question.toLowerCase().includes("license") ||
-          item.question.toLowerCase().includes("licence") ||
-          item.answer.toLowerCase().includes("registration") ||
-          item.answer.toLowerCase().includes("license")
+    for (const strategy of fallbackStrategies) {
+      const result = this.processSearchStrategy(
+        strategy,
+        message,
+        faqData,
+        legalData
       );
-      if (registrationQuery) {
-        console.log("✓ Found registration match:", registrationQuery.question);
-        return {
-          response: registrationQuery.answer,
-          source: "FAQ Database - Registration",
-          sourceType: "faq",
-        };
+      if (result) {
+        return result;
       }
     }
 
-    // Education and training queries
-    if (
-      messageLower.includes("education") ||
-      messageLower.includes("training") ||
-      messageLower.includes("course") ||
-      messageLower.includes("continuing education") ||
-      messageLower.includes("professional development")
-    ) {
-      console.log("🎯 Detected education query");
-      const educationQuery = faqData.find(
-        (item) =>
-          item.question.toLowerCase().includes("education") ||
-          item.question.toLowerCase().includes("training") ||
-          item.question.toLowerCase().includes("course") ||
-          item.answer.toLowerCase().includes("education") ||
-          item.answer.toLowerCase().includes("training")
-      );
-      if (educationQuery) {
-        console.log("✓ Found education match:", educationQuery.question);
-        return {
-          response: educationQuery.answer,
-          source: "FAQ Database - Education",
-          sourceType: "faq",
-        };
-      }
-    }
-
-    // Insurance and bonding queries
-    if (
-      messageLower.includes("insurance") ||
-      messageLower.includes("bond") ||
-      messageLower.includes("coverage") ||
-      messageLower.includes("liability coverage")
-    ) {
-      console.log("🎯 Detected insurance query");
-      const insuranceQuery = faqData.find(
-        (item) =>
-          item.question.toLowerCase().includes("insurance") ||
-          item.question.toLowerCase().includes("bond") ||
-          item.answer.toLowerCase().includes("insurance") ||
-          item.answer.toLowerCase().includes("bond")
-      );
-      if (insuranceQuery) {
-        console.log("✓ Found insurance match:", insuranceQuery.question);
-        return {
-          response: insuranceQuery.answer,
-          source: "FAQ Database - Insurance",
-          sourceType: "faq",
-        };
-      }
-    }
-
-    // Trust account queries
-    if (
-      messageLower.includes("trust account") ||
-      messageLower.includes("trust fund") ||
-      messageLower.includes("client money") ||
-      messageLower.includes("deposit")
-    ) {
-      console.log("🎯 Detected trust account query");
-      const trustQuery = faqData.find(
-        (item) =>
-          item.question.toLowerCase().includes("trust") ||
-          item.answer.toLowerCase().includes("trust") ||
-          item.question.toLowerCase().includes("deposit") ||
-          item.answer.toLowerCase().includes("deposit")
-      );
-      if (trustQuery) {
-        console.log("✓ Found trust account match:", trustQuery.question);
-        return {
-          response: trustQuery.answer,
-          source: "FAQ Database - Trust Accounts",
-          sourceType: "faq",
-        };
-      }
-    }
-
-    // Specialization queries
-    if (
-      messageLower.includes("specialist") ||
-      messageLower.includes("specialization") ||
-      messageLower.includes("certification") ||
-      messageLower.includes("designation")
-    ) {
-      console.log("🎯 Detected specialization query");
-      const specializationQuery = faqData.find(
-        (item) =>
-          item.question.toLowerCase().includes("specialist") ||
-          item.question.toLowerCase().includes("specialization") ||
-          item.answer.toLowerCase().includes("specialist") ||
-          item.answer.toLowerCase().includes("specialization")
-      );
-      if (specializationQuery) {
-        console.log(
-          "✓ Found specialization match:",
-          specializationQuery.question
-        );
-        return {
-          response: specializationQuery.answer,
-          source: "FAQ Database - Specialization",
-          sourceType: "faq",
-        };
-      }
-    }
-
-    // Multiple representation queries
-    if (
-      messageLower.includes("multiple representation") ||
-      messageLower.includes("dual agency") ||
-      messageLower.includes("conflict of interest")
-    ) {
-      console.log("🎯 Detected multiple representation query");
-      const multipleRepQuery = faqData.find(
-        (item) =>
-          item.question.toLowerCase().includes("multiple representation") ||
-          item.question.toLowerCase().includes("multiple parties") ||
-          item.answer.toLowerCase().includes("multiple representation") ||
-          item.answer.toLowerCase().includes("multiple parties")
-      );
-      if (multipleRepQuery) {
-        console.log(
-          "✓ Found multiple representation match:",
-          multipleRepQuery.question
-        );
-        return {
-          response: multipleRepQuery.answer,
-          source: "FAQ Database - Multiple Representation",
-          sourceType: "faq",
-        };
-      }
-    }
-
-    // Effective date queries
-    if (messageLower.includes("effective") && messageLower.includes("date")) {
-      console.log("🎯 Detected effective date query");
-      const effectiveQuery = faqData.find(
-        (item) =>
-          item.question.toLowerCase().includes("effect") ||
-          item.answer.toLowerCase().includes("effect")
-      );
-      if (effectiveQuery) {
-        console.log("✓ Found effective date match:", effectiveQuery.question);
-        return {
-          response: effectiveQuery.answer,
-          source: "FAQ Database - Keyword Match",
-          sourceType: "faq",
-        };
-      }
-    }
-
-    // Penalty queries
-    if (
-      messageLower.includes("penalty") ||
-      messageLower.includes("penalties") ||
-      messageLower.includes("violation") ||
-      messageLower.includes("fine")
-    ) {
-      console.log("🎯 Detected penalty query");
-      const penaltyQuery = faqData.find(
-        (item) =>
-          item.question.toLowerCase().includes("penalt") ||
-          item.answer.toLowerCase().includes("penalt")
-      );
-      if (penaltyQuery) {
-        console.log("✓ Found penalty match:", penaltyQuery.question);
-        return {
-          response: penaltyQuery.answer,
-          source: "FAQ Database - Keyword Match",
-          sourceType: "faq",
-        };
-      }
-    }
-
-    // PRIORITY 8: Legal fuzzy search
+    // PRIORITY 9: Legal fuzzy search
     console.log("🔍 Fuzzy searching legal database...");
     const legalResults = this.legalFuse.search(message);
     if (legalResults.length > 0 && legalResults[0].score <= 0.4) {
@@ -550,7 +416,7 @@ class SearchService {
       };
     }
 
-    // PRIORITY 9: PDF fallback
+    // PRIORITY 10: PDF fallback
     if (this.pdfFuse) {
       console.log("📄 Searching PDF fallback...");
       const pdfResults = this.pdfFuse.search(message);
@@ -570,7 +436,7 @@ class SearchService {
       }
     }
 
-    // PRIORITY 10: Best available matches
+    // PRIORITY 11: Best available matches
     return this.findBestAvailableMatch(message);
   }
 
@@ -613,52 +479,219 @@ class SearchService {
       });
 
       if (best.match.score <= 0.6) {
-        switch (best.type) {
-          case "faq":
-            console.log(
-              `⚠️ Best FAQ match (${best.match.score.toFixed(2)}):`,
-              best.match.item.question
-            );
-            return {
-              response: best.match.item.answer,
-              source: "FAQ Database (Best Match)",
-              sourceType: "faq",
-            };
-          case "legal":
-            console.log(
-              `⚠️ Best legal match (${best.match.score.toFixed(2)}):`,
-              best.match.item.title
-            );
-            return {
-              response: best.match.item.content,
-              source: `Legal Database - ${best.match.item.title} (Best Match)`,
-              sourceType: "legal",
-            };
-          case "pdf":
-            console.log(
-              `⚠️ Best PDF match (${best.match.score.toFixed(2)}):`,
-              best.match.item.title
-            );
-            return {
-              response: `${formatPDFResponse(
-                best.match.item.content
-              )}\n\n*Source: ${best.match.item.source} (Part ${
-                best.match.item.chunkIndex
-              }/${best.match.item.totalChunks})*`,
-              source: `PDF Document - ${best.match.item.source} (Best Match)`,
-              sourceType: "pdf",
-            };
+        // Configuration for different match types
+        const matchHandlers = {
+          faq: (match) => ({
+            response: match.item.answer,
+            source: "FAQ Database (Best Match)",
+            sourceType: "faq",
+            logMessage: `⚠️ Best FAQ match (${match.score.toFixed(2)}): ${
+              match.item.question
+            }`,
+          }),
+          legal: (match) => ({
+            response: match.item.content,
+            source: `Legal Database - ${match.item.title} (Best Match)`,
+            sourceType: "legal",
+            logMessage: `⚠️ Best legal match (${match.score.toFixed(2)}): ${
+              match.item.title
+            }`,
+          }),
+          pdf: (match) => ({
+            response: `${formatPDFResponse(match.item.content)}\n\n*Source: ${
+              match.item.source
+            } (Part ${match.item.chunkIndex}/${match.item.totalChunks})*`,
+            source: `PDF Document - ${match.item.source} (Best Match)`,
+            sourceType: "pdf",
+            logMessage: `⚠️ Best PDF match (${match.score.toFixed(2)}): ${
+              match.item.title
+            }`,
+          }),
+        };
+
+        const handler = matchHandlers[best.type];
+        if (handler) {
+          const result = handler(best.match);
+          console.log(result.logMessage);
+          return {
+            response: result.response,
+            source: result.source,
+            sourceType: result.sourceType,
+          };
+        }
+      }
+
+      // If we have candidates but scores are too low, provide "Did you mean?" suggestions
+      if (candidates.length > 0) {
+        console.log("📋 Providing 'did you mean' suggestions...");
+        const nearMisses = candidates
+          .slice(0, 3)
+          .map((candidate) => {
+            if (candidate.type === "faq") {
+              return candidate.match.item.question;
+            } else if (candidate.type === "legal") {
+              return candidate.match.item.title;
+            } else if (candidate.type === "pdf") {
+              return candidate.match.item.title;
+            }
+          })
+          .filter(Boolean);
+
+        if (nearMisses.length > 0) {
+          const suggestionsList = nearMisses
+            .map((suggestion, index) => `${index + 1}. ${suggestion}`)
+            .join("\n");
+
+          return {
+            response: `I found some topics that might be related to your question. Click on any suggestion below or ask me more specifically:`,
+            source: "AI Assistant - Did You Mean",
+            sourceType: "did_you_mean",
+            nearMisses: nearMisses,
+            buttonSuggestions: nearMisses.map((suggestion) => ({
+              text: suggestion,
+              action: "ask",
+              value: suggestion,
+            })),
+          };
         }
       }
     }
 
-    // Final fallback
-    console.log("❌ No matches found in any data source");
+    // Enhanced fallback with intelligent suggestions
+    return this.createIntelligentFallback(message);
+  }
+
+  createIntelligentFallback(message) {
+    const { faqData, legalData } = dataService.getData();
+
+    // Analyze the message for intent-based suggestions
+    const messageLower = message.toLowerCase();
+    let intentBasedSuggestions = [];
+
+    // Intent detection patterns
+    const intentPatterns = {
+      account: ["account", "login", "sign", "register", "profile"],
+      payment: ["pay", "bill", "cost", "price", "money", "credit", "charge"],
+      support: ["help", "support", "problem", "issue", "trouble", "error"],
+      password: ["password", "forgot", "reset", "change"],
+      cancel: ["cancel", "stop", "end", "terminate", "quit"],
+    };
+
+    // Find intent-based suggestions
+    for (const [intent, keywords] of Object.entries(intentPatterns)) {
+      if (keywords.some((keyword) => messageLower.includes(keyword))) {
+        const relatedQuestions = faqData.filter((item) =>
+          keywords.some(
+            (keyword) =>
+              item.question.toLowerCase().includes(keyword) ||
+              item.answer.toLowerCase().includes(keyword)
+          )
+        );
+        intentBasedSuggestions.push(...relatedQuestions.slice(0, 2));
+      }
+    }
+
+    // Remove duplicates and limit suggestions
+    intentBasedSuggestions = [...new Set(intentBasedSuggestions)].slice(0, 4);
+
+    if (intentBasedSuggestions.length > 0) {
+      const suggestionText = intentBasedSuggestions
+        .map((item, index) => `${index + 1}. ${item.question}`)
+        .join("\n");
+
+      return {
+        response: `I couldn't find a specific answer to your question, but based on what you're asking about, these topics might help. Click any suggestion below:`,
+        source: "AI Assistant - Smart Suggestions",
+        sourceType: "smart_suggestions",
+        suggestions: intentBasedSuggestions.map((item) => ({
+          question: item.question,
+          answer: item.answer,
+        })),
+        buttonSuggestions: intentBasedSuggestions.map((item) => ({
+          text: item.question,
+          action: "ask",
+          value: item.question,
+        })),
+      };
+    }
+
+    // Fallback to popular questions if no intent-based suggestions
+    const popularQuestions = [
+      "How do I create an account?",
+      "How do I reset my password?",
+      "How can I contact customer support?",
+      "What payment methods do you accept?",
+      "How do I cancel my subscription?",
+    ];
+
+    // Find popular questions that exist in our FAQ
+    const availablePopular = popularQuestions
+      .map((q) => faqData.find((item) => item.question === q))
+      .filter(Boolean)
+      .slice(0, 3);
+
+    // Get a few random helpful questions from FAQ
+    const randomQuestions = faqData
+      .filter((item) => !popularQuestions.includes(item.question))
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 2);
+
+    const suggestions = [...availablePopular, ...randomQuestions];
+
+    if (suggestions.length > 0) {
+      const suggestionText = suggestions
+        .map((item, index) => `${index + 1}. ${item.question}`)
+        .join("\n");
+
+      return {
+        response: `I couldn't find a specific answer to your question, but here are some popular topics that might help. Click any suggestion below:`,
+        source: "AI Assistant - Popular Topics",
+        sourceType: "popular_suggestions",
+        suggestions: suggestions.map((item) => ({
+          question: item.question,
+          answer: item.answer,
+        })),
+        buttonSuggestions: suggestions.map((item) => ({
+          text: item.question,
+          action: "ask",
+          value: item.question,
+        })),
+      };
+    }
+
+    // If no suggestions available, provide generic fallback WITH button suggestions
     return {
       response:
         "I'm sorry, I couldn't find information related to your question in our knowledge base. Please contact our support team for assistance, or try rephrasing your question.",
       source: "System",
       sourceType: "fallback",
+      buttonSuggestions: [
+        {
+          text: "How do I create an account?",
+          action: "ask",
+          value: "How do I create an account?",
+        },
+        {
+          text: "How do I reset my password?",
+          action: "ask",
+          value: "How do I reset my password?",
+        },
+        {
+          text: "How can I contact customer support?",
+          action: "ask",
+          value: "How can I contact customer support?",
+        },
+        {
+          text: "What payment methods do you accept?",
+          action: "ask",
+          value: "What payment methods do you accept?",
+        },
+        {
+          text: "What are your terms of service?",
+          action: "ask",
+          value: "What are your terms of service?",
+        },
+      ],
     };
   }
 

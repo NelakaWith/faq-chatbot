@@ -1,6 +1,6 @@
 Deploy via GitHub Actions (SSH) — preferred (no Docker required)
 
-This repository includes a GitHub Actions workflow that builds the frontend, packages the backend, and deploys the artifacts to a droplet over SSH. The workflow runs on pushes to the `develop` branch.
+This repository includes a GitHub Actions workflow that builds the frontend, packages the backend, and deploys the artifacts to a droplet over SSH. The workflow runs on pushes to the `main` branch.
 
 What the workflow does:
 
@@ -32,7 +32,7 @@ sudo npm install -g pm2
 
 Usage
 
-1. Push changes to the `develop` branch. The `deploy` workflow will run automatically.
+1. Push changes to the `main` branch. The `deploy` workflow will run automatically.
 
 2. On the droplet, the workflow will:
 
@@ -121,7 +121,7 @@ docker compose up -d
 
 ```bash
 # Pull latest code, then rebuild and restart
-git pull origin develop
+git pull origin main
 docker compose pull || true
 docker compose up -d --build --remove-orphans
 
