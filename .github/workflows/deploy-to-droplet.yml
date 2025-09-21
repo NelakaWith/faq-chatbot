@@ -1,4 +1,4 @@
-name: Deploy to Droplet
+name: Deploy
 
 on:
   push:

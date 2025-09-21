@@ -1,274 +1,102 @@
 [
   {
-    "title": "TRESA Compliance Requirements",
-    "content": "All real estate professionals must comply with TRESA requirements including mandatory representation agreements, disclosure obligations, and professional conduct standards. Non-compliance may result in disciplinary action."
+    "title": "Privacy Policy Overview",
+    "content": "Our privacy policy explains how we collect, use, store, and protect your personal information. We are committed to maintaining the confidentiality and security of your data in accordance with applicable privacy laws."
   },
   {
-    "title": "Buyer Representation Agreement Rules",
-    "content": "Real estate professionals must have a signed buyer representation agreement before showing properties. The agreement must clearly outline commission arrangements, duties, and term of representation."
+    "title": "Terms of Service",
+    "content": "By using our services, you agree to our terms of service which outline your rights and responsibilities, our service limitations, and the legal framework governing our relationship."
   },
   {
-    "title": "Disclosure Obligations",
-    "content": "Real estate professionals must disclose all material facts, conflicts of interest, and commission arrangements. Failure to disclose may result in penalties and legal liability."
+    "title": "Data Protection and GDPR Compliance",
+    "content": "We comply with GDPR and other data protection regulations. You have the right to access, correct, delete, or export your personal data. Contact our privacy team for data-related requests."
   },
   {
-    "title": "Professional Conduct Standards",
-    "content": "TRESA establishes higher professional conduct standards including continuing education requirements, ethical obligations, and client service standards."
+    "title": "Intellectual Property Rights",
+    "content": "All content, trademarks, and intellectual property on our platform are protected by copyright and other intellectual property laws. Unauthorized use is prohibited."
   },
   {
-    "title": "Complaint and Discipline Process",
-    "content": "RECO investigates complaints against real estate professionals. The process includes investigation, mediation, and disciplinary hearings with potential penalties including fines and license suspension."
+    "title": "User Content and Licensing",
+    "content": "By submitting content to our platform, you grant us a non-exclusive license to use, display, and distribute your content as necessary to provide our services."
   },
   {
-    "title": "Consumer Protection Measures",
-    "content": "TRESA includes enhanced consumer protection measures such as mandatory written agreements, clear disclosure requirements, and improved complaint resolution processes."
+    "title": "Service Availability and Uptime",
+    "content": "While we strive for maximum uptime, we cannot guarantee uninterrupted service. Our Service Level Agreement outlines our uptime commitments and compensation for outages."
   },
   {
-    "title": "Commission Disclosure Rules",
-    "content": "All commission arrangements must be clearly disclosed in writing. Real estate professionals must explain how commissions are calculated and paid in buyer representation agreements."
+    "title": "Account Termination Policy",
+    "content": "We reserve the right to terminate accounts that violate our terms of service, engage in harmful activities, or remain inactive for extended periods. Users will receive appropriate notice before termination."
   },
   {
-    "title": "Licensing and Registration",
-    "content": "All real estate professionals must be licensed and registered under TRESA. Licensing requirements include education, examination, and ongoing professional development."
+    "title": "Limitation of Liability",
+    "content": "Our liability is limited as outlined in our terms of service. We are not responsible for indirect damages, data loss, or business interruption except as required by law."
   },
   {
-    "title": "Record Keeping Requirements",
-    "content": "Real estate professionals must maintain detailed records of all transactions, agreements, and client communications as required under TRESA regulations."
+    "title": "Dispute Resolution and Arbitration",
+    "content": "Disputes will be resolved through binding arbitration in accordance with our terms. Users waive the right to jury trials and class action lawsuits except where prohibited by law."
   },
   {
-    "title": "Penalties and Enforcement",
-    "content": "TRESA violations can result in administrative penalties, fines up to $50,000 for individuals and $100,000 for corporations, license suspension or revocation, and criminal charges for serious offenses."
+    "title": "Cookie Policy and Tracking",
+    "content": "We use cookies and similar technologies to improve user experience, analyze usage patterns, and provide personalized content. Users can manage cookie preferences in their browser settings."
   },
   {
-    "title": "Administrative Penalties Framework",
-    "content": "Administrative penalties up to $25,000 can be imposed for TRESA violations without requiring a criminal conviction. These penalties promote compliance and prevent economic benefit from violations. Payment prevents criminal charges for the same violation."
+    "title": "Third-Party Integrations and Liability",
+    "content": "Our platform may integrate with third-party services. We are not responsible for the privacy practices, security, or content of external services."
   },
   {
-    "title": "Lien and Collection Powers",
-    "content": "If fines or administrative penalties remain unpaid for 60+ days, the director can create liens against personal and real property, report to credit agencies, and enforce collection through court orders."
+    "title": "Age Restrictions and Parental Consent",
+    "content": "Our services are intended for users 13 years and older. Users under 18 require parental consent. We comply with COPPA and other child protection regulations."
   },
   {
-    "title": "Insurance and Financial Security",
-    "content": "TRESA requires brokerages, brokers, and salespersons to maintain prescribed insurance coverage, bonds, or collateral security. This may include mandatory participation in group insurance programs."
+    "title": "International Data Transfers",
+    "content": "Your data may be processed in countries outside your residence. We ensure adequate protection through standard contractual clauses and other approved transfer mechanisms."
   },
   {
-    "title": "Trust Account Management",
-    "content": "Brokerages must maintain trust accounts in compliance with prescribed rules. Regulations govern account management, record keeping, and procedures for winding down accounts when registration ends."
+    "title": "Security Measures and Data Breaches",
+    "content": "We implement industry-standard security measures to protect your data. In case of a data breach, we will notify affected users and regulatory authorities as required by law."
   },
   {
-    "title": "Multiple Representation Rules",
-    "content": "TRESA governs when real estate professionals can represent multiple parties in a transaction. Specific disclosure requirements and prohibited circumstances are prescribed by regulation."
+    "title": "API Terms and Rate Limiting",
+    "content": "API usage is subject to rate limits and fair use policies. Commercial use of our API requires a separate agreement. Abuse of API services may result in access suspension."
   },
   {
-    "title": "Specialization Certification",
-    "content": "Real estate professionals can obtain specialist certifications in prescribed areas. Requirements include specialized education, testing, and ongoing maintenance of certification standards."
+    "title": "Refund and Cancellation Policy",
+    "content": "Refunds are processed according to our cancellation policy. Premium subscriptions can be cancelled anytime with refunds prorated to the unused service period."
   },
   {
-    "title": "Information Disclosure to Registrar",
-    "content": "Registrants must provide requested information to the registrar about trades, business operations, and interested parties. Information must be provided in prescribed forms and verified by affidavit when required."
+    "title": "Service Modifications and Updates",
+    "content": "We reserve the right to modify, update, or discontinue features of our service. Users will be notified of significant changes that may affect their use of the platform."
   },
   {
-    "title": "Confidentiality and Information Protection",
-    "content": "Information obtained in administering TRESA must be kept confidential except for legal proceedings, administration purposes, consumer protection, or law enforcement activities."
+    "title": "User Responsibilities and Acceptable Use",
+    "content": "Users are responsible for maintaining account security, using the service lawfully, and not engaging in harmful activities such as spamming, hacking, or harassment."
   },
   {
-    "title": "Service of Legal Documents",
-    "content": "Legal notices and orders under TRESA can be served personally, by registered mail, or other provable methods. Registered mail service is deemed effective on the third day after mailing."
+    "title": "Content Moderation and Removal",
+    "content": "We reserve the right to moderate, remove, or restrict access to content that violates our community guidelines, terms of service, or applicable laws."
   },
   {
-    "title": "Appeals and Hearing Rights",
-    "content": "Administrative penalty orders can be appealed within 15 days. The appeal body conducts hearings and can confirm, revoke, or vary penalties. Appeals don't automatically stay enforcement."
+    "title": "Billing and Payment Terms",
+    "content": "Subscription fees are billed in advance. Failed payments may result in service suspension. We accept major credit cards and other approved payment methods."
   },
   {
-    "title": "Registration Conditions and Requirements",
-    "content": "TRESA registration includes prescribed conditions, education requirements, and ongoing compliance obligations. Violations can result in additional conditions, suspension, or revocation."
+    "title": "Beta Features and Experimental Services",
+    "content": "Beta features are provided as-is without warranties. We may discontinue or modify beta features at any time. Feedback on experimental services is appreciated."
   },
   {
-    "title": "Quality Assurance Programs",
-    "content": "The director and administrative authority can conduct quality assurance programs to monitor compliance and use collected information to improve administration and enforcement."
+    "title": "Accessibility Compliance",
+    "content": "We strive to make our services accessible to users with disabilities in compliance with WCAG guidelines. Contact us for accessibility assistance or to report issues."
   },
   {
-    "title": "Electronic Commerce Compliance",
-    "content": "TRESA regulations govern how electronic commerce laws apply to real estate transactions, ensuring digital processes meet legal requirements for contracts and disclosures."
+    "title": "Export Controls and International Use",
+    "content": "Our services may be subject to export control laws. Users are responsible for compliance with applicable laws when accessing our services from different countries."
   },
   {
-    "title": "Exemptions and Special Circumstances",
-    "content": "Regulations may exempt certain persons or classes of trades from TRESA requirements with prescribed conditions. Exemptions are granted based on specific criteria and public interest considerations."
+    "title": "Force Majeure and Service Interruptions",
+    "content": "We are not liable for service interruptions due to circumstances beyond our control, including natural disasters, government actions, or technical failures of third-party providers."
   },
   {
-    "title": "Electronic Commerce Compliance",
-    "content": "TRESA regulations govern how electronic commerce laws apply to real estate transactions, ensuring digital processes meet legal requirements for contracts and disclosures."
-  },
-  {
-    "title": "Transitional Provisions",
-    "content": "TRESA includes provisions for transitioning from previous legislation, handling existing registrations, and ensuring continuity during regulatory changes and implementation."
-  },
-  {
-    "title": "Administrative Authority Powers",
-    "content": "The administrative authority designated under TRESA has broad powers to oversee compliance, conduct investigations, impose penalties, and ensure professional standards are maintained across the real estate industry."
-  },
-  {
-    "title": "Material Facts Disclosure Requirements",
-    "content": "Real estate professionals must disclose all material facts that would reasonably be expected to affect property value, desirability, or influence transaction decisions. Failure to disclose material facts can result in significant penalties."
-  },
-  {
-    "title": "Brokerage Supervision and Management",
-    "content": "Brokerages must ensure proper supervision of all registrants, maintain oversight of business operations, and implement compliance systems to prevent violations and protect consumers."
-  },
-  {
-    "title": "Personal Real Estate Corporation Rules",
-    "content": "Qualified real estate professionals may incorporate through personal real estate corporations that meet prescribed criteria, while maintaining all professional obligations and liability requirements under TRESA."
-  },
-  {
-    "title": "Conflict of Interest Management",
-    "content": "Registrants must identify, disclose, and manage conflicts of interest, including holdings in other brokerages, personal interests in transactions, and any circumstances that could compromise professional judgment."
-  },
-  {
-    "title": "Consumer Protection Framework",
-    "content": "TRESA establishes comprehensive consumer protection measures including mandatory written agreements, enhanced disclosure requirements, professional conduct standards, and improved complaint resolution processes."
-  },
-  {
-    "title": "Professional Conduct Standards and Ethics",
-    "content": "All registrants must adhere to prescribed professional conduct standards, ethical obligations, and client service requirements. Violations can result in disciplinary action, education requirements, or registration suspension."
-  },
-  {
-    "title": "Quality Assurance and Monitoring Programs",
-    "content": "The director and administrative authority conduct quality assurance programs to monitor industry compliance, assess practices, and use findings to improve administration and enforcement of TRESA requirements."
-  },
-  {
-    "title": "Registration Conditions and Ongoing Requirements",
-    "content": "TRESA registration includes prescribed conditions, education requirements, and ongoing compliance obligations. Additional conditions may be imposed based on circumstances, violations, or regulatory needs."
-  },
-  {
-    "title": "Information Gathering and Reporting Powers",
-    "content": "The registrar has broad authority to request information from registrants about trades, business operations, and interested parties. Information must be provided in prescribed forms and verified when required."
-  },
-  {
-    "title": "Exemptions and Special Circumstances",
-    "content": "Regulations may provide exemptions for certain persons or trade types based on specific criteria and public interest considerations, with prescribed conditions and limitations."
-  },
-  {
-    "title": "Document Service and Legal Procedures",
-    "content": "Legal notices and orders under TRESA can be served through various methods including personal service, registered mail, or other provable delivery methods, with specific timing requirements for effectiveness."
-  },
-  {
-    "title": "Fee Structure and Revenue Framework",
-    "content": "The Minister establishes fees for registration, renewal, examinations, and administrative services. Fee revenue supports TRESA administration, enforcement activities, and consumer protection programs."
-  },
-  {
-    "title": "Public Information and Transparency Requirements",
-    "content": "The registrar maintains public records of registrant names, registration status, and prescribed information to ensure transparency and enable consumer verification of professional credentials."
-  },
-  {
-    "title": "Trust Account Security and Protection",
-    "content": "Trust accounts must be maintained with prescribed security measures, proper segregation of client funds, appropriate record-keeping, and procedures to protect client money from misuse or loss."
-  },
-  {
-    "title": "Continuing Education and Professional Development",
-    "content": "Registrants must complete ongoing education requirements from designated organizations to maintain competency, stay current with industry changes, and fulfill professional development obligations."
-  },
-  {
-    "title": "Electronic Transaction Validation",
-    "content": "TRESA ensures electronic real estate transactions meet legal requirements for contract formation, signature validity, document integrity, and compliance with electronic commerce legislation."
-  },
-  {
-    "title": "Industry Standards and Best Practices",
-    "content": "TRESA establishes minimum standards for real estate practice while encouraging adoption of best practices in client service, transaction management, and professional conduct throughout the industry."
-  },
-  {
-    "title": "Real Estate Definition and Scope",
-    "content": "TRESA defines real estate broadly to include leasehold interests, businesses with or without premises, fixtures, stock-in-trade, and goods connected with business operations. Regulations may prescribe specific exclusions."
-  },
-  {
-    "title": "Associated Persons and Business Relationships",
-    "content": "TRESA defines associated persons including corporate officers/directors, partnership members, and persons with beneficial interests or control over business operations. These relationships affect registration eligibility and compliance obligations."
-  },
-  {
-    "title": "Brokerage Registration and Structure",
-    "content": "Brokerages must be registered as corporations, partnerships, sole proprietorships, or other legal entities. Each brokerage requires a designated broker of record and must maintain proper business premises and supervision structures."
-  },
-  {
-    "title": "Multiple Office Registration Requirements",
-    "content": "Brokerages operating from multiple locations must register each office separately. One office must be designated as the main office, with proper supervision and management structures for all branch offices."
-  },
-  {
-    "title": "Trust Account Regulations and Requirements",
-    "content": "Brokerages must maintain trust accounts in approved financial institutions, properly segregate client funds, maintain detailed records, and follow prescribed procedures for handling and disbursing trust monies."
-  },
-  {
-    "title": "Unclaimed Trust Money Procedures",
-    "content": "If trust money remains unclaimed for specified periods, brokerages must follow prescribed procedures including reasonable efforts to locate rightful owners before transferring funds to regulatory authorities."
-  },
-  {
-    "title": "Financial Responsibility and Interested Persons",
-    "content": "Registrants must demonstrate financial responsibility and disclose relationships with interested persons who may have beneficial interests, control, or financial involvement in their business operations."
-  },
-  {
-    "title": "Registration Refusal and Appeal Rights",
-    "content": "The registrar may refuse registration applications that don't meet prescribed requirements. Applicants have appeal rights to the Tribunal with specific notice and hearing procedures."
-  },
-  {
-    "title": "Immediate Suspension Authority",
-    "content": "The registrar can immediately suspend registrations in cases of public interest, with appeal rights and automatic expiration of temporary suspensions if hearings are requested within specified timeframes."
-  },
-  {
-    "title": "Inspector and Investigator Appointment",
-    "content": "The registrar appoints inspectors for compliance monitoring and investigators for formal inquiries. Both receive certificates of appointment and have defined powers and duties under TRESA."
-  },
-  {
-    "title": "Search Warrant and Investigation Powers",
-    "content": "Investigators can obtain search warrants for premises and electronic devices, conduct searches with expert assistance, and seize relevant documents and evidence for regulatory investigations."
-  },
-  {
-    "title": "Exigent Circumstances Search Authority",
-    "content": "Investigators can conduct warrantless searches if warrant conditions exist but circumstances prevent obtaining judicial authorization, with subsequent reporting requirements to judicial authorities."
-  },
-  {
-    "title": "Evidence Seizure and Return Procedures",
-    "content": "Seized materials must be properly documented, stored securely, and returned to owners within reasonable timeframes unless required for ongoing investigations or legal proceedings."
-  },
-  {
-    "title": "Plain View Seizure Authority",
-    "content": "Investigators can seize evidence discovered in plain view during lawful inspections or searches, even if not specifically mentioned in original warrants or inspection authorizations."
-  },
-  {
-    "title": "Asset Freeze and Preservation Orders",
-    "content": "The director can order preservation of registrant assets during investigations, requiring financial institutions and other holders to retain funds and prevent unauthorized asset transfers."
-  },
-  {
-    "title": "Trust Fund Administration and Unclaimed Property",
-    "content": "Unclaimed trust funds must be transferred to regulatory authorities after prescribed periods, with procedures for claiming funds and administrative authority responsibilities for fund management."
-  },
-  {
-    "title": "Interest Allocation and Administrative Costs",
-    "content": "Interest earned on trust funds can be allocated to administrative costs, with specific rules for capital preservation and cost recovery from trust fund earnings."
-  },
-  {
-    "title": "Director and Deputy Director Authority",
-    "content": "The director oversees regulatory operations with authority to appoint deputies, delegate functions, and ensure consistent administration of TRESA across all regulatory activities."
-  },
-  {
-    "title": "Registrar and Deputy Registrar Functions",
-    "content": "The registrar manages registration processes, conducts investigations, and oversees compliance, with deputy registrars providing continuity and backup administrative functions."
-  },
-  {
-    "title": "Administrative Authority Designation",
-    "content": "The administrative authority designated under the Safety and Consumer Statutes Administration Act, 1996 provides administrative support and oversight for TRESA implementation and enforcement."
-  },
-  {
-    "title": "Ministerial Oversight and Policy Direction",
-    "content": "The Minister of Consumer and Business Services provides policy direction, approves regulations, establishes fees, and ensures TRESA aligns with broader consumer protection objectives."
-  },
-  {
-    "title": "Regulatory Framework and Rule-Making",
-    "content": "The Lieutenant Governor in Council can make regulations prescribing technical details, procedural requirements, and specific standards for TRESA implementation and administration."
-  },
-  {
-    "title": "Transitional and Implementation Provisions",
-    "content": "TRESA includes specific provisions for transitioning from previous legislation, grandfathering existing registrations, and ensuring continuity during regulatory implementation phases."
-  },
-  {
-    "title": "Repeal and Citation Provisions",
-    "content": "TRESA repeals previous legislation while preserving citation references and ensuring legal continuity for existing agreements, registrations, and regulatory actions."
+    "title": "Governing Law and Jurisdiction",
+    "content": "These terms are governed by the laws of the jurisdiction where our company is incorporated. Legal disputes will be resolved in the courts of that jurisdiction."
   }
 ]
