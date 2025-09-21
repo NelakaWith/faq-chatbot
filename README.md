@@ -1,4 +1,4 @@
-# FAQ Chatbot with PDF Support
+# FAQ Chatbot
 
 A sophisticated Node.js chatbot with fuzzy search capabilities, PDF document processing, and multi-source knowledge base integration.
 
@@ -17,7 +17,7 @@ faq-chatbot/
 │   │   │   ├── faq.json   # Frequently asked questions
 │   │   │   ├── legal.json # Legal information
 │   │   │   └── misc.json  # Greetings and miscellaneous
-│   │   ├── src/           # Source code (restructured)
+│   │   ├── src/           # Source code (controllers, routes, services, utils)
 │   │   │   ├── app.js     # Express app configuration
 │   │   │   ├── controllers/
 │   │   │   │   └── chatController.js
@@ -45,6 +45,11 @@ faq-chatbot/
 ├── run-demo.bat           # Windows batch script
 └── README.md              # This file
 ```
+
+Quick links:
+
+- Backend README: [dev/backend/README.md](dev/backend/README.md)
+- Frontend README: [dev/frontend/README.md](dev/frontend/README.md)
 
 ## Features
 
@@ -168,107 +173,114 @@ Health check endpoint.
 - **Health Check**: http://localhost:3000/health
 - **API Status**: http://localhost:3000/status
 
-## Knowledge Base
+# FAQ Chatbot (developer guide)
 
-The chatbot has access to multiple data sources:
+This repository contains a Node.js backend and a Vue 3 frontend that together implement a FAQ chatbot with fuzzy search and PDF fallback search.
 
-### FAQ Database (10 items)
+## Quick overview
 
-- TRESA legislation questions
-- Effective dates and implementation
-- Professional requirements
-- Consumer protection information
+- Backend: `dev/backend` (Express)
+- Frontend: `dev/frontend` (Vue 3)
+- Release automation: `semantic-release` (configured in `.releaserc`)
+- CI: GitHub Actions (`.github/workflows`)
+- Commit rules: Conventional Commits enforced by `commitlint` + Husky and a PR check
 
-### Legal Database (10 items)
+## Quick start (dev)
 
-- Terms and conditions
-- Compliance requirements
-- Dispute resolution
-- Regulatory information
+1. Clone and install dependencies at the repo root (monorepo workspaces):
 
-### Miscellaneous Database (12 items)
+```powershell
+cd D:\Projects\Samples\faq-chatbot
+npm install
+```
 
-- Greetings and small talk
-- General assistance
-- Contact information
-- Common conversational responses
+2. Start backend and frontend in separate terminals:
 
-### PDF Documents (1 document, 68 chunks)
+Backend:
 
-- TRESA legislation document
-- Automatically processed and chunked for search
-- Source attribution with page references
+```powershell
+cd dev/backend
+npm install
+npm run dev
+```
 
-## Search Logic
+Frontend:
 
-The chatbot uses a prioritized search strategy:
+```powershell
+cd dev/frontend
+npm install
+npm run dev
+```
 
-1. **Exact matches** in miscellaneous/greeting data
-2. **Exact matches** in FAQ data
-3. **Keyword detection** for pricing questions
-4. **Keyword detection** for legal questions
-5. **Fuzzy search** in miscellaneous data
-6. **Enhanced fuzzy search** in FAQ data with synonym handling
-7. **Fuzzy search** in legal data
-8. **PDF fallback search**
-9. **Best available match** with score thresholds
-10. **Final fallback** message
+## Commit conventions & tools
 
-## Testing
+We use Conventional Commits to drive releases via `semantic-release`. The repo already includes these conveniences:
 
-Try asking questions like:
+- Commitizen: run `npm run commit` to get an interactive commit prompt (`cz-conventional-changelog`).
+- Commitlint: validates commit messages in CI and locally.
+- Husky: local `commit-msg` hook runs `commitlint` to block bad commits before pushing.
 
-### TRESA-Specific Questions:
+If you haven't already, run `npm install` at the repo root to ensure hooks and dev tools are available. Use `git commit` as usual, or `npm run commit` for guided commits.
 
-- "TRESA effective date"
-- "When did TRESA come into effect?"
-- "What is TRESA?"
-- "Who does TRESA apply to?"
+Example valid commit:
 
-### Legal Questions:
+```
+chore: Refactor code structure for improved readability and maintainability
+```
 
-- "What are the penalties for TRESA violations?"
-- "What disclosures are required?"
-- "How are complaints handled?"
+## CI / release
 
-### General Questions:
+- Releases are automated with `semantic-release` from the `main` branch. The `release.yml` workflow runs `semantic-release` on `main` and creates GitHub Releases and updates `CHANGELOG.md`.
+- You can run a local dry-run to preview a release without publishing:
 
-- "Hi" or "Hello"
-- "Help"
-- "What can you tell me?"
+```powershell
+npx semantic-release --dry-run
+```
 
-## Architecture
+Note: `npm ci` in CI requires `package-lock.json` to match `package.json`. If CI reports `EUSAGE` about `npm ci`, run `npm install` locally, commit the updated lockfile, and push.
 
-The backend follows Express.js best practices with:
+## Deploy workflow
 
-- **Separation of Concerns**: Controllers, services, routes, and utilities
-- **Modular Design**: Clean dependency injection and service layers
-- **Error Handling**: Comprehensive error handling and validation
-- **Graceful Shutdown**: Proper process management
-- **Configuration**: Environment-based configuration
-- **Logging**: Structured logging throughout
+The deploy workflow (`.github/workflows/deploy.yml`) runs on manual dispatch only (workflow_dispatch). Behavior:
 
-## Dependencies
+- Trigger: manually from GitHub Actions (Actions → Deploy → Run workflow). It accepts an optional `tag` input.
+- If `tag` is provided: the workflow deploys that tag/ref.
+- If `tag` is empty: the workflow looks up the latest GitHub Release tag and deploys that tag.
+- The workflow creates a GitHub Deployment record, copies files to your droplet via SCP, runs deploy commands via SSH (pm2 restart / build / nginx copy), then posts deployment status back to GitHub.
 
-### Runtime Dependencies:
+If you want automatic deploys on release publish, we can add `on: release: types: [published]` to the workflow.
 
-- `express` - Web framework
-- `fuse.js` - Fuzzy search library
-- `cors` - Cross-origin resource sharing
-- `pdf-parse` - PDF text extraction
+## PR checks
 
-### Development Dependencies:
+- `pr-commitlint.yml` runs on PRs and checks:
+  - PR title (must follow Conventional Commits)
+  - All non-merge commits in the PR via `commitlint` (merge commits are ignored)
 
-- `nodemon` - Development auto-restart
+## Husky notes
+
+- Husky is initialized via `prepare` script in `package.json` (runs on `npm install`).
+- Local hook file `.husky/commit-msg` runs `commitlint` to validate commit messages. If the commit message is invalid the commit will be blocked.
+- To add pre-commit formatting/linting, we can add `lint-staged` and a `.husky/pre-commit` hook.
+
+## Troubleshooting & tips
+
+- If CI fails with `npm ci` lockfile mismatch: run `npm install` locally and commit `package-lock.json`.
+- To bypass hooks (not recommended): `git commit --no-verify -m "..."`.
+- If Husky hooks don't run for other contributors, ensure they run `npm install` so the `prepare` script sets up Husky helper files.
 
 ## Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+1. Fork the repo and create a feature branch
+2. Use `npm run commit` (Commitizen) or follow Conventional Commits for commit messages
+3. Open a PR; CI will run commitlint and other checks
 
-## License
+## Where to look
 
-MIT License - see LICENSE file for details
+- Release config: `.releaserc`
+- Release workflow: `.github/workflows/release.yml`
+- Deploy workflow: `.github/workflows/deploy.yml`
+- PR commit checks: `.github/workflows/pr-commitlint.yml`
+- Husky hook: `.husky/commit-msg`
+- Commitlint config: `commitlint.config.js`
+
+---

@@ -94,35 +94,80 @@ Health check endpoint.
 
 ## Installation
 
-1. Install dependencies:
+1. Install dependencies at the backend folder:
 
-```bash
+```powershell
+cd dev\backend
 npm install
 ```
 
-2. Ensure data files exist in the `data/` directory:
+2. Ensure the `data/` directory contains the JSON knowledge files:
 
-   - `faq.json`
-   - `legal.json`
-   - `misc.json`
+- `faq.json`
+- `legal.json`
+- `misc.json`
 
-3. Place PDF documents in the `../../documents/` directory (optional)
+3. Place optional PDF documents in the repository `documents/` folder (top-level `documents/`). The backend will read those files when building the PDF search index.
+
+## Configuration (environment)
+
+The backend supports a few environment variables (set these in a `.env` file or in your environment):
+
+- `PORT` — port to bind the server (default: `3000`).
+- `NODE_ENV` — `development` or `production`.
+- `LOG_LEVEL` — optional log level (`info`, `debug`, `warn`, `error`).
+
+Example `.env`:
+
+```
+PORT=3000
+NODE_ENV=development
+LOG_LEVEL=info
+```
 
 ## Usage
 
 ### Development
 
-```bash
+Run with hot reload (nodemon):
+
+```powershell
 npm run dev
 ```
 
 ### Production
 
-```bash
+Start in production mode:
+
+```powershell
 npm start
 ```
 
-The server will start on port 3000 by default.
+The server will bind to the port defined in `PORT` (default 3000).
+
+## Scripts
+
+Common scripts in `dev/backend/package.json` (subject to change):
+
+- `dev` — start with `nodemon` for development
+- `start` — production start (node server)
+- `lint` — run linters (if configured)
+
+Run scripts from the `dev/backend` directory, or from the repo root using workspace-aware tooling.
+
+## Logging & Debugging
+
+- Use `LOG_LEVEL=debug` to enable more verbose logs.
+- For runtime debugging, attach a Node debugger to the process (see `npm run dev:debug` if available).
+
+## Tests
+
+There are currently no automated tests included. Adding unit tests for `src/services` (search and data loading) is recommended as a next step.
+
+## Links
+
+- Back to repository README: [../README.md](../README.md)
+- Frontend README: [../frontend/README.md](../frontend/README.md)
 
 ## Search Logic
 
