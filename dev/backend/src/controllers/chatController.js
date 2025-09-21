@@ -22,6 +22,31 @@ const handleChatRequest = async (req, res) => {
 
     const result = await searchService.searchKnowledgeBase(message.trim());
 
+    // Ensure UI gets button suggestions even for plain fallback responses
+    if (
+      result &&
+      result.sourceType === "fallback" &&
+      !result.buttonSuggestions
+    ) {
+      result.buttonSuggestions = [
+        {
+          text: "How do I create an account?",
+          action: "ask",
+          value: "How do I create an account?",
+        },
+        {
+          text: "How do I reset my password?",
+          action: "ask",
+          value: "How do I reset my password?",
+        },
+        {
+          text: "How can I contact customer support?",
+          action: "ask",
+          value: "How can I contact customer support?",
+        },
+      ];
+    }
+
     res.json(result);
   } catch (error) {
     console.error("❌ Chat request error:", error);

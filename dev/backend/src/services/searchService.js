@@ -543,10 +543,15 @@ class SearchService {
             .join("\n");
 
           return {
-            response: `I found some topics that might be related to your question:\n\n${suggestionsList}\n\nDid you mean to ask about any of these? You can ask me more specifically about these topics.`,
+            response: `I found some topics that might be related to your question. Click on any suggestion below or ask me more specifically:`,
             source: "AI Assistant - Did You Mean",
             sourceType: "did_you_mean",
             nearMisses: nearMisses,
+            buttonSuggestions: nearMisses.map((suggestion) => ({
+              text: suggestion,
+              action: "ask",
+              value: suggestion,
+            })),
           };
         }
       }
@@ -595,12 +600,17 @@ class SearchService {
         .join("\n");
 
       return {
-        response: `I couldn't find a specific answer to your question, but based on what you're asking about, these topics might help:\n\n${suggestionText}\n\nYou can ask me about any of these topics specifically. If you need immediate assistance, please contact our support team at support@company.com.`,
+        response: `I couldn't find a specific answer to your question, but based on what you're asking about, these topics might help. Click any suggestion below:`,
         source: "AI Assistant - Smart Suggestions",
         sourceType: "smart_suggestions",
         suggestions: intentBasedSuggestions.map((item) => ({
           question: item.question,
           answer: item.answer,
+        })),
+        buttonSuggestions: intentBasedSuggestions.map((item) => ({
+          text: item.question,
+          action: "ask",
+          value: item.question,
         })),
       };
     }
@@ -634,28 +644,54 @@ class SearchService {
         .join("\n");
 
       return {
-        response: `I couldn't find a specific answer to your question, but here are some popular topics that might help:\n\n${suggestionText}\n\nYou can ask me about any of these topics, or try rephrasing your question. If you need immediate assistance, please contact our support team at support@company.com.`,
+        response: `I couldn't find a specific answer to your question, but here are some popular topics that might help. Click any suggestion below:`,
         source: "AI Assistant - Popular Topics",
         sourceType: "popular_suggestions",
         suggestions: suggestions.map((item) => ({
           question: item.question,
           answer: item.answer,
         })),
+        buttonSuggestions: suggestions.map((item) => ({
+          text: item.question,
+          action: "ask",
+          value: item.question,
+        })),
       };
     }
 
-    // If no suggestions available, provide category guidance
+    // If no suggestions available, provide generic fallback WITH button suggestions
     return {
-      response: `I couldn't find specific information about that topic. Here are some areas I can help you with:
-
-• **Account Management** - Creating accounts, password resets, profile settings
-• **Billing & Payments** - Payment methods, subscription management, invoices
-• **Technical Support** - Troubleshooting, how-to guides, feature questions
-• **Policies & Terms** - Privacy policy, terms of service, legal information
-
-Try asking about any of these topics, or contact our support team at support@company.com for personalized assistance.`,
-      source: "AI Assistant - Category Guide",
-      sourceType: "category_guide",
+      response:
+        "I'm sorry, I couldn't find information related to your question in our knowledge base. Please contact our support team for assistance, or try rephrasing your question.",
+      source: "System",
+      sourceType: "fallback",
+      buttonSuggestions: [
+        {
+          text: "How do I create an account?",
+          action: "ask",
+          value: "How do I create an account?",
+        },
+        {
+          text: "How do I reset my password?",
+          action: "ask",
+          value: "How do I reset my password?",
+        },
+        {
+          text: "How can I contact customer support?",
+          action: "ask",
+          value: "How can I contact customer support?",
+        },
+        {
+          text: "What payment methods do you accept?",
+          action: "ask",
+          value: "What payment methods do you accept?",
+        },
+        {
+          text: "What are your terms of service?",
+          action: "ask",
+          value: "What are your terms of service?",
+        },
+      ],
     };
   }
 

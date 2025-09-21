@@ -19,6 +19,35 @@
             <div v-if="msg.source" class="message-source">
               {{ msg.source }}
             </div>
+            <!-- Button suggestions for fallback scenarios -->
+            <div
+              v-if="msg.buttonSuggestions && msg.buttonSuggestions.length > 0"
+              class="suggestion-buttons"
+            >
+              <div style="font-size: 0.8rem; color: #999; margin-bottom: 5px">
+                🐛 DEBUG: Found {{ msg.buttonSuggestions.length }} suggestions
+              </div>
+              <button
+                v-for="(suggestion, suggestionIndex) in msg.buttonSuggestions"
+                :key="suggestionIndex"
+                @click="handleSuggestionClick(suggestion)"
+                class="suggestion-btn"
+              >
+                {{ suggestion.text }}
+              </button>
+            </div>
+            <div
+              v-else-if="
+                msg.sourceType &&
+                (msg.sourceType.includes('suggestions') ||
+                  msg.sourceType.includes('did_you_mean') ||
+                  msg.sourceType.includes('category'))
+              "
+              style="font-size: 0.8rem; color: #f00; margin-top: 5px"
+            >
+              🐛 DEBUG: Should have buttons but buttonSuggestions is
+              {{ msg.buttonSuggestions }}
+            </div>
           </div>
         </div>
       </transition-group>
@@ -66,12 +95,21 @@ export default {
           body: JSON.stringify({ message: userMessage }),
         });
         const data = await response.json();
+        console.log("🐛 DEBUG - Response from backend:", data);
+        console.log("🐛 DEBUG - buttonSuggestions:", data.buttonSuggestions);
+
         messages.value.push({
           sender: "bot",
           text: data.response,
           source: data.source ? `📚 ${data.source}` : null,
           sourceType: data.sourceType,
+          buttonSuggestions: data.buttonSuggestions || null,
         });
+
+        console.log(
+          "🐛 DEBUG - Last message:",
+          messages.value[messages.value.length - 1]
+        );
       } catch (error) {
         messages.value.push({
           sender: "bot",
@@ -85,11 +123,19 @@ export default {
       });
     };
 
+    const handleSuggestionClick = (suggestion) => {
+      if (suggestion.action === "ask") {
+        inputMessage.value = suggestion.value;
+        sendMessage();
+      }
+    };
+
     return {
       messages,
       inputMessage,
       sendMessage,
       messagesContainer,
+      handleSuggestionClick,
     };
   },
 };
@@ -198,6 +244,50 @@ export default {
   margin-top: 6px;
   font-style: italic;
   color: #6a82fb;
+}
+
+.suggestion-buttons {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.suggestion-btn {
+  padding: 10px 14px;
+  background: #ffffff;
+  border: 1.5px solid #e3e9f7;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #007bff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  font-weight: 500;
+}
+
+.suggestion-btn:hover {
+  background: #f8fafc;
+  border-color: #007bff;
+  box-shadow: 0 2px 6px rgba(0, 123, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.suggestion-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.message.bot .suggestion-btn {
+  background: #ffffff;
+  color: #007bff;
+  border-color: #e3e9f7;
+}
+
+.message.bot .suggestion-btn:hover {
+  background: #f0f7ff;
+  border-color: #007bff;
 }
 
 .chat-input {
