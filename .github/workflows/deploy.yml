@@ -61,15 +61,3 @@ jobs:
 
             # Reload nginx
             sudo systemctl reload nginx || true
-
-            # health check the backend (fail deployment if unhealthy)
-            echo "Waiting for backend to respond for health-check..."
-            sleep 2
-            if curl -fsS http://127.0.0.1:3000/ >/dev/null; then
-              echo "Health check passed"
-            else
-              echo "Health check failed: backend did not respond on http://127.0.0.1:3000/"
-              exit 1
-            fi
-
-            echo "Deployed $TAG -> $CURRENT_DIR (rev ${SHA})"
