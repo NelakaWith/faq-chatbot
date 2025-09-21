@@ -1,140 +1,45 @@
-Deploy via GitHub Actions (SSH) — preferred (no Docker required)
+Deploy workflow and secrets
 
-This repository includes a GitHub Actions workflow that builds the frontend, packages the backend, and deploys the artifacts to a droplet over SSH. The workflow runs on pushes to the `main` branch.
+This document explains how the repository deploy process works when a release is published, and what secrets are required to enable the deploy.
 
-What the workflow does:
+What triggers deploys
 
-- Installs backend dependencies
-- Builds the frontend (`dev/frontend`) into a static `dist/` directory
-- Archives the backend and frontend build and copies the archive to the droplet via SCP
-- On the droplet: extracts files, installs backend dependencies, places frontend static files into `/var/www/faq-chatbot`, and starts the backend with `pm2`
+- The deploy GitHub Actions workflow (`.github/workflows/deploy.yml`) is configured to run when a GitHub Release is published (`release.published`) and also supports manual dispatch (`workflow_dispatch`).
+- The typical flow is: semantic-release runs -> publishes a release on GitHub -> the `deploy.yml` workflow triggers and performs the deployment steps.
 
-Prerequisites on the droplet (Ubuntu 20.04+ recommended):
+Required secrets and configuration
 
-1. Create a droplet and ensure you have an SSH keypair.
+- `GITHUB_TOKEN` (automatically provided by Actions) — used for GitHub API operations and to create releases.
+- If deploying to a remote server via SSH (example: a DigitalOcean droplet), add the following secrets in the repository settings:
+  - `DROPLET_HOST` — host or IP address
+  - `DROPLET_USER` — SSH username
+  - `DROPLET_SSH_KEY` — private SSH key (PEM format). The workflow will write this to a file at runtime and use it for `scp`/`ssh`.
 
-2. Install required packages on the droplet:
+- Optional: `NPM_TOKEN` — if you also want CI to publish to npmjs.org as part of the release. Add it as a repo secret and enable `@semantic-release/npm` in `.releaserc`.
 
-```bash
-sudo apt update
-sudo apt install -y nginx nodejs npm
-sudo npm install -g pm2
-```
+How deploy happens (summary)
 
-3. Ensure nginx serves `/var/www/faq-chatbot` (example site config provided below).
+1. semantic-release publishes a GitHub Release.
+2. `deploy.yml` receives the `release.published` event.
+3. The workflow checks out the repo, builds the frontend (if applicable), copies build artifacts to the remote host via `scp`, and runs remote deployment commands via `ssh`.
 
-4. Add the following **secrets** to your GitHub repository (Settings → Secrets and variables → Actions):
+Verifying a deploy
 
-- `DROPLET_HOST` — droplet public IP or hostname
-- `DROPLET_USER` — SSH user (e.g., `ubuntu`)
-- `DROPLET_SSH_KEY` — private SSH key (PEM format) that can SSH to the droplet as `DROPLET_USER`
-- `DROPLET_SSH_PORT` — SSH port (usually `22`)
+- After a release is created you can watch the `deploy.yml` job in GitHub Actions. The run will list the job steps and show the `scp`/`ssh` outputs.
+- On the remote host, check the deploy directory and the running services (for example, `pm2 status` or systemd unit logs).
 
-Usage
+Manual dispatch
 
-1. Push changes to the `main` branch. The `deploy` workflow will run automatically.
+- You can manually trigger the deploy workflow from the Actions UI using "Run workflow" on the `deploy.yml` workflow. The manual dispatch path is useful for testing or re-deploying an existing release.
 
-2. On the droplet, the workflow will:
+Security notes
 
-   - extract the archive to `~/faq-chatbot-deploy`
-   - run `npm ci --production` in `backend`
-   - copy frontend static files to `/var/www/faq-chatbot`
-   - start the backend using `pm2` as `faq-chatbot`
-   - reload `nginx` to pick up static files
+- Keep `DROPLET_SSH_KEY` private and limit its permissions on the remote host. Use a dedicated deploy user with minimal privileges.
+- Rotate secrets periodically and revoke old keys if a developer leaves the team or a key is compromised.
 
-Example `nginx` site (droplet):
+Troubleshooting
 
-```nginx
-server {
-   listen 80;
-   server_name _;
+- If `scp` or `ssh` fails, verify `DROPLET_HOST` is reachable from the Actions runner and `DROPLET_SSH_KEY` matches the authorized key on the remote host.
+- If the workflow cannot push changelog updates, ensure the release workflow has `permissions.contents: write` and the checkout step uses `persist-credentials: true`.
 
-   root /var/www/faq-chatbot;
-   index index.html;
-
-   location /chat {
-      proxy_pass http://127.0.0.1:3000/chat;
-      proxy_set_header Host $host;
-      proxy_set_header X-Real-IP $remote_addr;
-      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-      proxy_set_header X-Forwarded-Proto $scheme;
-   }
-
-   location /status {
-      proxy_pass http://127.0.0.1:3000/status;
-   }
-
-   location /health {
-      proxy_pass http://127.0.0.1:3000/health;
-   }
-
-   location / {
-      try_files $uri $uri/ /index.html;
-   }
-
-   client_max_body_size 10M;
-}
-```
-
-Notes & troubleshooting
-
-- The workflow expects the droplet to have a working `pm2` environment. If you prefer a different process manager, adjust the workflow `ssh` script.
-- For TLS, add Certbot on the droplet and configure `nginx` accordingly (or use a CDN/terminator like Cloudflare).
-- If you have private dependencies or additional build steps, extend the workflow.
-
-Security
-
-- Store only the private SSH key in `DROPLET_SSH_KEY` and ensure the key is restricted to the repo's Actions runs. Use an SSH keypair dedicated to CI where possible.
-- Avoid storing secrets in plaintext in the repository.
-
-If you want, I can also:
-
-- Add a rollback step that keeps the previous release directory
-- Add health-checks and a small smoke-test in the workflow
-- Add automatic TLS via Let's Encrypt using Certbot commands in the SSH step
-
-Docker-based deployment (optional)
-
-If you prefer to run the application using Docker on the droplet (or locally), this repository includes Dockerfiles and a `docker-compose.yml` to run the backend and frontend as containers.
-
-1. Build and run locally (project root):
-
-```bash
-# Build backend and frontend images and start services
-docker compose build
-docker compose up -d
-```
-
-2. Production notes for a droplet:
-
-- Install Docker and the Compose plugin on the droplet (see official Docker docs).
-- Copy the repository to the droplet or push images to a registry and pull.
-- Use `docker compose up -d --build` to build and run containers.
-- The frontend will be served by nginx on port 80 and proxy API calls to the backend container on port 3000.
-
-3. Persisting data & process supervision:
-
-- For production, mount any required volumes (logs, uploaded files) and configure restart policies in `docker-compose.yml`.
-- Consider placing a reverse proxy/terminator (nginx, Traefik) in front of the stack for TLS management.
-
-4. Example commands to manage the stack on the droplet:
-
-```bash
-# Pull latest code, then rebuild and restart
-git pull origin main
-docker compose pull || true
-docker compose up -d --build --remove-orphans
-
-# View logs
-docker compose logs -f
-
-# Stop
-docker compose down
-```
-
-Security & TLS
-
-- For TLS on a droplet, use Certbot with nginx or a reverse proxy (Traefik) to automatically obtain and renew certificates.
-- Ensure firewall allows only required ports (80/443) and block direct access to management ports like 3000 if you rely on the proxy.
-
-That's it — both GitHub Actions SSH deployment and Docker-based deployment options are documented here. Let me know if you want me to add a workflow that builds Docker images, publishes them to a registry, and deploys the images on the droplet.
+If you want, I can add a small `deploy-checklist.md` or extend this doc with sample commands and remote scripts used in the droplet deploy process.
