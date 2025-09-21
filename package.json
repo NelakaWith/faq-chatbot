@@ -8,11 +8,14 @@
   ],
   "scripts": {
     "install:all": "npm install --workspaces",
-    "release": "changeset version && git add . && git commit -m \"chore(release): version packages\" && git push --follow-tags",
-    "changeset": "changeset"
+    "release": "semantic-release"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.29.7",
-    "@changesets/changelog-github": "^0.5.0"
+    "semantic-release": "^21.0.0",
+    "@semantic-release/commit-analyzer": "^9.0.0",
+    "@semantic-release/release-notes-generator": "^10.0.0",
+    "@semantic-release/changelog": "^6.0.0",
+    "@semantic-release/npm": "^8.0.0",
+    "@semantic-release/github": "^8.0.0"
   }
 }

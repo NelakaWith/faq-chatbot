@@ -1,73 +1,74 @@
 Monorepo release workflow (Changesets)
 
 This repository uses Changesets to manage per-package versioning and changelogs.
+git tag v1.2.3
 
-Basic workflow:
+````
 
-1. Make changes in `dev/backend` or `dev/frontend`.
-2. Run `npx changeset` and answer prompts to create a changeset describing the change and the bump type (patch/minor/major) for affected packages.
-3. When ready to cut releases run:
+```markdown
+Repository release workflow (semantic-release)
+
+This repository is now configured to use semantic-release for automated releases and changelog generation. The CI workflow (`.github/workflows/release.yml`) will run semantic-release on merges and on manual dispatches and will only publish from the `main` branch.
+
+High-level flow
+
+1. Develop and open a PR on a feature branch. Make commits using conventional commit style (feat:, fix:, chore:, docs:, etc.).
+2. Merge the PR into `main` (or create a release via `workflow_dispatch` in Actions).
+3. CI runs the `release.yml` job which executes semantic-release. When a new version is determined semantic-release will:
+   - analyze commits (commit-analyzer)
+   - generate release notes (release-notes-generator)
+   - update the `CHANGELOG.md` (changelog plugin)
+   - optionally publish to npm (controlled by `.releaserc` and presence of `NPM_TOKEN`)
+   - create a GitHub Release with release notes
+   - commit the updated `CHANGELOG.md` back to the repository (via `@semantic-release/git`)
+
+Key files
+
+- `.releaserc` - semantic-release configuration (plugins and branch configuration).
+- `.github/workflows/release.yml` - CI workflow that runs semantic-release (includes a dry-run job in the workflow template).
+- `scripts/ci_install.sh` - helper used in CI to install release tooling before running semantic-release.
+
+Secrets and publishing
+
+- `GITHUB_TOKEN` (available automatically in Actions) is used to create GitHub Releases and push changelog commits.
+- To publish packages to npmjs.org, add `NPM_TOKEN` as a repository secret and enable `@semantic-release/npm` in `.releaserc` with `npmPublish: true`.
+  - If you do not wish to publish to npm, keep `npmPublish: false` (recommended for deployments-only projects).
+
+Local dry-run
+
+To verify the behavior locally without publishing, run semantic-release in dry-run mode:
 
 ```bash
-# generate versions and changelogs locally
-npx changeset version
+# install dependencies (you may need to run npm install if package-lock.json is out of date)
+npm ci || npm install
 
-# review and commit generated changes
-git add .
-git commit -m "chore(release): version packages"
-
-git push origin main
-
-# publish packages (optional / use CI)
-npx changeset publish
-```
+# run semantic-release in dry-run mode (it will not publish or push changes)
+npx semantic-release --dry-run
+````
 
 Notes:
 
-- Changesets creates small files under `.changeset/` describing bumps. Keep them small and descriptive.
-- The root `package.json` contains helper scripts and `@changesets/cli` as a devDependency.
+- semantic-release decides the next version based on the commit messages following Conventional Commits. Use commitizen, commitlint, or a disciplined commit style to ensure reliable releases.
+- The current configuration only allows publishing from `main` branch. A dry-run executed on a different branch will report that no publish will happen (expected behavior).
 
-## Continuous integration (GitHub Actions)
+Quick release checklist
 
-We've added a GitHub Actions workflow `.github/workflows/changesets-release.yml` that automates publishing. The workflow triggers on:
+- [ ] Ensure feature PRs are merged into `main` with Conventional Commits
+- [ ] Confirm `.releaserc` has the desired plugins and npm publish behavior
+- [ ] (Optional) If publishing to npm, add `NPM_TOKEN` as a repo secret and ensure `.releaserc` has `@semantic-release/npm` with `npmPublish: true`
+- [ ] Push to `main` or dispatch the `release.yml` workflow manually via Actions
+- [ ] Check GitHub Actions logs: semantic-release will create a GitHub Release and update `CHANGELOG.md` in the repo
 
-- Tag pushes matching `v*.*.*` (for example `v1.2.3`)
-- Pushes to the `main` branch
+Troubleshooting
 
-What the workflow does:
+- If semantic-release reports it is running on a non-publish branch (for example `develop`), this is expected: semantic-release is configured to only publish from `main`.
+- If the release job fails due to npm auth, verify `NPM_TOKEN` is present and Actions is writing it to `~/.npmrc` or providing it as `NODE_AUTH_TOKEN` to the job.
+- If `@semantic-release/git` cannot push the changelog commit, ensure the workflow permissions include `contents: write` and the checkout step uses `persist-credentials: true` (this is included in the provided workflow template).
 
-- Checks out the repository (full history)
-- Installs Node and dependencies
-- Runs `npx changeset publish --yes` which will publish updated packages and create GitHub releases/changelog entries
+Additional notes
 
-## Secrets and permissions
+- The repository used to use Changesets for per-package versioning. If you require per-package independent releases (monorepo independent versioning), we can switch to a semantic-release multi-package strategy or revert to Changesets. For now the repo is set up as a single release flow (one version for the workspace) matching the big-brother example.
 
-By default the workflow uses the built-in `GITHUB_TOKEN` (available as `secrets.GITHUB_TOKEN`) which is sufficient for creating releases and tagging in the repo. If you publish to external package registries (npmjs, GitHub Packages) and need a Personal Access Token (PAT), add a repository secret named `NPM_TOKEN` (or another name) and update the workflow to use it:
-
-```yaml
-env:
-  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 ```
 
-## Notes on usage
-
-1. Developer creates changesets locally whenever they make changes:
-
-```bash
-# from repo root
-npx changeset
 ```
-
-2. When ready to publish (manually or via CI), create a tag like `v1.0.1` and push it, or push to the `main` branch:
-
-```bash
-git tag v1.0.1
-git push origin v1.0.1
-```
-
-The GitHub Action will run and publish packages according to the generated changesets.
-
-## Troubleshooting
-
-- If the workflow fails due to permission errors, ensure `contents: write` and `packages: write` are allowed in the workflow `permissions` block and that `GITHUB_TOKEN` has repo write access.
-- For private package registries, use a PAT with the appropriate scopes and set it as a repository secret.
