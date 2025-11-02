@@ -22,7 +22,7 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Setup Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "20"
@@ -33,7 +33,9 @@ jobs:
 
       - name: Build frontend
         run: |
-          cd dev/frontend && npm ci && npm run build
+          cd frontend
+          npm ci
+          npm run build
 
       - name: Release
         env:
@@ -41,8 +43,8 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             echo "Running semantic-release in dry-run mode for PR testing"
-            npm run release -- --dry-run
+            npx semantic-release --dry-run --no-ci
           else
             echo "Running semantic-release in production mode"
-            npm run release
+            npx semantic-release --no-ci
           fi
