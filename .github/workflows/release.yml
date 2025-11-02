@@ -38,7 +38,12 @@ jobs:
         run: |
           cd dev/frontend && npm run build
 
+      - name: Verify semantic-release installation
+        run: |
+          npm list semantic-release
+          npx --no-install semantic-release --version
+
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
+        run: npx --no-install semantic-release
