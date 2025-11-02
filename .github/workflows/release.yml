@@ -3,6 +3,8 @@ name: Release
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -36,4 +38,11 @@ jobs:
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release --no-ci
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "Running semantic-release in dry-run mode for PR testing"
+            npx semantic-release --dry-run --no-ci
+          else
+            echo "Running semantic-release in production mode"
+            npx semantic-release --no-ci
+          fi
