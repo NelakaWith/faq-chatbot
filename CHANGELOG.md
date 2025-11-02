@@ -1,3 +1,11 @@
+## [1.3.1](https://github.com/NelakaWith/faq-chatbot/compare/v1.3.0...v1.3.1) (2025-11-02)
+
+
+### Bug Fixes
+
+* **deploy:** improve repository cloning and deployment logic in workflow ([aa790c8](https://github.com/NelakaWith/faq-chatbot/commit/aa790c8f277414c6cc17946c3cecb883151a3f5f))
+* **package:** reorder dependencies in package.json for consistency ([a32cd71](https://github.com/NelakaWith/faq-chatbot/commit/a32cd71ee0aa8ba9e930d270ee4d79427ad3bc7b))
+
 # [1.3.0](https://github.com/NelakaWith/faq-chatbot/compare/v1.2.0...v1.3.0) (2025-11-02)
 
 
