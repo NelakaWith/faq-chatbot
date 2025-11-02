@@ -8,7 +8,8 @@ echo "Installing workspace dependencies..."
 cd dev/backend && npm ci --no-workspaces --legacy-peer-deps && cd ../..
 cd dev/frontend && npm ci && cd ../..
 
-echo "Verifying semantic-release plugins..."
-npx semantic-release --version
+echo "Verifying semantic-release setup..."
+npm list semantic-release
+npm ls @semantic-release/changelog
 
 echo "Done."

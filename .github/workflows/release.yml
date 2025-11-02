@@ -33,7 +33,7 @@ jobs:
 
       - name: Dry-run semantic-release
         run: |
-          npx semantic-release --dry-run
+          npm run release -- --dry-run
 
   release:
     runs-on: ubuntu-latest
@@ -56,4 +56,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          npx semantic-release
+          npm run release
