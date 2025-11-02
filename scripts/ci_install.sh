@@ -2,10 +2,18 @@
 set -euo pipefail
 
 echo "Installing repository dependencies..."
-npm ci --ignore-scripts
+npm ci
 
 echo "Installing workspace dependencies..."
 cd dev/backend && npm ci --no-workspaces --legacy-peer-deps && cd ../..
 cd dev/frontend && npm ci && cd ../..
+
+echo "Verifying semantic-release is available..."
+if command -v npx >/dev/null 2>&1 && npx semantic-release --version >/dev/null 2>&1; then
+    echo "✓ semantic-release is properly installed"
+else
+    echo "✗ semantic-release installation failed"
+    exit 1
+fi
 
 echo "Installation complete. Ready for semantic-release."
