@@ -1,6 +1,7 @@
 {
   "name": "chatbot-frontend",
   "version": "1.0.0",
+  "description": "FAQ Chatbot UI",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

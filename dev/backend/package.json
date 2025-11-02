@@ -1,7 +1,7 @@
 {
   "name": "faq-chatbot-api",
-  "version": "0.0.0-ci-snapshot-20250921074328",
-  "description": "FAQ Chatbot API with PDF document support",
+  "version": "1.0.0",
+  "description": "FAQ Chatbot API",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
