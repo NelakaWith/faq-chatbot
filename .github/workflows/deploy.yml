@@ -50,7 +50,7 @@ jobs:
           key: ${{ secrets.DROPLET_SSH_KEY }}
           script: |
             # Check if directory exists and has git repository
-            if [ ! -d "~/faq-chatbot" ] || [ ! -d "~/faq-chatbot/.git" ]; then
+            if [ ! -d ~/faq-chatbot ] || [ ! -d ~/faq-chatbot/.git ]; then
               echo "Cloning repository..."
               rm -rf ~/faq-chatbot
               git clone https://github.com/${{ github.repository }}.git ~/faq-chatbot
@@ -69,11 +69,21 @@ jobs:
               git pull origin main
             fi
 
-            # Install backend dependencies and restart service
-            cd backend && npm ci --legacy-peer-deps
-            pm2 restart faq-chatbot-backend || pm2 start server.js --name faq-chatbot-backend
+            # Stop any existing backend process
+            pm2 stop faq-chatbot-backend 2>/dev/null || true
+            pm2 delete faq-chatbot-backend 2>/dev/null || true
+
+            # Install backend dependencies and start service
+            cd backend
+            npm ci --legacy-peer-deps
+            pm2 start server.js --name faq-chatbot-backend
 
             # Build frontend and deploy
-            cd ../frontend && npm ci && npm run build
+            cd ../frontend
+            npm ci
+            npm run build
             sudo cp -r dist/* /var/www/faq-chatbot/
             sudo systemctl reload nginx
+
+            # Verify backend is running
+            pm2 status faq-chatbot-backend
