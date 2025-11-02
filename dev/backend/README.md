@@ -92,6 +92,31 @@ Health check endpoint.
 }
 ```
 
+### POST /openrouter/chat/completions
+
+Proxy requests to OpenRouter's chat completions API. This endpoint forwards requests to OpenRouter and returns the response.
+
+**Required Environment Variable:**
+
+- `OPENROUTER_API_KEY` — Your OpenRouter API key
+
+**Request Example:**
+
+```json
+{
+  "model": "google/gemma-2-27b-it:free",
+  "messages": [
+    {
+      "role": "user",
+      "content": "What is the capital of France?"
+    }
+  ]
+}
+```
+
+**Response:**
+Returns the response from OpenRouter's API, typically in OpenAI-compatible format.
+
 ## Installation
 
 1. Install dependencies at the backend folder:
@@ -116,6 +141,7 @@ The backend supports a few environment variables (set these in a `.env` file or 
 - `PORT` — port to bind the server (default: `3000`).
 - `NODE_ENV` — `development` or `production`.
 - `LOG_LEVEL` — optional log level (`info`, `debug`, `warn`, `error`).
+- `OPENROUTER_API_KEY` — API key for OpenRouter chat completions (required for `/openrouter/chat/completions` endpoint).
 
 Example `.env`:
 
@@ -123,7 +149,10 @@ Example `.env`:
 PORT=3000
 NODE_ENV=development
 LOG_LEVEL=info
+OPENROUTER_API_KEY=sk-or-v1-your-api-key-here
 ```
+
+Copy `.env.example` to `.env` and fill in your actual values.
 
 ## Usage
 
