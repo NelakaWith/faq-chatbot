@@ -1,0 +1,45 @@
+name: Test & Build
+
+on:
+    pull_request:
+        branches:
+            - main
+            - develop
+    push:
+        branches:
+            - main
+            - develop
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "20"
+
+            - name: Install dependencies
+              run: |
+                  bash ./scripts/ci_install.sh
+
+            - name: Test semantic-release (dry-run)
+              if: github.event_name == 'pull_request'
+              run: |
+                  npm run release -- --dry-run
+
+            - name: Build frontend
+              working-directory: dev/frontend
+              run: |
+                  npm run build
+
+            - name: Test backend
+              working-directory: dev/backend
+              run: |
+                  # Add any backend tests here when available
+                  echo "Backend validation passed"

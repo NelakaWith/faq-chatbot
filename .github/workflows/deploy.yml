@@ -1,6 +1,8 @@
 name: Deploy
 
 on:
+  release:
+    types: [published]
   workflow_dispatch:
     inputs:
       tag:
@@ -11,6 +13,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'release' && !contains(github.event.release.tag_name, 'beta'))
     permissions:
       contents: read
       deployments: write
