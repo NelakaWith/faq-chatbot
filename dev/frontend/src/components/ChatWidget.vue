@@ -55,6 +55,7 @@
 
 <script>
 import { ref, nextTick } from "vue";
+import axios from "axios";
 
 export default {
   name: "ChatWidget",
@@ -72,14 +73,10 @@ export default {
 
       try {
         const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || "/api";
-        const response = await fetch(`${apiBaseUrl}/chat`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ message: userMessage }),
+        const response = await axios.post(`${apiBaseUrl}/chat`, {
+          message: userMessage,
         });
-        const data = await response.json();
+        const data = response.data;
 
         messages.value.push({
           sender: "bot",
@@ -88,12 +85,20 @@ export default {
           sourceType: data.sourceType,
           buttonSuggestions: data.buttonSuggestions || null,
         });
-
-        // push bot response
       } catch (error) {
+        console.error("Chat request error:", error);
+        let errorMessage =
+          "Sorry, there was an error connecting to the server.";
+        if (error.response) {
+          errorMessage = error.response.data?.error || errorMessage;
+        } else if (error.request) {
+          errorMessage =
+            "Sorry, the server is not responding. Please try again later.";
+        }
+
         messages.value.push({
           sender: "bot",
-          text: "Sorry, there was an error connecting to the server.",
+          text: errorMessage,
         });
       }
 
