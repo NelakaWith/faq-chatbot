@@ -12,11 +12,6 @@
       <div v-if="message.model" class="message-model">
         🤖 {{ message.model }}
       </div>
-      <div v-if="message.usage" class="message-usage">
-        📊 {{ message.usage.totalTokens }} tokens ({{
-          message.usage.promptTokens
-        }}+{{ message.usage.completionTokens }})
-      </div>
       <!-- Button suggestions for fallback scenarios -->
       <div
         v-if="message.buttonSuggestions && message.buttonSuggestions.length > 0"
