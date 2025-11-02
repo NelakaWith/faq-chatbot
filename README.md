@@ -1,286 +1,239 @@
-# FAQ Chatbot
+# 🤖 FAQ-Chatbot
 
-A sophisticated Node.js chatbot with fuzzy search capabilities, PDF document processing, and multi-source knowledge base integration.
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Available-brightgreen?style=for-the-badge&logo=vercel)](https://faq-chatbot.nelakawithanage.com/)
+[![Deployment Status](https://img.shields.io/badge/Deployment-Active-success?style=for-the-badge&logo=github-actions)](https://github.com/NelakaWith/faq-chatbot/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-green?style=for-the-badge&logo=node.js)](https://nodejs.org/)
+[![Vue.js](https://img.shields.io/badge/Vue.js-3.0-4FC08D?style=for-the-badge&logo=vue.js)](https://vuejs.org/)
 
-## Project Structure
+[![Express.js](https://img.shields.io/badge/Express.js-4.x-000000?style=flat-square&logo=express)](https://expressjs.com/)
+[![Vite](https://img.shields.io/badge/Vite-5.x-646CFF?style=flat-square&logo=vite)](https://vitejs.dev/)
+[![OpenRouter](https://img.shields.io/badge/OpenRouter-API-FF6B6B?style=flat-square&logo=openai)](https://openrouter.ai/)
+[![Fuse.js](https://img.shields.io/badge/Fuse.js-Search-orange?style=flat-square)](https://fusejs.io/)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow?style=flat-square&logo=conventionalcommits)](https://conventionalcommits.org)
 
-```
-faq-chatbot/
-├── .git/                  # Git repository
-├── .gitignore             # Git ignore rules
-├── documents/             # PDF documents for knowledge base
-│   └── doc01.pdf          # TRESA legislation document
-├── dev/
-│   ├── backend/           # Node.js + Express API server
-│   │   ├── .gitignore     # Backend-specific ignore rules
-│   │   ├── data/          # JSON knowledge base files
-│   │   │   ├── faq.json   # Frequently asked questions
-│   │   │   ├── legal.json # Legal information
-│   │   │   └── misc.json  # Greetings and miscellaneous
-│   │   ├── src/           # Source code (controllers, routes, services, utils)
-│   │   │   ├── app.js     # Express app configuration
-│   │   │   ├── controllers/
-│   │   │   │   └── chatController.js
-│   │   │   ├── routes/
-│   │   │   │   └── chatRoutes.js
-│   │   │   ├── services/
-│   │   │   │   ├── dataService.js
-│   │   │   │   └── searchService.js
-│   │   │   └── utils/
-│   │   │       ├── formatters.js
-│   │   │       └── pdfReader.js
-│   │   ├── server.js       # Main entry point
-│   │   ├── package.json    # Dependencies & scripts
-│   │   ├── README.md       # Backend documentation
-│   │   └── nodemon.json    # Development configuration
-│   └── frontend/           # Vue 3 frontend
-│       ├── src/
-│       │   ├── components/
-│       │   │   └── ChatWidget.vue
-│       │   ├── App.vue
-│       │   └── main.js
-│       ├── index.html
-│       ├── vite.config.js
-│       └── package.json
-├── run-demo.bat           # Windows batch script
-└── README.md              # This file
-```
+A modern AI-powered chatbot with intelligent knowledge base search and LLM integration, built with Vue 3 and Node.js.
 
-Quick links:
+## 🔗 Live Demo
 
-- Backend README: [dev/backend/README.md](dev/backend/README.md)
-- Frontend README: [dev/frontend/README.md](dev/frontend/README.md)
+**[Try the Live Demo](https://faq-chatbot.nelakawithanage.com/)** | [Video Demo](#)
 
-## Features
+## 📋 Overview
 
-- **Multi-Source Knowledge Base**: FAQ, legal documents, miscellaneous responses, and PDF content
-- **Intelligent Search Priority**: Exact matches → keyword detection → fuzzy search → PDF fallback
-- **PDF Document Processing**: Automatic text extraction and chunking for searchable content
-- **Enhanced Keyword Matching**: Handles synonyms and related terms (e.g., "effective date" → "come into effect")
-- **Fuzzy Search**: Powered by Fuse.js with configurable thresholds
-- **RESTful API**: Clean Express.js API with proper error handling
-- **Vue 3 Frontend**: Modern chat interface with real-time responses
-- **Graceful Error Handling**: Comprehensive error handling and fallback responses
+This project demonstrates a full-stack chatbot application with dual operational modes:
 
-## Quick Start
+- **FAQ Mode**: Intelligent search through structured knowledge bases with fuzzy matching
+- **AI Assistant Mode**: OpenRouter API integration with Google Gemma 3 for conversational AI
 
-### Option 1: Batch File (Windows)
+Built as a technical showcase demonstrating modern web development practices, component architecture, and AI integration patterns.
 
-Double-click `run-demo.bat` or run it from command prompt:
+## ✨ Key Features
 
-```cmd
-run-demo.bat
-```
+### 🧠 Intelligent Search System
 
-### Option 2: PowerShell Script
+- **Multi-layered Search**: Exact match → Keyword detection → Fuzzy search → PDF fallback
+- **Semantic Understanding**: Synonym handling and context-aware responses
+- **PDF Processing**: Automatic document parsing and content extraction
 
-Run the PowerShell script:
+### 🤖 AI Integration
 
-```powershell
-.\run-demo.ps1
-```
+- **OpenRouter API**: Integration with Google Gemma 3 model (free tier)
+- **Conversation Management**: Stateful chat with conversation history
+- **Mode Switching**: Seamless transition between FAQ and AI modes
 
-### Manual Setup
+### 🎨 Modern Frontend
 
-If you prefer to run manually:
+- **Vue 3 Composition API**: Component-based architecture with reactive state
+- **Real-time UI**: Typing indicators, loading states, and smooth animations
+- **Responsive Design**: Mobile-first approach with elegant chat interface
 
-1. **Backend** (Terminal 1):
+### 🔧 Developer Experience
 
-   ```cmd
-   cd dev\backend
-   npm install
-   npm run dev  # For development with hot reload
-   # OR
-   npm start    # For production
+- **Hot Reload**: Development servers with live updates
+- **Error Handling**: Comprehensive error boundaries and fallback responses
+- **API Documentation**: Well-documented RESTful endpoints
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+- **Vue 3** - Progressive JavaScript framework with Composition API
+- **Vite** - Fast build tool and development server
+- **Axios** - HTTP client for API communication
+- **CSS3** - Custom animations and responsive design
+
+### Backend
+
+- **Node.js** - JavaScript runtime environment
+- **Express.js** - Web application framework
+- **Fuse.js** - Powerful fuzzy search library
+- **PDF-Parse** - PDF text extraction utility
+
+### AI & APIs
+
+- **OpenRouter API** - LLM gateway service
+- **Google Gemma 3** - Large language model (free tier)
+- **REST Architecture** - Clean API design patterns
+
+### DevOps & Tools
+
+- **Git** - Version control with conventional commits
+- **npm workspaces** - Monorepo dependency management
+- **Environment Configuration** - Secure API key management
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js 16+ and npm
+- OpenRouter API key (free tier available)
+
+### Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/NelakaWith/faq-chatbot.git
+   cd faq-chatbot
    ```
 
-2. **Frontend** (Terminal 2):
-   ```cmd
-   cd dev\frontend
+2. **Install dependencies**
+
+   ```bash
    npm install
+   ```
+
+3. **Configure environment**
+
+   ```bash
+   cd dev/backend
+   cp .env.example .env
+   # Add your OPENROUTER_API_KEY to .env
+   ```
+
+4. **Start development servers**
+
+   **Backend** (Terminal 1):
+
+   ```bash
+   cd dev/backend
    npm run dev
    ```
 
-## Backend Scripts
+   **Frontend** (Terminal 2):
 
-- `npm run dev` - Development mode with hot reload using nodemon
-- `npm run dev:debug` - Development mode with debugging enabled
-- `npm start` - Production mode without hot reload
-- `npm run clean` - Clean temporary files
+   ```bash
+   cd dev/frontend
+   npm run dev
+   ```
 
-## API Endpoints
+5. **Access the application**
+   - Frontend: http://localhost:5173
+   - Backend API: http://localhost:3000
+   - API Health: http://localhost:3000/health
 
-### POST /chat
+### Windows Quick Start
 
-Process a chat message and return the best matching response.
-
-**Request:**
-
-```json
-{
-  "message": "TRESA effective date"
-}
+```cmd
+# Run the included batch file
+run-demo.bat
 ```
 
-**Response:**
-
-```json
-{
-  "response": "TRESA came into effect on December 1, 2023, replacing the Real Estate and Business Brokers Act (REBBA).",
-  "source": "FAQ Database - Keyword Match",
-  "sourceType": "faq"
-}
-```
-
-### GET /status
-
-Get server status and data source information.
-
-**Response:**
-
-```json
-{
-  "status": "running",
-  "initialized": true,
-  "dataSources": {
-    "faq": 10,
-    "legal": 10,
-    "misc": 12,
-    "pdfs": 1,
-    "totalSearchable": 100
-  }
-}
-```
-
-### GET /health
-
-Health check endpoint.
-
-**Response:**
-
-```json
-{
-  "status": "OK",
-  "timestamp": "2024-01-01T12:00:00.000Z",
-  "service": "FAQ Chatbot API"
-}
-```
-
-## URLs
-
-- **Backend API**: http://localhost:3000
-- **Frontend**: http://localhost:5173
-- **Health Check**: http://localhost:3000/health
-- **API Status**: http://localhost:3000/status
-
-# FAQ Chatbot (developer guide)
-
-This repository contains a Node.js backend and a Vue 3 frontend that together implement a FAQ chatbot with fuzzy search and PDF fallback search.
-
-## Quick overview
-
-- Backend: `dev/backend` (Express)
-- Frontend: `dev/frontend` (Vue 3)
-- Release automation: `semantic-release` (configured in `.releaserc`)
-- CI: GitHub Actions (`.github/workflows`)
-- Commit rules: Conventional Commits enforced by `commitlint` + Husky and a PR check
-
-## Quick start (dev)
-
-1. Clone and install dependencies at the repo root (monorepo workspaces):
-
-```powershell
-cd D:\Projects\Samples\faq-chatbot
-npm install
-```
-
-2. Start backend and frontend in separate terminals:
-
-Backend:
-
-```powershell
-cd dev/backend
-npm install
-npm run dev
-```
-
-Frontend:
-
-```powershell
-cd dev/frontend
-npm install
-npm run dev
-```
-
-## Commit conventions & tools
-
-We use Conventional Commits to drive releases via `semantic-release`. The repo already includes these conveniences:
-
-- Commitizen: run `npm run commit` to get an interactive commit prompt (`cz-conventional-changelog`).
-- Commitlint: validates commit messages in CI and locally.
-- Husky: local `commit-msg` hook runs `commitlint` to block bad commits before pushing.
-
-If you haven't already, run `npm install` at the repo root to ensure hooks and dev tools are available. Use `git commit` as usual, or `npm run commit` for guided commits.
-
-Example valid commit:
+## 📚 Project Structure
 
 ```
-chore: Refactor code structure for improved readability and maintainability
+faq-chatbot/
+├── dev/
+│   ├── backend/           # Express.js API server
+│   │   ├── src/
+│   │   │   ├── controllers/   # Request handlers
+│   │   │   ├── routes/        # API endpoints
+│   │   │   ├── services/      # Business logic
+│   │   │   └── utils/         # Helper functions
+│   │   ├── data/             # Knowledge base JSON files
+│   │   └── server.js         # Entry point
+│   └── frontend/         # Vue 3 SPA
+│       ├── src/
+│       │   ├── components/    # Vue components
+│       │   ├── composables/   # Reusable logic
+│       │   └── styles/        # CSS modules
+│       └── vite.config.js
+├── documents/            # PDF knowledge base
+├── .github/workflows/    # CI/CD automation
+└── README.md
 ```
 
-## CI / release
+## 🧪 API Endpoints
 
-- Releases are automated with `semantic-release` from the `main` branch. The `release.yml` workflow runs `semantic-release` on `main` and creates GitHub Releases and updates `CHANGELOG.md`.
-- You can run a local dry-run to preview a release without publishing:
+| Method | Endpoint        | Description                |
+| ------ | --------------- | -------------------------- |
+| `POST` | `/api/chat`     | FAQ knowledge base search  |
+| `POST` | `/api/chat/llm` | OpenRouter AI conversation |
+| `GET`  | `/api/status`   | Service status and metrics |
+| `GET`  | `/api/health`   | Health check endpoint      |
 
-```powershell
-npx semantic-release --dry-run
-```
+## 📖 Key Learnings
 
-Note: `npm ci` in CI requires `package-lock.json` to match `package.json`. If CI reports `EUSAGE` about `npm ci`, run `npm install` locally, commit the updated lockfile, and push.
+### Technical Implementation
 
-## Deploy workflow
+- **Vue 3 Composables**: Learned reactive state management and composition patterns
+- **API Integration**: Implemented secure proxy patterns for external API consumption
+- **Search Algorithms**: Built multi-tier search with fallback strategies
+- **Component Architecture**: Designed reusable, maintainable component structures
 
-The deploy workflow (`.github/workflows/deploy.yml`) runs on manual dispatch only (workflow_dispatch). Behavior:
+### Best Practices
 
-- Trigger: manually from GitHub Actions (Actions → Deploy → Run workflow). It accepts an optional `tag` input.
-- If `tag` is provided: the workflow deploys that tag/ref.
-- If `tag` is empty: the workflow looks up the latest GitHub Release tag and deploys that tag.
-- The workflow creates a GitHub Deployment record, copies files to your droplet via SCP, runs deploy commands via SSH (pm2 restart / build / nginx copy), then posts deployment status back to GitHub.
+- **Error Handling**: Implemented comprehensive error boundaries and user feedback
+- **State Management**: Used reactive patterns for real-time UI updates
+- **API Design**: Created RESTful endpoints with proper status codes and responses
+- **Security**: Implemented environment-based configuration and API key protection
 
-If you want automatic deploys on release publish, we can add `on: release: types: [published]` to the workflow.
+### Problem Solving
 
-## PR checks
+- **Performance**: Optimized search algorithms for large knowledge bases
+- **User Experience**: Added loading states, animations, and contextual feedback
+- **Scalability**: Designed modular architecture for easy feature expansion
 
-- `pr-commitlint.yml` runs on PRs and checks:
-  - PR title (must follow Conventional Commits)
-  - All non-merge commits in the PR via `commitlint` (merge commits are ignored)
+## 🚧 Future Improvements
 
-## Husky notes
+### Short-term Enhancements
 
-- Husky is initialized via `prepare` script in `package.json` (runs on `npm install`).
-- Local hook file `.husky/commit-msg` runs `commitlint` to validate commit messages. If the commit message is invalid the commit will be blocked.
-- To add pre-commit formatting/linting, we can add `lint-staged` and a `.husky/pre-commit` hook.
+- [ ] **Vector Search**: Implement semantic search with embeddings
+- [ ] **User Authentication**: Add login/logout and conversation persistence
+- [ ] **Chat History**: Save and restore previous conversations
+- [ ] **File Upload**: Allow users to upload documents for analysis
 
-## Troubleshooting & tips
+### Advanced Features
 
-- If CI fails with `npm ci` lockfile mismatch: run `npm install` locally and commit `package-lock.json`.
-- To bypass hooks (not recommended): `git commit --no-verify -m "..."`.
-- If Husky hooks don't run for other contributors, ensure they run `npm install` so the `prepare` script sets up Husky helper files.
+- [ ] **Multi-model Support**: Add support for GPT-4, Claude, and other LLMs
+- [ ] **Voice Integration**: Implement speech-to-text and text-to-speech
+- [ ] **Admin Dashboard**: Content management interface for knowledge base
+- [ ] **Analytics**: Usage tracking and conversation analytics
 
-## Contributing
+### Technical Improvements
 
-1. Fork the repo and create a feature branch
-2. Use `npm run commit` (Commitizen) or follow Conventional Commits for commit messages
-3. Open a PR; CI will run commitlint and other checks
+- [ ] **Testing Suite**: Unit tests, integration tests, and E2E testing
+- [ ] **Docker Deployment**: Containerization for easy deployment
+- [ ] **CDN Integration**: Asset optimization and global distribution
+- [ ] **Monitoring**: Application performance monitoring and alerting
 
-## Where to look
+## 🤝 Contributing
 
-- Release config: `.releaserc`
-- Release workflow: `.github/workflows/release.yml`
-- Deploy workflow: `.github/workflows/deploy.yml`
-- PR commit checks: `.github/workflows/pr-commitlint.yml`
-- Husky hook: `.husky/commit-msg`
-- Commitlint config: `commitlint.config.js`
+Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) for details on our code of conduct and development process.
+
+## 👨‍💻 Author
+
+**Nelaka Withanage**
+
+- GitHub: [@NelakaWith](https://github.com/NelakaWith)
+- Portfolio: [nelakawith.netlify.app](https://nelakawith.netlify.app/)
+- LinkedIn: [in/nelaka-withanage/](https://www.linkedin.com/in/nelaka-withanage/)
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
+
+⭐ **Star this repository if you found it helpful!**
+_Built with ❤️ using Express.js, Vue.js, and the OpenRouter API_
