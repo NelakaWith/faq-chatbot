@@ -11,7 +11,7 @@ const router = express.Router();
 router.post("/chat", handleChatRequest);
 
 // OpenRouter chat completions endpoint
-router.post("/openrouter/chat/completions", handleOpenRouterChat);
+router.post("/chat/llm", handleOpenRouterChat);
 
 // Status endpoint
 router.get("/status", getStatus);
