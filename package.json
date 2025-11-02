@@ -11,7 +11,7 @@
     "release": "semantic-release",
     "commitlint": "commitlint --config commitlint.config.js -e",
     "commit": "cz",
-    "prepare": "husky install || true"
+    "prepare": "node -p \"'Preparing hooks...'\"; npx husky install || echo 'Husky not available'"
   },
   "config": {
     "commitizen": {
