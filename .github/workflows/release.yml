@@ -58,8 +58,12 @@ jobs:
           npm list --depth=0 semantic-release || echo "semantic-release not found via npm list"
           echo "=== Direct npx check ==="
           npx semantic-release --version || echo "npx semantic-release failed"
+          echo "=== Local binary check ==="
+          ./node_modules/.bin/semantic-release --version || echo "Local semantic-release failed"
+          echo "=== Local plugins check ==="
+          npm list --depth=0 | grep @semantic-release || echo "No @semantic-release plugins found"
 
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release --no-ci
+        run: ./node_modules/.bin/semantic-release
