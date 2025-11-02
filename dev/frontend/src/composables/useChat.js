@@ -33,7 +33,7 @@ export function useChat() {
    */
   const addMessage = (message) => {
     const messageWithId = {
-      id: Date.now() + Math.random(),
+      id: crypto.randomUUID(),
       timestamp: new Date().toISOString(),
       ...message,
     };

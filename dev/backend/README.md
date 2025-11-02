@@ -92,7 +92,7 @@ Health check endpoint.
 }
 ```
 
-### POST /openrouter/chat/completions
+### POST /api/chat/llm
 
 Proxy requests to OpenRouter's chat completions API. This endpoint forwards requests to OpenRouter and returns the response.
 
@@ -141,7 +141,7 @@ The backend supports a few environment variables (set these in a `.env` file or 
 - `PORT` — port to bind the server (default: `3000`).
 - `NODE_ENV` — `development` or `production`.
 - `LOG_LEVEL` — optional log level (`info`, `debug`, `warn`, `error`).
-- `OPENROUTER_API_KEY` — API key for OpenRouter chat completions (required for `/openrouter/chat/completions` endpoint).
+- `OPENROUTER_API_KEY` — API key for OpenRouter chat completions (required for `/api/chat/llm` endpoint).
 
 Example `.env`:
 
