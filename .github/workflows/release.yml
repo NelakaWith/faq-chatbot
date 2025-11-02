@@ -41,8 +41,8 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             echo "Running semantic-release in dry-run mode for PR testing"
-            ./node_modules/.bin/semantic-release --dry-run
+            npm run release -- --dry-run
           else
             echo "Running semantic-release in production mode"
-            ./node_modules/.bin/semantic-release
+            npm run release
           fi
