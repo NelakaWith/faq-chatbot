@@ -3,12 +3,12 @@ echo Starting Chatbot Demo...
 echo.
 
 echo Starting Backend Server...
-start "Chatbot Backend" cmd /k "cd dev\backend && npm run dev"
+start "Chatbot Backend" cmd /k "cd backend && npm run dev"
 
 timeout /t 3 /nobreak > nul
 
 echo Starting Frontend Server...
-start "Chatbot Frontend" cmd /k "cd dev\frontend && npm run dev"
+start "Chatbot Frontend" cmd /k "cd frontend && npm run dev"
 
 echo.
 echo Both servers are starting in separate windows.

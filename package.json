@@ -1,20 +1,11 @@
 {
-  "name": "faq-chatbot-monorepo",
+  "name": "faq-chatbot",
   "private": true,
   "version": "1.0.0",
-  "workspaces": [
-    "dev/backend",
-    "dev/frontend"
-  ],
   "scripts": {
-    "install:all": "npm install --workspaces",
-    "release": "semantic-release",
-    "commitlint": "commitlint --config commitlint.config.js -e",
-    "commit": "cz",
-    "test": "npm run test --workspaces",
-    "build": "npm run build --workspaces",
-    "validate:ci": "node scripts/validate-ci-setup.js",
-    "prepare": "husky install || echo 'Husky not available'"
+    "prepare": "husky install",
+    "commit": "git-cz",
+    "semantic-release": "semantic-release"
   },
   "config": {
     "commitizen": {

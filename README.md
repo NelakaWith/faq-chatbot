@@ -106,7 +106,7 @@ Built as a technical showcase demonstrating modern web development practices, co
 3. **Configure environment**
 
    ```bash
-   cd dev/backend
+   cd backend
    cp .env.example .env
    # Add your OPENROUTER_API_KEY to .env
    ```
@@ -116,14 +116,14 @@ Built as a technical showcase demonstrating modern web development practices, co
    **Backend** (Terminal 1):
 
    ```bash
-   cd dev/backend
+   cd backend
    npm run dev
    ```
 
    **Frontend** (Terminal 2):
 
    ```bash
-   cd dev/frontend
+   cd frontend
    npm run dev
    ```
 
@@ -143,21 +143,20 @@ run-demo.bat
 
 ```
 faq-chatbot/
-├── dev/
-│   ├── backend/           # Express.js API server
-│   │   ├── src/
-│   │   │   ├── controllers/   # Request handlers
-│   │   │   ├── routes/        # API endpoints
-│   │   │   ├── services/      # Business logic
-│   │   │   └── utils/         # Helper functions
-│   │   ├── data/             # Knowledge base JSON files
-│   │   └── server.js         # Entry point
-│   └── frontend/         # Vue 3 SPA
-│       ├── src/
-│       │   ├── components/    # Vue components
-│       │   ├── composables/   # Reusable logic
-│       │   └── styles/        # CSS modules
-│       └── vite.config.js
+├── backend/              # Express.js API server
+│   ├── src/
+│   │   ├── controllers/   # Request handlers
+│   │   ├── routes/        # API endpoints
+│   │   ├── services/      # Business logic
+│   │   └── utils/         # Helper functions
+│   ├── data/             # Knowledge base JSON files
+│   └── server.js         # Entry point
+├── frontend/             # Vue 3 SPA
+│   ├── src/
+│   │   ├── components/    # Vue components
+│   │   ├── composables/   # Reusable logic
+│   │   └── styles/        # CSS modules
+│   └── vite.config.js
 ├── documents/            # PDF knowledge base
 ├── .github/workflows/    # CI/CD automation
 └── README.md
