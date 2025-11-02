@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const app = require("./src/app");
 const { initializeSearchService } = require("./src/services/searchService");
 
