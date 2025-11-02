@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "Installing repository dependencies and semantic-release plugins..."
+echo "Installing repository dependencies..."
 npm ci
-npm install --no-save semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/github @semantic-release/npm @semantic-release/release-notes-generator @semantic-release/commit-analyzer
 
 echo "Installing workspace dependencies..."
 cd dev/backend && npm ci --no-workspaces --legacy-peer-deps && cd ../..
 cd dev/frontend && npm ci && cd ../..
+
+echo "Verifying semantic-release plugins..."
+npx semantic-release --version
 
 echo "Done."
