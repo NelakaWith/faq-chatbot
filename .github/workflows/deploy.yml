@@ -1,6 +1,8 @@
 name: Deploy
 
 on:
+  release:
+    types: [published]
   workflow_dispatch:
     inputs:
       tag:
@@ -11,23 +13,15 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      deployments: write
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-
-      - name: Build frontend
-        working-directory: dev/frontend
-        run: |
-          npm ci
-          npm run build
+          cache: "npm"
 
       - name: Resolve ref to deploy
         id: resolve_ref
@@ -36,81 +30,38 @@ jobs:
         run: |
           if [ -n "${{ github.event.inputs.tag }}" ] && [ "${{ github.event.inputs.tag }}" != "" ]; then
             REF="${{ github.event.inputs.tag }}"
+            echo "Using manual tag: $REF"
           else
             REF=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/${{ github.repository }}/releases/latest" | jq -r .tag_name)
+            echo "Using latest release: $REF"
           fi
-          echo "Resolved ref: $REF"
           echo "ref=$REF" >> $GITHUB_OUTPUT
 
-      - name: 🔖 Create GitHub Deployment
-        id: create_deployment
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const ref = process.env.DEPLOY_REF || context.sha;
-            const response = await github.rest.repos.createDeployment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref,
-              required_contexts: [],
-              environment: 'production',
-              description: 'Deploy to Droplet',
-              auto_merge: false,
-            });
-            core.setOutput('deployment_id', response.data.id);
-        env:
-          DEPLOY_REF: ${{ steps.resolve_ref.outputs.ref }}
+      - name: Install and build
+        run: |
+          npm ci
+          cd dev/frontend && npm ci && npm run build
 
-      - name: Copy files to droplet via SSH
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.DROPLET_HOST }}
-          username: ${{ secrets.DROPLET_USER }}
-          key: ${{ secrets.DROPLET_SSH_KEY }}
-          source: .
-          target: ~/faq-chatbot
-          rm: true
-
-      - name: Run deploy script on droplet
+      - name: Deploy to server
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.DROPLET_HOST }}
           username: ${{ secrets.DROPLET_USER }}
           key: ${{ secrets.DROPLET_SSH_KEY }}
           script: |
-            cd ~/faq-chatbot/dev/backend
-            npm ci --no-workspaces --legacy-peer-deps
+            cd ~/faq-chatbot
+            # Use the resolved ref or default to main
+            DEPLOY_REF="${{ steps.resolve_ref.outputs.ref }}"
+            if [ -n "$DEPLOY_REF" ] && [ "$DEPLOY_REF" != "null" ]; then
+              echo "Deploying specific ref: $DEPLOY_REF"
+              git fetch --all
+              git checkout $DEPLOY_REF
+            else
+              echo "Deploying main branch"
+              git pull origin main
+            fi
+            cd dev/backend && npm ci --no-workspaces --legacy-peer-deps
             pm2 restart faq-chatbot-backend || pm2 start server.js --name faq-chatbot-backend
-            cd ~/faq-chatbot/dev/frontend
-            npm ci
-            npm run build
-
-            # Ensure NGINX live folder exists and is owned by www-data
-            sudo mkdir -p /var/www/faq-chatbot
-            sudo chown -R www-data:www-data /var/www/faq-chatbot
-
-            # Copy build to NGINX live folder
-            sudo rm -rf /var/www/faq-chatbot/* || true
+            cd ../frontend && npm ci && npm run build
             sudo cp -r dist/* /var/www/faq-chatbot/
-            sudo chown -R www-data:www-data /var/www/faq-chatbot
-
-            # Reload nginx
-            sudo systemctl reload nginx || true
-        env:
-          DEPLOYMENT_ID: ${{ steps.create_deployment.outputs.deployment_id }}
-
-      - name: Update GitHub Deployment status
-        if: ${{ always() }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DEPLOYMENT_ID: ${{ steps.create_deployment.outputs.deployment_id }}
-        run: |
-          # Determine success by inspecting the previous step's outcome from the workflow runtime
-          if [ ${{ job.status }} = 'success' ]; then
-            STATE="success"
-          else
-            STATE="failure"
-          fi
-          PAYLOAD=$(jq -n --arg state "$STATE" --arg description "Deployment $STATE" '{state:$state, description:$description}')
-          curl -s -X POST -H "Authorization: token $GITHUB_TOKEN" -H "Accept: application/vnd.github+json" "https://api.github.com/repos/${{ github.repository }}/deployments/$DEPLOYMENT_ID/statuses" -d "$PAYLOAD"
+            sudo systemctl reload nginx

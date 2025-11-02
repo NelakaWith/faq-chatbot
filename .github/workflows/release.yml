@@ -2,59 +2,43 @@ name: Release
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: write
-  deployments: write
-  packages: write
+  issues: write
+  pull-requests: write
 
 jobs:
-  dry-run:
-    name: Dry-run release (manual)
-    runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch'
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
-      - name: Install dependencies
-        run: |
-          bash ./scripts/ci_install.sh
-
-      - name: Dry-run semantic-release
-        run: |
-          npm run release -- --dry-run
-
   release:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
-        run: |
-          bash ./scripts/ci_install.sh
+        run: npm ci
 
-      - name: Run semantic-release
+      - name: Install workspace dependencies
+        run: |
+          cd dev/backend && npm ci --no-workspaces --legacy-peer-deps
+          cd ../frontend && npm ci
+
+      - name: Build frontend
+        run: |
+          cd dev/frontend && npm run build
+
+      - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          npm run release
+        run: npx semantic-release
