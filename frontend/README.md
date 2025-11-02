@@ -7,7 +7,7 @@ A Vue 3 frontend for the FAQ Chatbot. This small README explains how to run the 
 1. Install dependencies:
 
 ```powershell
-cd dev\frontend
+cd frontend
 npm install
 ```
 
@@ -48,5 +48,5 @@ Build the static assets and serve them using your preferred static host or integ
 
 ## Links
 
-- Back to repository README: `../../README.md`
+- Back to repository README: `../README.md`
 - Backend README: `../backend/README.md`

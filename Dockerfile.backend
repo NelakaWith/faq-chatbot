@@ -6,9 +6,9 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=3000
 
-# Copy backend source (assumes backend code is in dev/backend)
-COPY dev/backend/package*.json ./
-COPY dev/backend/ .
+# Copy backend source (assumes backend code is in backend)
+COPY backend/package*.json ./
+COPY backend/ .
 
 RUN npm ci --only=production || npm install --production
 

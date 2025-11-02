@@ -30,8 +30,8 @@ We have successfully implemented a robust CI/CD pipeline that follows the exact 
         "assets": [
           "CHANGELOG.md",
           "package.json",
-          "dev/backend/package.json",
-          "dev/frontend/package.json"
+          "backend/package.json",
+          "frontend/package.json"
         ],
         "message": "chore(release): ${nextRelease.version} [skip ci]\\n\\n${nextRelease.notes}"
       }

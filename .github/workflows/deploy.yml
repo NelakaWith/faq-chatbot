@@ -40,7 +40,7 @@ jobs:
       - name: Install and build
         run: |
           npm ci
-          cd dev/frontend && npm ci && npm run build
+          cd frontend && npm ci && npm run build
 
       - name: Deploy to server
         uses: appleboy/ssh-action@v1.0.3
@@ -60,7 +60,7 @@ jobs:
               echo "Deploying main branch"
               git pull origin main
             fi
-            cd dev/backend && npm ci --no-workspaces --legacy-peer-deps
+            cd backend && npm ci --legacy-peer-deps
             pm2 restart faq-chatbot-backend || pm2 start server.js --name faq-chatbot-backend
             cd ../frontend && npm ci && npm run build
             sudo cp -r dist/* /var/www/faq-chatbot/

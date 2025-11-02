@@ -5,7 +5,7 @@ A Node.js Express API for handling FAQ chatbot queries with PDF document support
 ## Project Structure
 
 ```
-dev/backend/
+backend/
 ├── src/
 │   ├── app.js                 # Express app configuration
 │   ├── controllers/
@@ -122,7 +122,7 @@ Returns the response from OpenRouter's API, typically in OpenAI-compatible forma
 1. Install dependencies at the backend folder:
 
 ```powershell
-cd dev\backend
+cd backend
 npm install
 ```
 
@@ -176,13 +176,13 @@ The server will bind to the port defined in `PORT` (default 3000).
 
 ## Scripts
 
-Common scripts in `dev/backend/package.json` (subject to change):
+Common scripts in `backend/package.json` (subject to change):
 
 - `dev` — start with `nodemon` for development
 - `start` — production start (node server)
 - `lint` — run linters (if configured)
 
-Run scripts from the `dev/backend` directory, or from the repo root using workspace-aware tooling.
+Run scripts from the `backend` directory, or from the repo root using workspace-aware tooling.
 
 ## Logging & Debugging
 
