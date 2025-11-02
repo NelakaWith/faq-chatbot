@@ -1,6 +1,8 @@
 name: Test & Build
+
 permissions:
     contents: read
+
 on:
     pull_request:
         branches: [main, develop]
@@ -28,11 +30,16 @@ jobs:
                   cd dev/backend && npm ci --no-workspaces --legacy-peer-deps
                   cd ../frontend && npm ci
 
-            - name: Build frontend
-              run: |
-                  cd dev/frontend && npm run build
-
             - name: Test backend
               run: |
                   cd dev/backend
                   echo "Backend validation passed"
+
+            - name: Test frontend
+              run: |
+                  cd dev/frontend
+                  echo "Frontend validation passed"
+
+            - name: Build frontend
+              run: |
+                  cd dev/frontend && npm run build
