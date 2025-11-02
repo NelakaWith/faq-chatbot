@@ -49,19 +49,31 @@ jobs:
           username: ${{ secrets.DROPLET_USER }}
           key: ${{ secrets.DROPLET_SSH_KEY }}
           script: |
+            # Check if directory exists and has git repository
+            if [ ! -d "~/faq-chatbot" ] || [ ! -d "~/faq-chatbot/.git" ]; then
+              echo "Cloning repository..."
+              rm -rf ~/faq-chatbot
+              git clone https://github.com/${{ github.repository }}.git ~/faq-chatbot
+            fi
+
             cd ~/faq-chatbot
+
             # Use the resolved ref or default to main
             DEPLOY_REF="${{ steps.resolve_ref.outputs.ref }}"
             if [ -n "$DEPLOY_REF" ] && [ "$DEPLOY_REF" != "null" ]; then
               echo "Deploying specific ref: $DEPLOY_REF"
               git fetch --all
-              git checkout $DEPLOY_REF
+              git checkout $DEPLOY_REF 2>/dev/null || git pull origin main
             else
               echo "Deploying main branch"
               git pull origin main
             fi
+
+            # Install backend dependencies and restart service
             cd backend && npm ci --legacy-peer-deps
             pm2 restart faq-chatbot-backend || pm2 start server.js --name faq-chatbot-backend
+
+            # Build frontend and deploy
             cd ../frontend && npm ci && npm run build
             sudo cp -r dist/* /var/www/faq-chatbot/
             sudo systemctl reload nginx
