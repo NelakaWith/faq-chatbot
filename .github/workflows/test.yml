@@ -1,5 +1,6 @@
-name: CI
-
+name: Test & Build
+permissions:
+    contents: read
 on:
     pull_request:
         branches: [main, develop]
