@@ -31,7 +31,7 @@ jobs:
             - name: Test semantic-release (dry-run)
               if: github.event_name == 'pull_request'
               run: |
-                  npx semantic-release --dry-run
+                  npx --no-install semantic-release --dry-run
 
             - name: Build frontend
               working-directory: dev/frontend

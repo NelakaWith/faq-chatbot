@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "install:all": "npm install --workspaces",
-    "release": "npx semantic-release",
+    "release": "npx --no-install semantic-release",
     "commitlint": "commitlint --config commitlint.config.js -e",
     "commit": "cz",
     "prepare": "node -p \"'Preparing hooks...'\"; npx husky install || echo 'Husky not available'"
