@@ -99,8 +99,13 @@ const handleOpenRouterChat = async (req, res) => {
         headers: {
           Authorization: `Bearer ${apiKey}`,
           "Content-Type": "application/json",
-          "HTTP-Referer": req.get("Referer") || "http://localhost:3000",
-          "X-Title": "FAQ Chatbot",
+          ...(process.env.OPENROUTER_REFERER || req.get("Referer")
+            ? {
+                "HTTP-Referer":
+                  process.env.OPENROUTER_REFERER || req.get("Referer"),
+              }
+            : {}),
+          "X-Title": process.env.OPENROUTER_TITLE || "FAQ Chatbot",
         },
       }
     );
