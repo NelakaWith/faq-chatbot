@@ -29,9 +29,14 @@ jobs:
         run: |
           PR_TITLE=$(jq -r .pull_request.title "$GITHUB_EVENT_PATH")
           echo "PR title: $PR_TITLE"
-          REGEX='^(feat|fix|chore|docs|style|refactor|perf|test|build|ci|revert|release|hotfix)(\([a-z0-9_\- ]+\))?: .+'
+          echo "PR title length: ${#PR_TITLE}"
+          echo "PR title hex dump:"
+          echo "$PR_TITLE" | hexdump -C
+          REGEX='^(feat|fix|chore|docs|style|refactor|perf|test|build|ci|revert|release|hotfix)(\(.+\))?: .+'
           if ! echo "$PR_TITLE" | grep -E "$REGEX"; then
             echo "PR title must follow Conventional Commits (e.g. 'feat(scope): add new API')."
+            echo "Current title: '$PR_TITLE'"
+            echo "Regex: $REGEX"
             exit 1
           fi
 
