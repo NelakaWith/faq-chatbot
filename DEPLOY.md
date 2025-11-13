@@ -21,16 +21,34 @@ How deploy happens (summary)
 
 1. semantic-release publishes a GitHub Release.
 2. `deploy.yml` receives the `release.published` event.
-3. The workflow checks out the repo, builds the frontend (if applicable), copies build artifacts to the remote host via `scp`, and runs remote deployment commands via `ssh`.
+3. The workflow creates a GitHub Deployment record for tracking.
+4. The deployment status is set to "in_progress".
+5. The workflow checks out the repo, builds the frontend (if applicable), copies build artifacts to the remote host via `scp`, and runs remote deployment commands via `ssh`.
+6. On success, the deployment status is updated to "success" with the production URL.
+7. On failure, the deployment status is updated to "failure".
 
 Verifying a deploy
 
 - After a release is created you can watch the `deploy.yml` job in GitHub Actions. The run will list the job steps and show the `scp`/`ssh` outputs.
+- View all deployments on the GitHub Deployments page: https://github.com/NelakaWith/faq-chatbot/deployments
+- Each deployment shows its status (in_progress, success, or failure) and links to the production environment.
 - On the remote host, check the deploy directory and the running services (for example, `pm2 status` or systemd unit logs).
+
+GitHub Deployments tracking
+
+- The workflow automatically creates GitHub Deployment records for every deployment.
+- All deployments are tracked in the "production" environment.
+- Deployment records include:
+  - The git ref (tag or commit) being deployed
+  - Deployment status (in_progress, success, or failure)
+  - Timestamp and duration of the deployment
+  - Link to the production environment URL on success
+- View deployment history at: https://github.com/NelakaWith/faq-chatbot/deployments
 
 Manual dispatch
 
 - You can manually trigger the deploy workflow from the Actions UI using "Run workflow" on the `deploy.yml` workflow. The manual dispatch path is useful for testing or re-deploying an existing release.
+- When manually triggered, you can optionally specify a tag to deploy (e.g., v1.2.3).
 
 Security notes
 
