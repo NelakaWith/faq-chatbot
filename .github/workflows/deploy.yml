@@ -37,6 +37,43 @@ jobs:
           fi
           echo "ref=$REF" >> $GITHUB_OUTPUT
 
+      - name: Create GitHub deployment
+        id: create_deployment
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          DEPLOY_REF="${{ steps.resolve_ref.outputs.ref }}"
+          if [ -z "$DEPLOY_REF" ] || [ "$DEPLOY_REF" = "null" ]; then
+            DEPLOY_REF="${{ github.sha }}"
+          fi
+          
+          DEPLOYMENT=$(curl -s -X POST \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${{ github.repository }}/deployments" \
+            -d "{\"ref\":\"$DEPLOY_REF\",\"environment\":\"production\",\"auto_merge\":false,\"required_contexts\":[]}")
+          
+          DEPLOYMENT_ID=$(echo "$DEPLOYMENT" | jq -r .id)
+          
+          if [ -z "$DEPLOYMENT_ID" ] || [ "$DEPLOYMENT_ID" = "null" ]; then
+            echo "Failed to create deployment. API response: $DEPLOYMENT"
+            exit 1
+          fi
+          
+          echo "deployment_id=$DEPLOYMENT_ID" >> $GITHUB_OUTPUT
+          echo "Created deployment with ID: $DEPLOYMENT_ID"
+
+      - name: Set deployment status to in_progress
+        if: steps.create_deployment.outputs.deployment_id != '' && steps.create_deployment.outputs.deployment_id != 'null'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -s -X POST \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${{ github.repository }}/deployments/${{ steps.create_deployment.outputs.deployment_id }}/statuses" \
+            -d '{"state":"in_progress","description":"Deployment in progress","environment":"production"}'
+
       - name: Install and build
         run: |
           npm ci
@@ -77,3 +114,25 @@ jobs:
             cd ../frontend && npm ci && npm run build
             sudo cp -r dist/* /var/www/faq-chatbot/
             sudo systemctl reload nginx
+
+      - name: Set deployment status to success
+        if: success() && steps.create_deployment.outputs.deployment_id != '' && steps.create_deployment.outputs.deployment_id != 'null'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -s -X POST \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${{ github.repository }}/deployments/${{ steps.create_deployment.outputs.deployment_id }}/statuses" \
+            -d '{"state":"success","description":"Deployment completed successfully","environment":"production","environment_url":"https://faq-chatbot.nelakawithanage.com/"}'
+
+      - name: Set deployment status to failure
+        if: failure() && steps.create_deployment.outputs.deployment_id != '' && steps.create_deployment.outputs.deployment_id != 'null'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -s -X POST \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${{ github.repository }}/deployments/${{ steps.create_deployment.outputs.deployment_id }}/statuses" \
+            -d '{"state":"failure","description":"Deployment failed","environment":"production"}'
