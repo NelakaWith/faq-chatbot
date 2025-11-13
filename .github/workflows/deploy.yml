@@ -54,11 +54,17 @@ jobs:
             -d "{\"ref\":\"$DEPLOY_REF\",\"environment\":\"production\",\"auto_merge\":false,\"required_contexts\":[]}")
           
           DEPLOYMENT_ID=$(echo "$DEPLOYMENT" | jq -r .id)
+          
+          if [ -z "$DEPLOYMENT_ID" ] || [ "$DEPLOYMENT_ID" = "null" ]; then
+            echo "Failed to create deployment. API response: $DEPLOYMENT"
+            exit 1
+          fi
+          
           echo "deployment_id=$DEPLOYMENT_ID" >> $GITHUB_OUTPUT
           echo "Created deployment with ID: $DEPLOYMENT_ID"
 
       - name: Set deployment status to in_progress
-        if: steps.create_deployment.outputs.deployment_id != ''
+        if: steps.create_deployment.outputs.deployment_id != '' && steps.create_deployment.outputs.deployment_id != 'null'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -111,7 +117,7 @@ jobs:
             sudo systemctl reload nginx
 
       - name: Set deployment status to success
-        if: success() && steps.create_deployment.outputs.deployment_id != ''
+        if: success() && steps.create_deployment.outputs.deployment_id != '' && steps.create_deployment.outputs.deployment_id != 'null'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -122,7 +128,7 @@ jobs:
             -d '{"state":"success","description":"Deployment completed successfully","environment":"production","environment_url":"https://faq-chatbot.nelakawithanage.com/"}'
 
       - name: Set deployment status to failure
-        if: failure() && steps.create_deployment.outputs.deployment_id != ''
+        if: failure() && steps.create_deployment.outputs.deployment_id != '' && steps.create_deployment.outputs.deployment_id != 'null'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
