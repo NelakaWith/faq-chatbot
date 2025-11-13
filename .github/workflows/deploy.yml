@@ -80,7 +80,6 @@ jobs:
           cd frontend && npm ci && npm run build
 
       - name: Deploy to server
-        id: deploy
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.DROPLET_HOST }}
