@@ -25,5 +25,8 @@
     "cz-conventional-changelog": "^3.3.0",
     "husky": "^8.0.3",
     "semantic-release": "^21.1.2"
+  },
+  "dependencies": {
+    "@google/genai": "^1.37.0"
   }
 }

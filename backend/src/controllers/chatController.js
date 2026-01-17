@@ -1,5 +1,6 @@
 const { searchService } = require("../services/searchService");
 const axios = require("axios");
+const { GoogleGenerativeAI } = require("@google/genai");
 
 /**
  * Handle chat requests
@@ -78,6 +79,124 @@ const getStatus = (req, res) => {
 };
 
 /**
+ * Handle Gemini chat completions requests (Default)
+ */
+const handleGeminiChat = async (req, res) => {
+  try {
+    const apiKey = process.env.GEMINI_API_KEY;
+
+    if (!apiKey) {
+      return res.status(500).json({
+        error: "Gemini API key not configured",
+        message: "GEMINI_API_KEY environment variable is required",
+      });
+    }
+
+    const {
+      messages,
+      model = "gemini-2.0-flash-exp",
+      temperature = 0.7,
+      max_tokens = 1000,
+    } = req.body;
+
+    if (!messages || !Array.isArray(messages) || messages.length === 0) {
+      return res.status(400).json({
+        error: "Invalid request",
+        message: "messages array is required",
+      });
+    }
+
+    // Initialize Gemini
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const geminiModel = genAI.getGenerativeModel({ model });
+
+    // Convert OpenAI-style messages to Gemini format
+    const history = [];
+    let lastUserMessage = "";
+
+    for (const msg of messages) {
+      if (msg.role === "system") {
+        // System messages are prepended to the first user message
+        continue;
+      } else if (msg.role === "user") {
+        lastUserMessage = msg.content;
+        if (history.length > 0) {
+          history.push({
+            role: "user",
+            parts: [{ text: msg.content }],
+          });
+        }
+      } else if (msg.role === "assistant") {
+        history.push({
+          role: "model",
+          parts: [{ text: msg.content }],
+        });
+      }
+    }
+
+    // Add system message to first user message if present
+    const systemMessage = messages.find((m) => m.role === "system");
+    if (systemMessage && lastUserMessage) {
+      lastUserMessage = `${systemMessage.content}\n\n${lastUserMessage}`;
+    }
+
+    // Start chat with history
+    const chat = geminiModel.startChat({
+      history: history.slice(0, -1), // Exclude the last user message from history
+      generationConfig: {
+        temperature: temperature,
+        maxOutputTokens: max_tokens,
+      },
+    });
+
+    // Send the last user message
+    const result = await chat.sendMessage(lastUserMessage);
+    const response = result.response;
+    const text = response.text();
+
+    // Format response in OpenAI-compatible format
+    res.json({
+      id: `gemini-${Date.now()}`,
+      object: "chat.completion",
+      created: Math.floor(Date.now() / 1000),
+      model: model,
+      choices: [
+        {
+          index: 0,
+          message: {
+            role: "assistant",
+            content: text,
+          },
+          finish_reason: "stop",
+        },
+      ],
+      usage: {
+        prompt_tokens: 0, // Gemini doesn't provide token counts in the same way
+        completion_tokens: 0,
+        total_tokens: 0,
+      },
+    });
+  } catch (error) {
+    console.error("❌ Gemini request error:", error.message);
+
+    if (error.response) {
+      // Gemini API error
+      res.status(error.response.status).json({
+        error: "Gemini API error",
+        message: error.response.data?.error?.message || error.message,
+        details: error.response.data,
+      });
+    } else {
+      // Other error
+      res.status(500).json({
+        error: "Internal error",
+        message: error.message || "Failed to process Gemini request",
+      });
+    }
+  }
+};
+
+/**
  * Handle OpenRouter chat completions requests
  */
 const handleOpenRouterChat = async (req, res) => {
@@ -107,7 +226,7 @@ const handleOpenRouterChat = async (req, res) => {
             : {}),
           "X-Title": process.env.OPENROUTER_TITLE || "FAQ Chatbot",
         },
-      }
+      },
     );
 
     // Forward the response back to the client
@@ -141,5 +260,6 @@ const handleOpenRouterChat = async (req, res) => {
 module.exports = {
   handleChatRequest,
   getStatus,
+  handleGeminiChat,
   handleOpenRouterChat,
 };
