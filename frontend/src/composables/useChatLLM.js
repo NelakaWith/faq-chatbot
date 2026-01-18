@@ -13,7 +13,7 @@ export function useChatLLM() {
 
   // Chat configuration
   const config = reactive({
-    model: "google/gemma-3-27b-it:free",
+    model: "llama-3.3-70b-versatile",
     temperature: 0.7,
     maxTokens: 1000,
     topP: 1,
@@ -21,12 +21,27 @@ export function useChatLLM() {
     frequencyPenalty: 0,
   });
 
-  // Available models (currently using only free Gemma model)
+  // Available models
   const availableModels = [
     {
-      id: "google/gemma-3-27b-it:free",
-      name: "Gemma 3 27B Instruct (Free)",
-      provider: "Google",
+      id: "llama-3.3-70b-versatile",
+      name: "Llama 3.3 70B (Groq)",
+      provider: "Groq",
+    },
+    {
+      id: "llama3-8b-8192",
+      name: "Llama 3 8B (Groq)",
+      provider: "Groq",
+    },
+    {
+      id: "mixtral-8x7b-32768",
+      name: "Mixtral 8x7B (Groq)",
+      provider: "Groq",
+    },
+    {
+      id: "gemma2-9b-it",
+      name: "Gemma 2 9B (Groq)",
+      provider: "Groq",
     },
   ];
 
@@ -152,7 +167,7 @@ export function useChatLLM() {
    * Reset configuration to defaults
    */
   const resetConfig = () => {
-    config.model = "google/gemma-3-27b-it:free";
+    config.model = "llama-3.3-70b-versatile";
     config.temperature = 0.7;
     config.maxTokens = 1000;
     config.topP = 1;

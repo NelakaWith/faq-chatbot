@@ -20,7 +20,6 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@google/genai": "^0.5.0",
     "axios": "^1.13.1",
     "cors": "^2.8.5",
     "dotenv": "^16.6.1",

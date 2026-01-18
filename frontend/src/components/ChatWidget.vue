@@ -2,6 +2,7 @@
   <div class="chat-widget">
     <ChatHeader
       :chatMode="chatMode"
+      :modelName="getModelDisplayName()"
       @toggle-mode="toggleChatMode"
       @clear-chat="handleClearChat"
     />
@@ -69,6 +70,17 @@ export default {
       clearMessages();
     };
 
+    const getModelDisplayName = () => {
+      if (chatMode.value === "llm") {
+        // Get the last bot message with a model
+        const lastBotMessage = [...messages.value]
+          .reverse()
+          .find((m) => m.sender === "bot" && m.model);
+        return lastBotMessage?.model || "";
+      }
+      return "";
+    };
+
     // Initialize with a welcome message from the bot
     if (messages.value.length === 0) {
       nextTick(() => {
@@ -88,6 +100,7 @@ export default {
       handleSuggestionClick,
       toggleChatMode,
       handleClearChat,
+      getModelDisplayName,
     };
   },
 };

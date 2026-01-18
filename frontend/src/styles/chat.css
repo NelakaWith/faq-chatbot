@@ -6,7 +6,9 @@
   display: flex;
   flex-direction: column;
   border-radius: 18px;
-  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.1), 0 1.5px 4px 0 rgba(0, 0, 0, 0.08);
+  box-shadow:
+    0 4px 24px 0 rgba(0, 0, 0, 0.1),
+    0 1.5px 4px 0 rgba(0, 0, 0, 0.08);
   background: linear-gradient(135deg, #f8fafc 0%, #e3e9f7 100%);
   border: none;
   overflow: hidden;
@@ -58,6 +60,12 @@
 
 .mode-badge.llm {
   background: rgba(255, 255, 255, 0.2);
+}
+
+.model-name {
+  font-size: 0.85em;
+  opacity: 0.8;
+  font-weight: 400;
 }
 
 .chat-controls {
