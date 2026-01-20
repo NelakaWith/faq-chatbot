@@ -216,6 +216,12 @@ faq-chatbot/
 - [ ] **CDN Integration**: Asset optimization and global distribution
 - [ ] **Monitoring**: Application performance monitoring and alerting
 
+## ⚠️ Default Chat Mode Change
+
+- The default chat mode is now **LLM-powered chat** (`llm`).
+- Users will start in LLM mode instead of FAQ mode.
+- Ensure you have configured a valid API key (OpenRouter, Gemini, or Groq) in your backend `.env` before first launch, or the chat may not function.
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) for details on our code of conduct and development process.
