@@ -361,13 +361,31 @@ const handleGroqChat = async (req, res) => {
 
     if (error.response) {
       // Groq API error
+      // Only include minimal, non-sensitive details
+      let safeDetails = {};
+      if (
+        typeof error.response.data === "object" &&
+        error.response.data !== null
+      ) {
+        // Only expose a sanitized error code/message if present
+        if (error.response.data.error) {
+          if (typeof error.response.data.error === "object") {
+            safeDetails = {
+              code: error.response.data.error.code,
+              type: error.response.data.error.type,
+            };
+          } else {
+            safeDetails = { error: error.response.data.error };
+          }
+        }
+      }
       res.status(error.response.status).json({
         error: "Groq API error",
         message:
           error.response.data?.error?.message ||
           error.response.data?.error ||
           error.message,
-        details: error.response.data,
+        details: safeDetails,
       });
     } else if (error.request) {
       // Network error
