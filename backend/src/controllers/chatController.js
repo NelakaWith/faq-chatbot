@@ -307,12 +307,24 @@ const handleGroqChat = async (req, res) => {
       });
     }
 
-    const {
+    let {
       messages,
       model = process.env.GROQ_MODEL_NAME || "llama3-70b-8192",
-      temperature = parseFloat(process.env.GROQ_TEMPERATURE || "0.7"),
-      max_tokens = parseInt(process.env.GROQ_MAX_TOKENS || "1024"),
+      temperature = process.env.GROQ_TEMPERATURE,
+      max_tokens = process.env.GROQ_MAX_TOKENS,
     } = req.body;
+
+    // Parse and validate temperature
+    if (typeof temperature === "string") temperature = parseFloat(temperature);
+    if (isNaN(temperature) || temperature < 0 || temperature > 2) {
+      temperature = 0.7; // fallback default
+    }
+
+    // Parse and validate max_tokens
+    if (typeof max_tokens === "string") max_tokens = parseInt(max_tokens, 10);
+    if (isNaN(max_tokens) || max_tokens < 1 || max_tokens > 4096) {
+      max_tokens = 1024; // fallback default
+    }
 
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
       return res.status(400).json({
@@ -321,7 +333,9 @@ const handleGroqChat = async (req, res) => {
       });
     }
 
-    const baseUrl = process.env.GROQ_BASE_URL || "https://api.groq.com/openai/v1/chat/completions";
+    const baseUrl =
+      process.env.GROQ_BASE_URL ||
+      "https://api.groq.com/openai/v1/chat/completions";
 
     // Forward the request to Groq API
     const response = await axios.post(
@@ -337,7 +351,7 @@ const handleGroqChat = async (req, res) => {
           Authorization: `Bearer ${apiKey}`,
           "Content-Type": "application/json",
         },
-      }
+      },
     );
 
     // Forward the response back to the client
@@ -355,6 +369,18 @@ const handleGroqChat = async (req, res) => {
           error.message,
         details: error.response.data,
       });
+    } else if (error.request) {
+      // Network error
+      res.status(503).json({
+        error: "Network error",
+        message: "Unable to connect to Groq API",
+      });
+    } else {
+      // Other error
+      res.status(500).json({
+        error: "Internal error",
+        message: "Failed to process Groq request",
+      });
     }
   }
 };
@@ -365,7 +391,9 @@ const handleGroqChat = async (req, res) => {
  */
 const handleDefaultLlmChat = async (req, res) => {
   const { provider } = req.body;
-  const p = provider ? provider.toLowerCase() : (process.env.DEFAULT_LLM_PROVIDER || "openrouter");
+  const p = provider
+    ? provider.toLowerCase()
+    : process.env.DEFAULT_LLM_PROVIDER || "openrouter";
 
   if (p === "groq") {
     return handleGroqChat(req, res);
