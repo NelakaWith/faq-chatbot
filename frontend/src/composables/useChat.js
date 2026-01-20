@@ -134,17 +134,8 @@ export function useChat() {
     try {
       let response;
 
-      if (conversationHistory.value.length > 0) {
-        // Continue existing conversation
-        response = await llm.continueConversation(
-          conversationHistory.value,
-          text,
-          options,
-        );
-      } else {
-        // Start new conversation
-        response = await llm.sendMessage(text, options);
-      }
+      // Use conversation history directly (message already added by addUserMessage)
+      response = await llm.sendMessage(conversationHistory.value, options);
 
       const content =
         response.choices?.[0]?.message?.content || "No response received";
