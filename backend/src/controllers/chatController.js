@@ -126,8 +126,14 @@ const handleGeminiChat = async (req, res) => {
       }
     }
 
-    // Build API URL
+    // Build API URL with validation
     const baseUrl = process.env.GOOGLE_BASE_URL;
+    if (!baseUrl) {
+      return res.status(500).json({
+        error: "Gemini API base URL not configured",
+        message: "GOOGLE_BASE_URL environment variable is required",
+      });
+    }
     const url = `${baseUrl}${model}:generateContent?key=${apiKey}`;
 
     // Build request payload
