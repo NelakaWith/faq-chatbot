@@ -50,7 +50,7 @@ jobs:
           key: ${{ secrets.DROPLET_SSH_KEY }}
           script: |
             # Check if directory exists and has git repository
-            if [ ! -d "~/faq-chatbot" ] || [ ! -d "~/faq-chatbot/.git" ]; then
+            if [ ! -d ~/faq-chatbot ] || [ ! -d ~/faq-chatbot/.git ]; then
               echo "Cloning repository..."
               rm -rf ~/faq-chatbot
               git clone https://github.com/${{ github.repository }}.git ~/faq-chatbot
@@ -69,11 +69,47 @@ jobs:
               git pull origin main
             fi
 
-            # Install backend dependencies and restart service
-            cd backend && npm ci --legacy-peer-deps
-            pm2 restart faq-chatbot-backend || pm2 start server.js --name faq-chatbot-backend
+            # Backup current PM2 process list (if running)
+            pm2 save --force 2>/dev/null || true
+            cp ~/.pm2/dump.pm2 backup_dump.pm2 2>/dev/null || true
+
+            # Stop and delete any existing backend process
+            pm2 stop faq-chatbot-backend 2>/dev/null || true
+            pm2 delete faq-chatbot-backend 2>/dev/null || true
+
+            # Install backend dependencies
+            cd backend
+            if ! npm ci --legacy-peer-deps; then
+              echo "❌ npm ci failed. Attempting to restore previous backend..."
+              cd ..
+              if [ -f ~/faq-chatbot/backup_dump.pm2 ]; then
+                pm2 kill
+                cp ~/faq-chatbot/backup_dump.pm2 ~/.pm2/dump.pm2
+                pm2 resurrect
+                pm2 status
+              fi
+              exit 1
+            fi
+
+            # Try to start new backend
+            if ! pm2 start server.js --name faq-chatbot-backend; then
+              echo "❌ pm2 start failed. Attempting to restore previous backend..."
+              cd ..
+              if [ -f ~/faq-chatbot/backup_dump.pm2 ]; then
+                pm2 kill
+                cp ~/faq-chatbot/backup_dump.pm2 ~/.pm2/dump.pm2
+                pm2 resurrect
+                pm2 status
+              fi
+              exit 1
+            fi
 
             # Build frontend and deploy
-            cd ../frontend && npm ci && npm run build
+            cd ../frontend
+            npm ci
+            npm run build
             sudo cp -r dist/* /var/www/faq-chatbot/
             sudo systemctl reload nginx
+
+            # Verify backend is running
+            pm2 status faq-chatbot-backend

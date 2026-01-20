@@ -10,7 +10,7 @@ export function useChat() {
   // State
   const messages = ref([]);
   const isLoading = ref(false);
-  const chatMode = ref("faq"); // 'faq' or 'llm'
+  const chatMode = ref("llm"); // 'faq' or 'llm'
   const conversationHistory = ref([]);
 
   // Initialize LLM composable
@@ -134,26 +134,18 @@ export function useChat() {
     try {
       let response;
 
-      if (conversationHistory.value.length > 0) {
-        // Continue existing conversation
-        response = await llm.continueConversation(
-          conversationHistory.value,
-          text,
-          options
-        );
-      } else {
-        // Start new conversation
-        response = await llm.sendMessage(text, options);
-      }
+      // Use conversation history directly (message already added by addUserMessage)
+      response = await llm.sendMessage(conversationHistory.value, options);
 
       const content =
         response.choices?.[0]?.message?.content || "No response received";
+      const model = response.model;
       const usage = response.usage;
 
       return addBotMessage(content, {
         sourceType: "llm",
         mode: "llm",
-        model: options.model || llm.config.model,
+        model: model || options.model || llm.config.model,
         usage: usage
           ? {
               promptTokens: usage.prompt_tokens,
@@ -220,7 +212,7 @@ export function useChat() {
         {
           sourceType: "system",
           mode: mode,
-        }
+        },
       );
     }
   };

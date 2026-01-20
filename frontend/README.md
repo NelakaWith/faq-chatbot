@@ -42,6 +42,12 @@ npm run preview
 
 - The frontend expects the backend API at `http://localhost:3000` by default. Update the API base URL in the frontend config or environment variables if needed.
 
+## Default Chat Mode
+
+- The default chat mode is now **LLM-powered chat** (`llm`). Users will start in LLM mode instead of FAQ mode.
+- This change requires a valid API key (e.g., OpenRouter, Gemini, or Groq) to be configured in the backend for the application to function on first launch.
+- If no API key is set, users may see errors or the chat may not function until configuration is complete.
+
 ## Deploying
 
 Build the static assets and serve them using your preferred static host or integrate with the backend to serve via Nginx or an Express static server.

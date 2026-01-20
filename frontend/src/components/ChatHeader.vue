@@ -6,7 +6,10 @@
         <span v-if="chatMode === 'faq'" class="mode-badge faq"
           >📚 FAQ Mode</span
         >
-        <span v-else class="mode-badge llm">🤖 AI Assistant</span>
+        <span v-else class="mode-badge llm">
+          🤖 AI Assistant
+          <span v-if="modelName" class="model-name"> • {{ modelName }}</span>
+        </span>
       </div>
     </div>
     <div class="chat-controls">
@@ -86,6 +89,10 @@ export default {
       type: String,
       required: true,
       validator: (value) => ["faq", "llm"].includes(value),
+    },
+    modelName: {
+      type: String,
+      default: "",
     },
   },
   emits: ["toggle-mode", "clear-chat"],
