@@ -5,6 +5,7 @@ const {
   handleGeminiChat,
   handleOpenRouterChat,
   handleGroqChat,
+  handleDefaultLlmChat,
 } = require("../controllers/chatController");
 
 const router = express.Router();
@@ -21,8 +22,8 @@ router.post("/chat/llm/openrouter", handleOpenRouterChat);
 // Groq chat completions endpoint
 router.post("/chat/llm/groq", handleGroqChat);
 
-// Default LLM endpoint (Now Groq)
-router.post("/chat/llm", handleGroqChat);
+// Default LLM endpoint (Dispatcher)
+router.post("/chat/llm", handleDefaultLlmChat);
 
 // Status endpoint
 router.get("/status", getStatus);

@@ -355,13 +355,27 @@ const handleGroqChat = async (req, res) => {
           error.message,
         details: error.response.data,
       });
-    } else {
-      // Other error
-      res.status(500).json({
-        error: "Internal error",
-        message: error.message || "Failed to process Groq request",
-      });
     }
+  }
+};
+
+/**
+ * Handle Default LLM chat (Dispatcher)
+ * Dispatches to specific handlers based on provider
+ */
+const handleDefaultLlmChat = async (req, res) => {
+  const { provider } = req.body;
+  const p = provider ? provider.toLowerCase() : (process.env.DEFAULT_LLM_PROVIDER || "openrouter");
+
+  if (p === "groq") {
+    return handleGroqChat(req, res);
+  } else if (p === "gemini") {
+    return handleGeminiChat(req, res);
+  } else if (p === "openrouter") {
+    return handleOpenRouterChat(req, res);
+  } else {
+    // Fallback to OpenRouter for backward compatibility if provider is unknown or not set
+    return handleOpenRouterChat(req, res);
   }
 };
 
@@ -371,4 +385,5 @@ module.exports = {
   handleGeminiChat,
   handleOpenRouterChat,
   handleGroqChat,
+  handleDefaultLlmChat,
 };

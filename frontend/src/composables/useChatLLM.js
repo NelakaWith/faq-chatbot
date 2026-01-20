@@ -73,6 +73,7 @@ export function useChatLLM() {
       const payload = {
         model: options.model || config.model,
         messages: formattedMessages,
+        provider: options.provider || availableModels.find(m => m.id === (options.model || config.model))?.provider?.toLowerCase() || 'groq',
         temperature: options.temperature ?? config.temperature,
         max_tokens: options.maxTokens ?? config.maxTokens,
         top_p: options.topP ?? config.topP,
