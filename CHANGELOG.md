@@ -1,3 +1,24 @@
+# [1.4.0](https://github.com/NelakaWith/faq-chatbot/compare/v1.3.1...v1.4.0) (2026-01-20)
+
+
+### Bug Fixes
+
+* **deploy:** update deployment script to handle directory existence check more robustly ([07337d2](https://github.com/NelakaWith/faq-chatbot/commit/07337d2f4c845e50129582c850a175592f002d4b))
+* **env:** update example API keys and configuration for clarity ([ce5e7fd](https://github.com/NelakaWith/faq-chatbot/commit/ce5e7fd3fa06320067c44b62c8364c9e5c325ad8))
+
+
+### Features
+
+* **chat:** add default LLM dispatcher and update chat routes for improved provider handling ([25dd77a](https://github.com/NelakaWith/faq-chatbot/commit/25dd77a1107a7ab850067ccfe94071efb4746926))
+* **chat:** add validation for Gemini API base URL in chat handler ([d5ca487](https://github.com/NelakaWith/faq-chatbot/commit/d5ca487bbb95f56bd0a70c8e5a89a843351031e6))
+* **chat:** enhance Groq chat error handling with sanitized response details ([5d57657](https://github.com/NelakaWith/faq-chatbot/commit/5d576579357ec28ea12d3d8f78b3b51ad611b329))
+* **chat:** enhance Groq chat handler with input validation and error handling ([cc7078e](https://github.com/NelakaWith/faq-chatbot/commit/cc7078e17350a51cb64e16e2d0757ab8a4abc7a7))
+* **chat:** integrate Groq API for chat completions and update UI components ([606f9e3](https://github.com/NelakaWith/faq-chatbot/commit/606f9e3ffae6b2fbd1ceba8097666a2e4677f8dd))
+* **chat:** streamline message handling by using conversation history directly in LLM mode ([2a3923a](https://github.com/NelakaWith/faq-chatbot/commit/2a3923a9b4e4486cee0d92f90b612f1368d9dc8f))
+* **deploy:** enhance backend deployment with process backup and error recovery ([71bfe1c](https://github.com/NelakaWith/faq-chatbot/commit/71bfe1c44491d0aa150d661d932bcc65059402c7))
+* **readme:** update default chat mode to LLM-powered chat with API key configuration ([cfe07a9](https://github.com/NelakaWith/faq-chatbot/commit/cfe07a92426012eb6a137753c749d470fc41acba))
+* **readme:** update default chat mode to LLM-powered chat with API key requirements ([49bf415](https://github.com/NelakaWith/faq-chatbot/commit/49bf4158a8d2211dbb6fd1e891164ba13c4c703a))
+
 ## [1.3.1](https://github.com/NelakaWith/faq-chatbot/compare/v1.3.0...v1.3.1) (2025-11-02)
 
 
