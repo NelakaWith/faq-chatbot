@@ -69,14 +69,40 @@ jobs:
               git pull origin main
             fi
 
-            # Stop any existing backend process
+            # Backup current PM2 process list (if running)
+            pm2 save --force 2>/dev/null || true
+            cp ~/.pm2/dump.pm2 backup_dump.pm2 2>/dev/null || true
+
+            # Stop and delete any existing backend process
             pm2 stop faq-chatbot-backend 2>/dev/null || true
             pm2 delete faq-chatbot-backend 2>/dev/null || true
 
-            # Install backend dependencies and start service
+            # Install backend dependencies
             cd backend
-            npm ci --legacy-peer-deps
-            pm2 start server.js --name faq-chatbot-backend
+            if ! npm ci --legacy-peer-deps; then
+              echo "❌ npm ci failed. Attempting to restore previous backend..."
+              cd ..
+              if [ -f ~/faq-chatbot/backup_dump.pm2 ]; then
+                pm2 kill
+                cp ~/faq-chatbot/backup_dump.pm2 ~/.pm2/dump.pm2
+                pm2 resurrect
+                pm2 status
+              fi
+              exit 1
+            fi
+
+            # Try to start new backend
+            if ! pm2 start server.js --name faq-chatbot-backend; then
+              echo "❌ pm2 start failed. Attempting to restore previous backend..."
+              cd ..
+              if [ -f ~/faq-chatbot/backup_dump.pm2 ]; then
+                pm2 kill
+                cp ~/faq-chatbot/backup_dump.pm2 ~/.pm2/dump.pm2
+                pm2 resurrect
+                pm2 status
+              fi
+              exit 1
+            fi
 
             # Build frontend and deploy
             cd ../frontend
