@@ -7,6 +7,12 @@
       @clear-chat="handleClearChat"
     />
 
+    <FileUpload
+      v-if="chatMode === 'kb'"
+      :isLoading="isLoading"
+      @file-selected="handleFileSelected"
+    />
+
     <ChatMessages
       :messages="messages"
       :isLoading="isLoading"
@@ -24,6 +30,7 @@ import { useChat } from "../composables";
 import ChatHeader from "./ChatHeader.vue";
 import ChatMessages from "./ChatMessages.vue";
 import ChatInput from "./ChatInput.vue";
+import FileUpload from "./FileUpload.vue";
 
 // Use the chat composable
 const {
@@ -36,6 +43,8 @@ const {
   clearMessages,
   addBotMessage,
   llm,
+  currentDocument,
+  uploadFile
 } = useChat();
 
 const handleSendMessage = async (message) => {
@@ -53,8 +62,17 @@ const handleSuggestionClick = async (suggestion) => {
   }
 };
 
+const handleFileSelected = async (file) => {
+  await uploadFile(file);
+};
+
 const toggleChatMode = () => {
-  const newMode = chatMode.value === "faq" ? "llm" : "faq";
+  // Cycle modes: faq -> llm -> kb -> faq
+  let newMode = "faq";
+  if (chatMode.value === "faq") newMode = "llm";
+  else if (chatMode.value === "llm") newMode = "kb";
+  else if (chatMode.value === "kb") newMode = "faq";
+
   switchMode(newMode);
 };
 

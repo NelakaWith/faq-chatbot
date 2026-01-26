@@ -208,6 +208,8 @@ export function useChat() {
       addBotMessage(
         mode === "llm"
           ? "🤖 Switched to AI Assistant mode. I can now have detailed conversations and help with various tasks."
+          : mode === "kb"
+          ? "📄 Switched to Knowledge Base mode. Upload a PDF and I'll analyze it for you."
           : "📚 Switched to FAQ mode. I'll search our knowledge base to answer your questions.",
         {
           sourceType: "system",
@@ -261,12 +263,63 @@ export function useChat() {
     conversationHistory.value = conversationData.conversationHistory || [];
   };
 
+  const currentDocument = ref(null);
+
+  /**
+   * Upload a PDF file
+   * @param {File} file - The file to upload
+   */
+  const uploadFile = async (file) => {
+    isLoading.value = true;
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const apiBaseUrl = getApiBaseUrl();
+      const response = await axios.post(`${apiBaseUrl}/rag/upload`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      const data = response.data;
+      currentDocument.value = data.filename;
+
+      // Add success message
+      addBotMessage(
+        `I've analyzed "${data.filename}" (${data.chunks} chunks). You can now ask me questions about this document.`,
+        {
+          sourceType: "system",
+          mode: "kb",
+        }
+      );
+
+      // Auto-switch to KB mode
+      switchMode('kb');
+
+      return true;
+    } catch (error) {
+      console.error("Upload error:", error);
+      addBotMessage(
+        `Sorry, I failed to process the document. ${error.response?.data?.error || error.message}`,
+        {
+          sourceType: "error",
+          mode: "kb",
+        }
+      );
+      return false;
+    } finally {
+      isLoading.value = false;
+    }
+  };
+
   return {
     // State
     messages,
     isLoading,
     chatMode,
     conversationHistory,
+    currentDocument, // Export state
 
     // Computed
     hasMessages,
@@ -285,6 +338,7 @@ export function useChat() {
     switchMode,
     clearMessages,
     handleSuggestion,
+    uploadFile, // Export method
     getConversationSummary,
     loadConversation,
     getApiBaseUrl,

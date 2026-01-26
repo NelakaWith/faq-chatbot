@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const app = require("./src/app");
 const { initializeSearchService } = require("./src/services/searchService");
+const ragRoutes = require("./src/routes/ragRoutes");
 
 const PORT = process.env.PORT || 3000;
 
@@ -17,8 +18,12 @@ async function startServer() {
       console.log(`🚀 Server running on port ${PORT}`);
       console.log(`📍 Health check: http://localhost:${PORT}/health`);
       console.log(`💬 Chat API: http://localhost:${PORT}/chat`);
+      console.log(`📄 RAG API: http://localhost:${PORT}/api/rag`);
       console.log(`📊 Status API: http://localhost:${PORT}/status`);
     });
+
+    // Mount RAG routes
+    app.use("/api/rag", ragRoutes);
 
     // Graceful shutdown handling
     const gracefulShutdown = (signal) => {

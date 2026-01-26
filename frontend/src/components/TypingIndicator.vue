@@ -34,7 +34,7 @@ const props = defineProps({
   chatMode: {
     type: String,
     required: true,
-    validator: (value) => ["faq", "llm"].includes(value),
+    validator: (value) => ["faq", "llm", "kb"].includes(value),
   },
 });
 
@@ -44,20 +44,24 @@ const isVisible = computed(() => {
 });
 
 const typingText = computed(() => {
+  if (props.chatMode === "kb") return "Analyzing document";
   return props.chatMode === "llm"
     ? "AI is thinking"
     : "Searching knowledge base";
 });
 
 const icon = computed(() => {
+  if (props.chatMode === "kb") return "📄";
   return props.chatMode === "llm" ? "🧠" : "🔍";
 });
 
 const iconClass = computed(() => {
+  if (props.chatMode === "kb") return "search-pulse";
   return props.chatMode === "llm" ? "brain-pulse" : "search-pulse";
 });
 
 const processingText = computed(() => {
+  if (props.chatMode === "kb") return "Reading content...";
   return props.chatMode === "llm"
     ? "Processing your request..."
     : "Looking for answers...";

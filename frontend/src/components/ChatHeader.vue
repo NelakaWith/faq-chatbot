@@ -6,6 +6,9 @@
         <span v-if="chatMode === 'faq'" class="mode-badge faq"
           >📚 FAQ Mode</span
         >
+        <span v-else-if="chatMode === 'kb'" class="mode-badge kb">
+          📄 Knowledge Base
+        </span>
         <span v-else class="mode-badge llm">
           🤖 AI Assistant
           <span v-if="modelName" class="model-name"> • {{ modelName }}</span>
@@ -17,7 +20,11 @@
         @click="$emit('toggle-mode')"
         class="mode-toggle-btn"
         :title="
-          chatMode === 'faq' ? 'Switch to AI Assistant' : 'Switch to FAQ Mode'
+          chatMode === 'faq'
+            ? 'Switch to AI Assistant'
+            : chatMode === 'llm'
+              ? 'Switch to Knowledge Base'
+              : 'Switch to FAQ Mode'
         "
       >
         <svg
@@ -88,7 +95,7 @@ const props = defineProps({
   chatMode: {
     type: String,
     required: true,
-    validator: (value) => ["faq", "llm"].includes(value),
+    validator: (value) => ["faq", "llm", "kb"].includes(value),
   },
   modelName: {
     type: String,

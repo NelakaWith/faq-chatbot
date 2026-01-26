@@ -116,6 +116,33 @@ class DataService {
     console.log("📄 PDF chunks created:", pdfChunks.length);
   }
 
+  /**
+   * Add dynamic PDF chunks (from file uploads)
+   * @param {Array} chunks - Processed text chunks
+   * @param {Object} metadata - File metadata
+   */
+  addPdfChunks(chunks, metadata) {
+    if (!chunks || !Array.isArray(chunks)) return;
+
+    // Add to allSearchableData
+    // We filter out old chunks from the same file if re-uploading (simplistic strategy)
+    this.allSearchableData = this.allSearchableData.filter(
+      item => !(item.type === 'pdf_chunk' && item.title === metadata.title)
+    );
+
+    this.allSearchableData.push(...chunks);
+
+    // Update pdfDocuments metadata list
+    const existingDocIndex = this.pdfDocuments.findIndex(d => d.title === metadata.title);
+    if (existingDocIndex >= 0) {
+      this.pdfDocuments[existingDocIndex] = metadata;
+    } else {
+      this.pdfDocuments.push(metadata);
+    }
+
+    console.log(`✅ Added ${chunks.length} chunks for ${metadata.title}`);
+  }
+
   getData() {
     return {
       faqData: this.faqData,
