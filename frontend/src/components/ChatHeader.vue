@@ -1,7 +1,7 @@
 <template>
   <div class="chat-header">
     <div class="chat-title-section">
-      <span class="chat-title">🤖 FAQ Chatbot</span>
+      <span class="chat-title">🤖 Kelly</span>
       <div class="chat-mode-indicator">
         <span v-if="chatMode === 'faq'" class="mode-badge faq"
           >📚 FAQ Mode</span

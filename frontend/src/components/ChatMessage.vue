@@ -62,13 +62,14 @@ const sanitizedMarkdown = computed(() => {
 
 <style>
 /* Basic styles for markdown content in chat messages */
+/* Basic styles for markdown content in chat messages */
 .markdown-body {
-  font-size: 1rem;
-  line-height: 1.5;
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
 
 .markdown-body p {
-  margin-bottom: 0.5em;
+  margin-bottom: 0.75em;
 }
 
 .markdown-body p:last-child {
@@ -86,59 +87,72 @@ const sanitizedMarkdown = computed(() => {
 }
 
 .markdown-body code {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(255, 255, 255, 0.1);
   padding: 0.2em 0.4em;
-  border-radius: 3px;
-  font-family: monospace;
+  border-radius: 4px;
+  font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
   font-size: 0.9em;
+  color: inherit;
 }
 
 .markdown-body pre {
-  background-color: #f6f8fa;
-  padding: 10px;
-  border-radius: 6px;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 12px;
+  border-radius: 8px;
   overflow-x: auto;
-  margin: 0.5em 0;
+  margin: 0.75em 0;
+  border: 1px solid rgba(255,255,255,0.05);
 }
 
 .markdown-body pre code {
   background-color: transparent;
   padding: 0;
+  color: #e2e8f0;
 }
 
 .markdown-body blockquote {
-  border-left: 3px solid #dfe2e5;
-  color: #6a737d;
+  border-left: 3px solid var(--accent-primary, #3b82f6);
+  color: var(--text-muted, #94a3b8);
   padding-left: 1em;
-  margin: 0.5em 0;
+  margin: 0.75em 0;
+  background: rgba(59, 130, 246, 0.05);
+  padding: 8px 12px;
+  border-radius: 0 4px 4px 0;
 }
 
 .markdown-body a {
-  color: #0366d6;
+  color: var(--accent-primary, #3b82f6);
   text-decoration: none;
+  font-weight: 500;
 }
 
 .markdown-body a:hover {
   text-decoration: underline;
 }
 
-/* Ensure parsed content inherits color from parent for user/bot distinction if needed */
+/* Ensure parsed content inherits color from parent for user/bot distinction */
 .message.user .markdown-body {
   color: white;
 }
 .message.bot .markdown-body {
-  color: #222;
+  color: var(--text-secondary, #cbd5e1);
 }
 
-/* Adjust code block colors for user messages (blue background) */
+/* Adjust code block colors for user messages */
 .message.user .markdown-body code {
   background-color: rgba(255, 255, 255, 0.2);
 }
 .message.user .markdown-body pre {
-  background-color: rgba(0, 0, 0, 0.1);
-  color: #f8f8f8;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 .message.user .markdown-body a {
-  color: #e6f2ff;
+  color: #fff;
+  text-decoration: underline;
+}
+.message.user .markdown-body blockquote {
+  border-left-color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.1);
 }
 </style>

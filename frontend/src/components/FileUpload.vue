@@ -70,54 +70,71 @@ const handleDrop = (event) => {
 </template>
 
 <style scoped>
+/* Dark Theme Compatible Styles */
 .file-upload {
-  border: 2px dashed #ccc;
-  border-radius: 12px;
-  padding: 16px;
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 24px;
   text-align: center;
-  margin: 12px 12px 12px 12px;
+  margin: 12px;
   cursor: pointer;
-  transition: all 0.2s;
-  background: #f9f9f9;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(255, 255, 255, 0.02);
+  position: relative;
+  overflow: hidden;
 }
 
 .file-upload:hover:not(.is-loading) {
-  border-color: #007bff;
-  background: #f0f7ff;
+  border-color: var(--accent-primary, #3b82f6);
+  background: rgba(59, 130, 246, 0.05);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .file-upload.is-dragging {
-  border-color: #007bff;
-  background: #e6f3ff;
+  border-color: var(--accent-primary, #3b82f6);
+  background: rgba(59, 130, 246, 0.1);
   transform: scale(1.02);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
 }
 
 .file-upload.is-loading {
   cursor: wait;
-  opacity: 0.7;
-  border-style: solid;
+  opacity: 0.8;
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .upload-content {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 16px;
+  pointer-events: none; /* Let clicks pass through to container */
 }
 
 .icon {
-  font-size: 1.5rem;
+  font-size: 2rem;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  transition: transform 0.3s ease;
+}
+
+.file-upload:hover .icon {
+  transform: scale(1.1) rotate(-5deg);
 }
 
 .text {
   text-align: left;
-  font-size: 0.9rem;
-  color: #555;
+  font-size: 0.95rem;
+  color: var(--text-secondary, #cbd5e1);
+}
+
+.text strong {
+  color: var(--accent-primary, #3b82f6);
 }
 
 .subtext {
-  font-size: 0.75rem;
-  color: #888;
-  margin-top: 2px;
+  font-size: 0.8rem;
+  color: var(--text-muted, #94a3b8);
+  margin-top: 4px;
 }
 </style>
