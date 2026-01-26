@@ -31,32 +31,33 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed } from "vue";
 import { marked } from "marked";
 import DOMPurify from "dompurify";
 
-export default {
-  name: "ChatMessage",
-  props: {
-    message: {
-      type: Object,
-      required: true,
-    },
+// Define component props
+const props = defineProps({
+  message: {
+    type: Object,
+    required: true,
   },
-  emits: ["suggestion-click"],
-  computed: {
-    sanitizedMarkdown() {
-      if (!this.message.text) return "";
-      try {
-        const rawHtml = marked(this.message.text);
-        return DOMPurify.sanitize(rawHtml);
-      } catch (e) {
-        console.error("Markdown parsing error:", e);
-        return this.message.text;
-      }
-    },
-  },
-};
+});
+
+// Define emitted events
+defineEmits(["suggestion-click"]);
+
+// Computed property to sanitize markdown content
+const sanitizedMarkdown = computed(() => {
+  if (!props.message.text) return "";
+  try {
+    const rawHtml = marked(props.message.text);
+    return DOMPurify.sanitize(rawHtml);
+  } catch (e) {
+    console.error("Markdown parsing error:", e);
+    return props.message.text;
+  }
+});
 </script>
 
 <style>

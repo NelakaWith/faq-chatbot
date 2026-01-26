@@ -4,15 +4,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
+// Import the main ChatWidget component
+// No need to register it in 'components' option when using script setup
 import ChatWidget from "./components/ChatWidget.vue";
-
-export default {
-  name: "App",
-  components: {
-    ChatWidget,
-  },
-};
 </script>
 
 <style>

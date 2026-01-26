@@ -22,40 +22,44 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "TypingIndicator",
-  props: {
-    isLoading: {
-      type: Boolean,
-      default: false,
-    },
-    chatMode: {
-      type: String,
-      required: true,
-      validator: (value) => ["faq", "llm"].includes(value),
-    },
+<script setup>
+import { computed } from "vue";
+
+// Define component properties
+const props = defineProps({
+  isLoading: {
+    type: Boolean,
+    default: false,
   },
-  computed: {
-    isVisible() {
-      return this.isLoading;
-    },
-    typingText() {
-      return this.chatMode === "llm"
-        ? "AI is thinking"
-        : "Searching knowledge base";
-    },
-    icon() {
-      return this.chatMode === "llm" ? "🧠" : "🔍";
-    },
-    iconClass() {
-      return this.chatMode === "llm" ? "brain-pulse" : "search-pulse";
-    },
-    processingText() {
-      return this.chatMode === "llm"
-        ? "Processing your request..."
-        : "Looking for answers...";
-    },
+  chatMode: {
+    type: String,
+    required: true,
+    validator: (value) => ["faq", "llm"].includes(value),
   },
-};
+});
+
+// Computed properties for display logic
+const isVisible = computed(() => {
+  return props.isLoading;
+});
+
+const typingText = computed(() => {
+  return props.chatMode === "llm"
+    ? "AI is thinking"
+    : "Searching knowledge base";
+});
+
+const icon = computed(() => {
+  return props.chatMode === "llm" ? "🧠" : "🔍";
+});
+
+const iconClass = computed(() => {
+  return props.chatMode === "llm" ? "brain-pulse" : "search-pulse";
+});
+
+const processingText = computed(() => {
+  return props.chatMode === "llm"
+    ? "Processing your request..."
+    : "Looking for answers...";
+});
 </script>

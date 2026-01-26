@@ -81,20 +81,22 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "ChatHeader",
-  props: {
-    chatMode: {
-      type: String,
-      required: true,
-      validator: (value) => ["faq", "llm"].includes(value),
-    },
-    modelName: {
-      type: String,
-      default: "",
-    },
+<script setup>
+// Define props for the ChatHeader component
+// Using defineProps macro to declare props with validation
+const props = defineProps({
+  chatMode: {
+    type: String,
+    required: true,
+    validator: (value) => ["faq", "llm"].includes(value),
   },
-  emits: ["toggle-mode", "clear-chat"],
-};
+  modelName: {
+    type: String,
+    default: "",
+  },
+});
+
+// Define emitted events
+// Using defineEmits macro to declare the events this component can emit
+const emit = defineEmits(["toggle-mode", "clear-chat"]);
 </script>
