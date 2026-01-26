@@ -8,7 +8,7 @@
     />
 
     <FileUpload
-      v-if="chatMode === 'kb'"
+      v-if="chatMode === 'kb' || chatMode === 'llm'"
       :isLoading="isLoading"
       @file-selected="handleFileSelected"
     />

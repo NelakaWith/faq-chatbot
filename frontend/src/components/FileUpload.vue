@@ -75,7 +75,7 @@ const handleDrop = (event) => {
   border-radius: 12px;
   padding: 16px;
   text-align: center;
-  margin: 0 12px 12px 12px;
+  margin: 12px 12px 12px 12px;
   cursor: pointer;
   transition: all 0.2s;
   background: #f9f9f9;
