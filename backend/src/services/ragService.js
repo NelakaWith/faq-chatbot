@@ -56,7 +56,7 @@ class RagService {
 
       return {
         success: true,
-        chunks: processedChunks.length,
+        chunks: processedChunks,
         info: data.info
       };
 

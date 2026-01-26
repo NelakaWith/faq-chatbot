@@ -285,17 +285,40 @@ export function useChat() {
       const data = response.data;
       currentDocument.value = data.filename;
 
+      // Extract text content from chunks
+      const documentContent = data.chunks
+        .map((chunk) => chunk.content)
+        .join("\n\n");
+
+      // Create a system message with the document content
+      const systemContext = `
+Here is the content of the uploaded document "${data.filename}".
+Please use this information to answer any questions the user might have about it.
+If the answer is in the document, quote relevant parts.
+
+DOCUMENT CONTENT:
+${documentContent}
+`;
+
+      // Inject into conversation history (as a system message)
+      if (chatMode.value === "llm") {
+        conversationHistory.value.push({
+          role: "system",
+          content: systemContext,
+        });
+      }
+
       // Add success message
       addBotMessage(
-        `I've analyzed "${data.filename}" (${data.chunks} chunks). You can now ask me questions about this document.`,
+        `I've analyzed "${data.filename}" (${data.chunks.length} chunks). You can now ask me questions about this document.`,
         {
           sourceType: "system",
-          mode: "kb",
+          mode: chatMode.value, // Stay in current mode
         }
       );
 
-      // Auto-switch to KB mode
-      switchMode('kb');
+      // Do NOT switch mode - user stays in LLM mode to chat with the doc
+      // switchMode('kb'); // Disabled
 
       return true;
     } catch (error) {
@@ -304,7 +327,7 @@ export function useChat() {
         `Sorry, I failed to process the document. ${error.response?.data?.error || error.message}`,
         {
           sourceType: "error",
-          mode: "kb",
+          mode: chatMode.value,
         }
       );
       return false;
