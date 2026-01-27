@@ -1,3 +1,32 @@
+# [2.0.0](https://github.com/NelakaWith/faq-chatbot/compare/v1.4.0...v2.0.0) (2026-01-27)
+
+
+### Features
+
+* **chat-header:** add icons for LLM and KB modes in chat header ([9359a6c](https://github.com/NelakaWith/faq-chatbot/commit/9359a6c3826c2c60b0b7a7d49c82dfa5a11a3135))
+* **chat-header:** update chat title to use dynamic prop for improved flexibility ([67e841f](https://github.com/NelakaWith/faq-chatbot/commit/67e841fe9ff548bcc3865a9617a1e72fa6ffb5bd))
+* **chat:** add typing indicator animations and styles for enhanced user experience ([e756410](https://github.com/NelakaWith/faq-chatbot/commit/e7564104e24545d2c03e1ebbc3178f56f9bfd235))
+* **chat:** allow file upload in both knowledge base and LLM modes ([d938be8](https://github.com/NelakaWith/faq-chatbot/commit/d938be8882300952175aef49b7df4d06aff8f892))
+* **chat:** enhance LLM message handling with document context retrieval and mode switching ([c2f066e](https://github.com/NelakaWith/faq-chatbot/commit/c2f066ecaf7378c104e01b8f47e0709c8c797198))
+* **chat:** implement markdown rendering for bot messages with sanitization ([1fead3f](https://github.com/NelakaWith/faq-chatbot/commit/1fead3f974d319cd91deb3852e0721ab99047e4a))
+* **chat:** reintroduce RAG routes and enhance document processing feedback ([66fb626](https://github.com/NelakaWith/faq-chatbot/commit/66fb62618f80903741d79c0bc071199c77be4ebe))
+* **data:** enhance data loading and chunk management for PDF documents ([6e6c7fb](https://github.com/NelakaWith/faq-chatbot/commit/6e6c7fb922f494ea9c93555d8c2d46315327c08e))
+* **dependencies:** downgrade marked to version 12.0.2 and specify node engine requirement ([f19d63f](https://github.com/NelakaWith/faq-chatbot/commit/f19d63f1a1e89bc5fbfe862433ae9dfc88f08b4d))
+* **file-upload:** enhance PDF file validation and error handling in file upload component ([35ad73c](https://github.com/NelakaWith/faq-chatbot/commit/35ad73cbbd2a5ac7980090b731a70f28ac8d1808))
+* **rag:** add multer error handling middleware for improved file upload feedback ([f0a3e75](https://github.com/NelakaWith/faq-chatbot/commit/f0a3e75d0daccf46760d884a07f66844763dc34a))
+* **rag:** enhance document upload validation and error handling ([edf4ad8](https://github.com/NelakaWith/faq-chatbot/commit/edf4ad89f398ade2645f04b247977b9b7c963428))
+* **rag:** enhance PDF processing and implement semantic chunking for improved text extraction ([038d4d8](https://github.com/NelakaWith/faq-chatbot/commit/038d4d8b1f2d5729a7baf0e7b8b0eab8531dc167))
+* **rag:** enhance PDF processing with page tracking and chunk mapping for improved text extraction ([5402862](https://github.com/NelakaWith/faq-chatbot/commit/540286202d56095d80adaac8217c0d0842b60d9a))
+* **rag:** implement chunk management and cleanup for uploaded PDF documents ([ea1b9b4](https://github.com/NelakaWith/faq-chatbot/commit/ea1b9b4e838a8dc1ef3e43cfe64cbe432b4f3420))
+* **rag:** implement PDF upload and processing functionality with knowledge base mode ([e23f382](https://github.com/NelakaWith/faq-chatbot/commit/e23f3826137f97d34356a9355ba11f66a76ee1b3))
+* **rag:** improve PDF file type validation and error handling in multer middleware ([9b839ea](https://github.com/NelakaWith/faq-chatbot/commit/9b839ea2c252800904609fbf068a9db25e666dc3))
+* **style:** implement dark theme palette and enhance UI components for improved aesthetics ([a8ba141](https://github.com/NelakaWith/faq-chatbot/commit/a8ba141b14e6a3e68d02e387a012785445bde54d))
+
+
+### BREAKING CHANGES
+
+* **style:**
+
 # [1.4.0](https://github.com/NelakaWith/faq-chatbot/compare/v1.3.1...v1.4.0) (2026-01-20)
 
 
