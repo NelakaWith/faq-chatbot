@@ -1,7 +1,6 @@
 const pdf = require("pdf-parse");
 const { searchService } = require("./searchService");
 const dataService = require("./dataService");
-const axios = require("axios");
 
 class RagService {
   constructor() {
