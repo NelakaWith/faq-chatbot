@@ -1,7 +1,7 @@
 <template>
   <div class="chat-header">
     <div class="chat-title-section">
-      <span class="chat-title">🤖 Kelly</span>
+      <span class="chat-title">🤖 {{ title }}</span>
       <div class="chat-mode-indicator">
         <span v-if="chatMode === 'faq'" class="mode-badge faq"
           >📚 FAQ Mode</span
@@ -92,6 +92,10 @@
 // Define props for the ChatHeader component
 // Using defineProps macro to declare props with validation
 const props = defineProps({
+  title: {
+    type: String,
+    default: "FAQ Chatbot",
+  },
   chatMode: {
     type: String,
     required: true,
