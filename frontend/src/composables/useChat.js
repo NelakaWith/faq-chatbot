@@ -133,9 +133,27 @@ export function useChat() {
   const sendLLMMessage = async (text, options = {}) => {
     try {
       let response;
+      let augmentedHistory = [...conversationHistory.value];
 
-      // Use conversation history directly (message already added by addUserMessage)
-      response = await llm.sendMessage(conversationHistory.value, options);
+      // If a document is uploaded, retrieve relevant context for this query
+      if (currentDocument.value) {
+        const documentContext = await retrieveDocumentContext(text);
+
+        if (documentContext) {
+          // Add relevant context as a temporary system message
+          // This only affects the current query, not the conversation history
+          augmentedHistory = [
+            {
+              role: "system",
+              content: `Context from document "${currentDocument.value.filename}":\n\n${documentContext}\n\nUse this context to help answer the user's question. If the answer is in the context, cite it.`,
+            },
+            ...conversationHistory.value,
+          ];
+        }
+      }
+
+      // Use augmented history for this specific query
+      response = await llm.sendMessage(augmentedHistory, options);
 
       const content =
         response.choices?.[0]?.message?.content || "No response received";
@@ -181,7 +199,11 @@ export function useChat() {
       let botMessage;
       if (chatMode.value === "llm") {
         botMessage = await sendLLMMessage(text, options);
+      } else if (chatMode.value === "kb") {
+        // KB mode: use LLM with document context (if available)
+        botMessage = await sendLLMMessage(text, options);
       } else {
+        // FAQ mode: use traditional search
         botMessage = await sendFAQMessage(text);
       }
 
@@ -225,6 +247,7 @@ export function useChat() {
   const clearMessages = () => {
     messages.value = [];
     conversationHistory.value = [];
+    currentDocument.value = null; // Also clear document reference
   };
 
   /**
@@ -266,12 +289,47 @@ export function useChat() {
   const currentDocument = ref(null);
 
   /**
+   * Retrieve relevant context from uploaded document using RAG
+   * @param {string} query - User's question
+   * @returns {Promise<string>} Relevant context from document
+   */
+  const retrieveDocumentContext = async (query) => {
+    if (!currentDocument.value) return null;
+
+    try {
+      const apiBaseUrl = getApiBaseUrl();
+      // Use the backend's search functionality to find relevant chunks
+      const response = await axios.post(`${apiBaseUrl}/chat`, {
+        message: query,
+      });
+
+      // Extract relevant PDF chunks from the response
+      // The backend's searchService should prioritize PDF chunks when available
+      if (
+        response.data.sourceType === "pdf_chunk" ||
+        response.data.source?.includes(currentDocument.value)
+      ) {
+        return response.data.response;
+      }
+
+      return null;
+    } catch (error) {
+      console.warn("Failed to retrieve document context:", error);
+      return null;
+    }
+  };
+
+  /**
    * Upload a PDF file
    * @param {File} file - The file to upload
    */
   const uploadFile = async (file) => {
     isLoading.value = true;
     try {
+      // Check if there's already a document uploaded
+      const hasExistingDocument = currentDocument.value !== null;
+      const oldDocumentName = currentDocument.value?.filename;
+
       const formData = new FormData();
       formData.append("file", file);
 
@@ -283,29 +341,30 @@ export function useChat() {
       });
 
       const data = response.data;
-      currentDocument.value = data.filename;
 
-      // Extract text content from chunks
-      const documentContent = data.chunks
-        .map((chunk) => chunk.content)
-        .join("\n\n");
+      // Clear conversation history if uploading a new document
+      // This prevents context confusion and token accumulation
+      if (hasExistingDocument) {
+        conversationHistory.value = [];
+        addBotMessage(
+          `📄 Switched from "${oldDocumentName}" to "${data.filename}". Previous conversation cleared to focus on the new document.`,
+          {
+            sourceType: "system",
+            mode: chatMode.value,
+          },
+        );
+      }
 
-      // Create a system message with the document content
-      const systemContext = `
-Here is the content of the uploaded document "${data.filename}".
-Please use this information to answer any questions the user might have about it.
-If the answer is in the document, quote relevant parts.
+      // Update current document reference
+      currentDocument.value = {
+        filename: data.filename,
+        chunks: data.chunks.length,
+        uploadedAt: new Date().toISOString(),
+      };
 
-DOCUMENT CONTENT:
-${documentContent}
-`;
-
-      // Inject into conversation history (as a system message)
-      if (chatMode.value === "llm") {
-        conversationHistory.value.push({
-          role: "system",
-          content: systemContext,
-        });
+      // Automatically switch to KB mode if not already in LLM or KB mode
+      if (chatMode.value === "faq") {
+        switchMode("kb");
       }
 
       // Add success message
@@ -313,12 +372,9 @@ ${documentContent}
         `I've analyzed "${data.filename}" (${data.chunks.length} chunks). You can now ask me questions about this document.`,
         {
           sourceType: "system",
-          mode: chatMode.value, // Stay in current mode
+          mode: chatMode.value,
         },
       );
-
-      // Do NOT switch mode - user stays in LLM mode to chat with the doc
-      // switchMode('kb'); // Disabled
 
       return true;
     } catch (error) {
