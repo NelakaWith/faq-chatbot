@@ -1,11 +1,14 @@
 <template>
   <div class="chat-header">
     <div class="chat-title-section">
-      <span class="chat-title">🤖 FAQ Chatbot</span>
+      <span class="chat-title">🤖 {{ title }}</span>
       <div class="chat-mode-indicator">
         <span v-if="chatMode === 'faq'" class="mode-badge faq"
           >📚 FAQ Mode</span
         >
+        <span v-else-if="chatMode === 'kb'" class="mode-badge kb">
+          📄 Knowledge Base
+        </span>
         <span v-else class="mode-badge llm">
           🤖 AI Assistant
           <span v-if="modelName" class="model-name"> • {{ modelName }}</span>
@@ -17,9 +20,14 @@
         @click="$emit('toggle-mode')"
         class="mode-toggle-btn"
         :title="
-          chatMode === 'faq' ? 'Switch to AI Assistant' : 'Switch to FAQ Mode'
+          chatMode === 'faq'
+            ? 'Switch to AI Assistant'
+            : chatMode === 'llm'
+              ? 'Switch to Knowledge Base'
+              : 'Switch to FAQ Mode'
         "
       >
+        <!-- FAQ Mode: Sparkles icon -->
         <svg
           v-if="chatMode === 'faq'"
           xmlns="http://www.w3.org/2000/svg"
@@ -32,6 +40,22 @@
             d="m320 192l-85.333-32L320 127.968l32-85.301l32.03 85.301L469.333 160l-85.303 32L352 277.333zM149.333 362.667L42.667 320l106.666-42.667L192 170.667l42.667 106.666L341.333 320l-106.666 42.667L192 469.333z"
           />
         </svg>
+
+        <!-- LLM Mode: Brain/AI icon -->
+        <svg
+          v-else-if="chatMode === 'llm'"
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fill="#fff"
+            d="M12 2a9 9 0 0 0-9 9c0 1.92.6 3.7 1.62 5.16L3 22l5.84-1.62A9 9 0 1 0 12 2m-2 13H8v-2h2zm4 0h-2v-2h2zm4 0h-2v-2h2zM8 9h2v2H8zm4 0h2v2h-2zm4 0h2v2h-2z"
+          />
+        </svg>
+
+        <!-- KB Mode: Document/Book icon -->
         <svg
           v-else
           xmlns="http://www.w3.org/2000/svg"
@@ -39,20 +63,10 @@
           height="16"
           viewBox="0 0 24 24"
         >
-          <g
-            fill="none"
-            stroke="#fff"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.5"
-          >
-            <path
-              d="M4.842 13.657V7.691A1.49 1.49 0 0 1 6.334 6.2h1.491m-2.983 4.474h2.237m3.13 2.983V7.691a1.492 1.492 0 1 1 2.983 0v5.966m-2.983-2.983h2.983m5.966 1.491a1.492 1.492 0 1 1-2.983 0V7.691a1.492 1.492 0 1 1 2.983 0zm-1.492 1.492l1.492 1.491"
-            />
-            <path
-              d="M22.2 2.571H1.8A1.054 1.054 0 0 0 .75 3.625v13.588a1.054 1.054 0 0 0 1.05 1.054h2.443a7.8 7.8 0 0 1-1.386 3.16c3.05.044 4.98-1.136 6.138-3.16H22.2a1.054 1.054 0 0 0 1.054-1.054V3.625A1.054 1.054 0 0 0 22.2 2.571"
-            />
-          </g>
+          <path
+            fill="#fff"
+            d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2m0 2v16h12V4zm2 2h8v2H8zm0 4h8v2H8zm0 4h5v2H8z"
+          />
         </svg>
       </button>
       <button
@@ -81,20 +95,26 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "ChatHeader",
-  props: {
-    chatMode: {
-      type: String,
-      required: true,
-      validator: (value) => ["faq", "llm"].includes(value),
-    },
-    modelName: {
-      type: String,
-      default: "",
-    },
+<script setup>
+// Define props for the ChatHeader component
+// Using defineProps macro to declare props with validation
+const props = defineProps({
+  title: {
+    type: String,
+    default: "FAQ Chatbot",
   },
-  emits: ["toggle-mode", "clear-chat"],
-};
+  chatMode: {
+    type: String,
+    required: true,
+    validator: (value) => ["faq", "llm", "kb"].includes(value),
+  },
+  modelName: {
+    type: String,
+    default: "",
+  },
+});
+
+// Define emitted events
+// Using defineEmits macro to declare the events this component can emit
+defineEmits(["toggle-mode", "clear-chat"]);
 </script>

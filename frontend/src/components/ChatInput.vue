@@ -34,33 +34,29 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from "vue";
 
-export default {
-  name: "ChatInput",
-  props: {
-    isLoading: {
-      type: Boolean,
-      default: false,
-    },
+// Define component props
+const props = defineProps({
+  isLoading: {
+    type: Boolean,
+    default: false,
   },
-  emits: ["send-message"],
-  setup(props, { emit }) {
-    const inputMessage = ref("");
+});
 
-    const handleSendMessage = () => {
-      if (!inputMessage.value.trim() || props.isLoading) return;
+// Define emitted events
+const emit = defineEmits(["send-message"]);
 
-      const message = inputMessage.value;
-      inputMessage.value = "";
-      emit("send-message", message);
-    };
+// Reactive state for input
+const inputMessage = ref("");
 
-    return {
-      inputMessage,
-      handleSendMessage,
-    };
-  },
+// Method to handle sending messages
+const handleSendMessage = () => {
+  if (!inputMessage.value.trim() || props.isLoading) return;
+
+  const message = inputMessage.value;
+  inputMessage.value = "";
+  emit("send-message", message);
 };
 </script>

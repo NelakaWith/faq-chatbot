@@ -13,52 +13,44 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, watch, nextTick } from "vue";
 import ChatMessage from "./ChatMessage.vue";
 import TypingIndicator from "./TypingIndicator.vue";
 
-export default {
-  name: "ChatMessages",
-  components: {
-    ChatMessage,
-    TypingIndicator,
+// Define component properties
+const props = defineProps({
+  messages: {
+    type: Array,
+    required: true,
   },
-  props: {
-    messages: {
-      type: Array,
-      required: true,
-    },
-    isLoading: {
-      type: Boolean,
-      default: false,
-    },
-    chatMode: {
-      type: String,
-      required: true,
-    },
+  isLoading: {
+    type: Boolean,
+    default: false,
   },
-  emits: ["suggestion-click"],
-  setup(props) {
-    const messagesContainer = ref(null);
+  chatMode: {
+    type: String,
+    required: true,
+  },
+});
 
-    // Auto-scroll to bottom when messages change
-    watch(
-      () => props.messages,
-      () => {
-        nextTick(() => {
-          if (messagesContainer.value) {
-            messagesContainer.value.scrollTop =
-              messagesContainer.value.scrollHeight;
-          }
-        });
-      },
-      { deep: true }
-    );
+// Define emitted events
+defineEmits(["suggestion-click"]);
 
-    return {
-      messagesContainer,
-    };
+// Message container ref for scrolling
+const messagesContainer = ref(null);
+
+// Auto-scroll to bottom when messages change
+watch(
+  () => props.messages,
+  () => {
+    nextTick(() => {
+      if (messagesContainer.value) {
+        messagesContainer.value.scrollTop =
+          messagesContainer.value.scrollHeight;
+      }
+    });
   },
-};
+  { deep: true }
+);
 </script>

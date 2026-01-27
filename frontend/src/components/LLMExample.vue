@@ -153,99 +153,80 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from "vue";
 import { useChatLLM } from "../composables";
 
-export default {
-  name: "LLMExample",
-  setup() {
-    const llm = useChatLLM();
-    const customMessage = ref("");
-    const selectedModel = ref(llm.config.model);
-    const conversationMessages = ref([]);
+const llm = useChatLLM();
+const customMessage = ref("");
+const selectedModel = ref(llm.config.model);
+const conversationMessages = ref([]);
 
-    const updateModel = () => {
-      llm.updateConfig({ model: selectedModel.value });
-    };
+const updateModel = () => {
+  llm.updateConfig({ model: selectedModel.value });
+};
 
-    const askQuestion = async (question) => {
-      try {
-        const response = await llm.sendTextMessage(question);
-        console.log("Response:", response);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
+const askQuestion = async (question) => {
+  try {
+    const response = await llm.sendTextMessage(question);
+    console.log("Response:", response);
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};
 
-    const sendCustomMessage = async () => {
-      if (!customMessage.value.trim()) return;
+const sendCustomMessage = async () => {
+  if (!customMessage.value.trim()) return;
 
-      try {
-        const message = customMessage.value.trim();
-        customMessage.value = "";
+  try {
+    const message = customMessage.value.trim();
+    customMessage.value = "";
 
-        const response = await llm.sendTextMessage(message);
-        console.log("Custom message response:", response);
-      } catch (error) {
-        console.error("Error sending custom message:", error);
-      }
-    };
+    const response = await llm.sendTextMessage(message);
+    console.log("Custom message response:", response);
+  } catch (error) {
+    console.error("Error sending custom message:", error);
+  }
+};
 
-    const startConversation = async () => {
-      const messages = [
-        {
-          role: "user",
-          content:
-            "Hello! I'd like to have a conversation about web development.",
-        },
-      ];
+const startConversation = async () => {
+  const messages = [
+    {
+      role: "user",
+      content: "Hello! I'd like to have a conversation about web development.",
+    },
+  ];
 
-      try {
-        conversationMessages.value = [...messages];
-        const response = await llm.sendMessage(messages);
+  try {
+    conversationMessages.value = [...messages];
+    const response = await llm.sendMessage(messages);
 
-        if (response.choices?.[0]?.message) {
-          conversationMessages.value.push(response.choices[0].message);
-        }
-      } catch (error) {
-        console.error("Error starting conversation:", error);
-      }
-    };
+    if (response.choices?.[0]?.message) {
+      conversationMessages.value.push(response.choices[0].message);
+    }
+  } catch (error) {
+    console.error("Error starting conversation:", error);
+  }
+};
 
-    const continueConversation = async (newMessage) => {
-      try {
-        conversationMessages.value.push({ role: "user", content: newMessage });
-        const response = await llm.continueConversation(
-          conversationMessages.value.slice(0, -1),
-          newMessage
-        );
+const continueConversation = async (newMessage) => {
+  try {
+    conversationMessages.value.push({ role: "user", content: newMessage });
+    const response = await llm.continueConversation(
+      conversationMessages.value.slice(0, -1),
+      newMessage
+    );
 
-        if (response.choices?.[0]?.message) {
-          conversationMessages.value.push(response.choices[0].message);
-        }
-      } catch (error) {
-        console.error("Error continuing conversation:", error);
-      }
-    };
+    if (response.choices?.[0]?.message) {
+      conversationMessages.value.push(response.choices[0].message);
+    }
+  } catch (error) {
+    console.error("Error continuing conversation:", error);
+  }
+};
 
-    const clearConversation = () => {
-      conversationMessages.value = [];
-    };
-
-    return {
-      llm,
-      customMessage,
-      selectedModel,
-      conversationMessages,
-      updateModel,
-      askQuestion,
-      sendCustomMessage,
-      startConversation,
-      continueConversation,
-      clearConversation,
-    };
-  },
+const clearConversation = () => {
+  conversationMessages.value = [];
 };
 </script>
 

@@ -133,9 +133,27 @@ export function useChat() {
   const sendLLMMessage = async (text, options = {}) => {
     try {
       let response;
+      let augmentedHistory = [...conversationHistory.value];
 
-      // Use conversation history directly (message already added by addUserMessage)
-      response = await llm.sendMessage(conversationHistory.value, options);
+      // If a document is uploaded, retrieve relevant context for this query
+      if (currentDocument.value) {
+        const documentContext = await retrieveDocumentContext(text);
+
+        if (documentContext) {
+          // Add relevant context as a temporary system message
+          // This only affects the current query, not the conversation history
+          augmentedHistory = [
+            {
+              role: "system",
+              content: `Context from document "${currentDocument.value.filename}":\n\n${documentContext}\n\nUse this context to help answer the user's question. If the answer is in the context, cite it.`,
+            },
+            ...conversationHistory.value,
+          ];
+        }
+      }
+
+      // Use augmented history for this specific query
+      response = await llm.sendMessage(augmentedHistory, options);
 
       const content =
         response.choices?.[0]?.message?.content || "No response received";
@@ -181,7 +199,11 @@ export function useChat() {
       let botMessage;
       if (chatMode.value === "llm") {
         botMessage = await sendLLMMessage(text, options);
+      } else if (chatMode.value === "kb") {
+        // KB mode: use LLM with document context (if available)
+        botMessage = await sendLLMMessage(text, options);
       } else {
+        // FAQ mode: use traditional search
         botMessage = await sendFAQMessage(text);
       }
 
@@ -193,7 +215,7 @@ export function useChat() {
 
   /**
    * Switch chat mode
-   * @param {string} mode - 'faq' or 'llm'
+   * @param {string} mode - 'faq', 'llm', or 'kb'
    */
   const switchMode = (mode) => {
     if (mode !== chatMode.value) {
@@ -208,7 +230,9 @@ export function useChat() {
       addBotMessage(
         mode === "llm"
           ? "🤖 Switched to AI Assistant mode. I can now have detailed conversations and help with various tasks."
-          : "📚 Switched to FAQ mode. I'll search our knowledge base to answer your questions.",
+          : mode === "kb"
+            ? "📄 Switched to Knowledge Base mode. Upload a PDF and I'll analyze it for you."
+            : "📚 Switched to FAQ mode. I'll search our knowledge base to answer your questions.",
         {
           sourceType: "system",
           mode: mode,
@@ -223,6 +247,7 @@ export function useChat() {
   const clearMessages = () => {
     messages.value = [];
     conversationHistory.value = [];
+    currentDocument.value = null; // Also clear document reference
   };
 
   /**
@@ -261,12 +286,119 @@ export function useChat() {
     conversationHistory.value = conversationData.conversationHistory || [];
   };
 
+  const currentDocument = ref(null);
+
+  /**
+   * Retrieve relevant context from uploaded document using RAG
+   * @param {string} query - User's question
+   * @returns {Promise<string>} Relevant context from document
+   */
+  const retrieveDocumentContext = async (query) => {
+    if (!currentDocument.value) return null;
+
+    try {
+      const apiBaseUrl = getApiBaseUrl();
+      // Use the backend's search functionality to find relevant chunks
+      const response = await axios.post(`${apiBaseUrl}/chat`, {
+        message: query,
+      });
+
+      // Extract relevant PDF chunks from the response
+      // The backend's searchService should prioritize PDF chunks when available
+      if (
+        response.data.sourceType === "pdf_chunk" ||
+        response.data.source?.includes(currentDocument.value)
+      ) {
+        return response.data.response;
+      }
+
+      return null;
+    } catch (error) {
+      console.warn("Failed to retrieve document context:", error);
+      return null;
+    }
+  };
+
+  /**
+   * Upload a PDF file
+   * @param {File} file - The file to upload
+   */
+  const uploadFile = async (file) => {
+    isLoading.value = true;
+    try {
+      // Check if there's already a document uploaded
+      const hasExistingDocument = currentDocument.value !== null;
+      const oldDocumentName = currentDocument.value?.filename;
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const apiBaseUrl = getApiBaseUrl();
+      const response = await axios.post(`${apiBaseUrl}/rag/upload`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      const data = response.data;
+
+      // Clear conversation history if uploading a new document
+      // This prevents context confusion and token accumulation
+      if (hasExistingDocument) {
+        conversationHistory.value = [];
+        addBotMessage(
+          `📄 Switched from "${oldDocumentName}" to "${data.filename}". Previous conversation cleared to focus on the new document.`,
+          {
+            sourceType: "system",
+            mode: chatMode.value,
+          },
+        );
+      }
+
+      // Update current document reference
+      currentDocument.value = {
+        filename: data.filename,
+        chunks: data.chunks.length,
+        uploadedAt: new Date().toISOString(),
+      };
+
+      // Automatically switch to KB mode if not already in LLM or KB mode
+      if (chatMode.value === "faq") {
+        switchMode("kb");
+      }
+
+      // Add success message
+      addBotMessage(
+        `I've analyzed "${data.filename}" (${data.chunks.length} chunks). You can now ask me questions about this document.`,
+        {
+          sourceType: "system",
+          mode: chatMode.value,
+        },
+      );
+
+      return true;
+    } catch (error) {
+      console.error("Upload error:", error);
+      addBotMessage(
+        `Sorry, I failed to process the document. ${error.response?.data?.error || error.message}`,
+        {
+          sourceType: "error",
+          mode: chatMode.value,
+        },
+      );
+      return false;
+    } finally {
+      isLoading.value = false;
+    }
+  };
+
   return {
     // State
     messages,
     isLoading,
     chatMode,
     conversationHistory,
+    currentDocument, // Export state
 
     // Computed
     hasMessages,
@@ -285,6 +417,7 @@ export function useChat() {
     switchMode,
     clearMessages,
     handleSuggestion,
+    uploadFile, // Export method
     getConversationSummary,
     loadConversation,
     getApiBaseUrl,

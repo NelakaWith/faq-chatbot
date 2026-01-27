@@ -17,6 +17,7 @@ async function startServer() {
       console.log(`🚀 Server running on port ${PORT}`);
       console.log(`📍 Health check: http://localhost:${PORT}/health`);
       console.log(`💬 Chat API: http://localhost:${PORT}/chat`);
+      console.log(`📄 RAG API: http://localhost:${PORT}/api/rag`);
       console.log(`📊 Status API: http://localhost:${PORT}/status`);
     });
 

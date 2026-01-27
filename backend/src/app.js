@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const chatRoutes = require("./routes/chatRoutes");
+const ragRoutes = require("./routes/ragRoutes");
 
 const app = express();
 
@@ -10,6 +11,7 @@ app.use(express.json());
 
 // Routes
 app.use("/api", chatRoutes);
+app.use("/api/rag", ragRoutes);
 
 // Legacy routes for backward compatibility
 app.use("/", chatRoutes);
