@@ -10,11 +10,30 @@ class SearchService {
     this.pdfFuse = null;
     this.allDataFuse = null;
     this.initialized = false;
+    this.initializationPromise = null;
   }
 
   async initialize() {
+    // If already initialized, return immediately
     if (this.initialized) return;
 
+    // If initialization is in progress, wait for it to complete
+    if (this.initializationPromise) {
+      console.log("⏳ Waiting for ongoing initialization...");
+      return this.initializationPromise;
+    }
+
+    // Start initialization and store the promise
+    this.initializationPromise = this._doInitialize();
+
+    try {
+      await this.initializationPromise;
+    } finally {
+      this.initializationPromise = null;
+    }
+  }
+
+  async _doInitialize() {
     console.log("🔍 Initializing search service...");
 
     // Load all data
@@ -25,6 +44,16 @@ class SearchService {
 
     this.initialized = true;
     console.log("✅ Search service initialized");
+  }
+
+  /**
+   * Update search indices without reloading data
+   * Use this when data has been added to dataService directly
+   */
+  updateSearchIndices() {
+    console.log("🔄 Updating search indices...");
+    this.createFuseInstances();
+    console.log("✅ Search indices updated");
   }
 
   createFuseInstances() {
@@ -74,7 +103,7 @@ class SearchService {
 
     // PDF search
     const pdfChunks = allSearchableData.filter(
-      (item) => item.type === "pdf_chunk"
+      (item) => item.type === "pdf_chunk",
     );
     if (pdfChunks.length > 0) {
       this.pdfFuse = new Fuse(pdfChunks, {
@@ -253,7 +282,7 @@ class SearchService {
 
     // Check if message matches strategy keywords
     const isMatch = strategy.keywords.some((keyword) =>
-      messageLower.includes(keyword.toLowerCase())
+      messageLower.includes(keyword.toLowerCase()),
     );
 
     if (!isMatch) return null;
@@ -266,7 +295,7 @@ class SearchService {
         (item) =>
           item.title.toLowerCase().includes(messageLower) ||
           messageLower.includes(item.title.toLowerCase()) ||
-          item.content.toLowerCase().includes(messageLower)
+          item.content.toLowerCase().includes(messageLower),
       );
 
       if (directLegalMatch) {
@@ -286,8 +315,8 @@ class SearchService {
         strategy.searchTerms.some(
           (term) =>
             item.question.toLowerCase().includes(term) ||
-            item.answer.toLowerCase().includes(term)
-        )
+            item.answer.toLowerCase().includes(term),
+        ),
       );
 
       if (faqMatch) {
@@ -313,7 +342,7 @@ class SearchService {
     // PRIORITY 1: Exact matches in misc/greeting data
     if (miscData && miscData.length > 0) {
       const exactMisc = miscData.find(
-        (item) => item.question.toLowerCase() === message.toLowerCase()
+        (item) => item.question.toLowerCase() === message.toLowerCase(),
       );
       if (exactMisc) {
         console.log("✓ Exact misc match:", exactMisc.question);
@@ -327,7 +356,7 @@ class SearchService {
 
     // PRIORITY 2: Exact matches in FAQ data
     const exactFaqMatch = faqData.find(
-      (item) => item.question.toLowerCase() === message.toLowerCase()
+      (item) => item.question.toLowerCase() === message.toLowerCase(),
     );
     if (exactFaqMatch) {
       console.log("✓ Exact FAQ match:", exactFaqMatch.question);
@@ -346,7 +375,7 @@ class SearchService {
         strategy,
         message,
         faqData,
-        legalData
+        legalData,
       );
       if (result) {
         return result;
@@ -360,7 +389,7 @@ class SearchService {
       if (miscResults.length > 0 && miscResults[0].score <= 0.3) {
         console.log(
           `✓ Misc fuzzy match (${miscResults[0].score.toFixed(2)}):`,
-          miscResults[0].item.question
+          miscResults[0].item.question,
         );
         return {
           response: miscResults[0].item.answer,
@@ -376,7 +405,7 @@ class SearchService {
     if (faqResults.length > 0 && faqResults[0].score <= 0.5) {
       console.log(
         `✓ FAQ fuzzy match (${faqResults[0].score.toFixed(2)}):`,
-        faqResults[0].item.question
+        faqResults[0].item.question,
       );
       return {
         response: faqResults[0].item.answer,
@@ -394,7 +423,7 @@ class SearchService {
         strategy,
         message,
         faqData,
-        legalData
+        legalData,
       );
       if (result) {
         return result;
@@ -407,7 +436,7 @@ class SearchService {
     if (legalResults.length > 0 && legalResults[0].score <= 0.4) {
       console.log(
         `✓ Legal fuzzy match (${legalResults[0].score.toFixed(2)}):`,
-        legalResults[0].item.title
+        legalResults[0].item.title,
       );
       return {
         response: legalResults[0].item.content,
@@ -424,7 +453,7 @@ class SearchService {
         const bestPdfMatch = pdfResults[0].item;
         console.log(
           `✓ PDF fallback match (${pdfResults[0].score.toFixed(2)}):`,
-          bestPdfMatch.title
+          bestPdfMatch.title,
         );
         return {
           response: `${formatPDFResponse(bestPdfMatch.content)}\n\n*Source: ${
@@ -584,8 +613,8 @@ class SearchService {
           keywords.some(
             (keyword) =>
               item.question.toLowerCase().includes(keyword) ||
-              item.answer.toLowerCase().includes(keyword)
-          )
+              item.answer.toLowerCase().includes(keyword),
+          ),
         );
         intentBasedSuggestions.push(...relatedQuestions.slice(0, 2));
       }
