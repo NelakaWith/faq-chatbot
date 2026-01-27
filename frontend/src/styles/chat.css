@@ -284,6 +284,99 @@
   color: var(--accent-primary);
 }
 
+/* Typing indicator animations */
+.typing-message {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.typing-text {
+  display: flex;
+  align-items: center;
+  color: var(--text-secondary);
+}
+
+.dots {
+  display: inline-flex;
+  gap: 2px;
+  margin-left: 4px;
+}
+
+.dots .dot {
+  animation: dot-pulse 1.4s ease-in-out infinite;
+}
+
+.dots .dot-2 {
+  animation-delay: 0.2s;
+}
+
+.dots .dot-3 {
+  animation-delay: 0.4s;
+}
+
+@keyframes dot-pulse {
+  0%,
+  60%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-4px);
+  }
+}
+
+.thinking-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.brain-pulse {
+  font-size: 1.2rem;
+  animation: brain-pulse 1.5s ease-in-out infinite;
+}
+
+.search-pulse {
+  font-size: 1.2rem;
+  animation: search-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes brain-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes search-pulse {
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  25% {
+    transform: rotate(-10deg) scale(1.1);
+  }
+  75% {
+    transform: rotate(10deg) scale(1.1);
+  }
+}
+
+.processing-text {
+  opacity: 0.7;
+}
+
 /* Suggestion Buttons */
 .suggestion-buttons {
   margin-top: 16px;

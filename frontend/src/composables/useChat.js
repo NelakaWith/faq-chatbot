@@ -193,7 +193,7 @@ export function useChat() {
 
   /**
    * Switch chat mode
-   * @param {string} mode - 'faq' or 'llm'
+   * @param {string} mode - 'faq', 'llm', or 'kb'
    */
   const switchMode = (mode) => {
     if (mode !== chatMode.value) {
@@ -209,8 +209,8 @@ export function useChat() {
         mode === "llm"
           ? "🤖 Switched to AI Assistant mode. I can now have detailed conversations and help with various tasks."
           : mode === "kb"
-          ? "📄 Switched to Knowledge Base mode. Upload a PDF and I'll analyze it for you."
-          : "📚 Switched to FAQ mode. I'll search our knowledge base to answer your questions.",
+            ? "📄 Switched to Knowledge Base mode. Upload a PDF and I'll analyze it for you."
+            : "📚 Switched to FAQ mode. I'll search our knowledge base to answer your questions.",
         {
           sourceType: "system",
           mode: mode,
@@ -314,7 +314,7 @@ ${documentContent}
         {
           sourceType: "system",
           mode: chatMode.value, // Stay in current mode
-        }
+        },
       );
 
       // Do NOT switch mode - user stays in LLM mode to chat with the doc
@@ -328,7 +328,7 @@ ${documentContent}
         {
           sourceType: "error",
           mode: chatMode.value,
-        }
+        },
       );
       return false;
     } finally {

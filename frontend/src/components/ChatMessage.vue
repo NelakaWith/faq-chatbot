@@ -5,7 +5,11 @@
       <span v-else>🧑</span>
     </div>
     <div class="message-content">
-      <div v-if="message.sender === 'bot'" class="markdown-body" v-html="sanitizedMarkdown"></div>
+      <div
+        v-if="message.sender === 'bot'"
+        class="markdown-body"
+        v-html="sanitizedMarkdown"
+      ></div>
       <div v-else>{{ message.text }}</div>
       <div v-if="message.source" class="message-source">
         {{ message.source }}
@@ -62,7 +66,6 @@ const sanitizedMarkdown = computed(() => {
 
 <style>
 /* Basic styles for markdown content in chat messages */
-/* Basic styles for markdown content in chat messages */
 .markdown-body {
   font-size: 0.95rem;
   line-height: 1.6;
@@ -90,7 +93,7 @@ const sanitizedMarkdown = computed(() => {
   background-color: rgba(255, 255, 255, 0.1);
   padding: 0.2em 0.4em;
   border-radius: 4px;
-  font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+  font-family: "Menlo", "Monaco", "Courier New", monospace;
   font-size: 0.9em;
   color: inherit;
 }
@@ -101,7 +104,7 @@ const sanitizedMarkdown = computed(() => {
   border-radius: 8px;
   overflow-x: auto;
   margin: 0.75em 0;
-  border: 1px solid rgba(255,255,255,0.05);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .markdown-body pre code {
@@ -151,8 +154,8 @@ const sanitizedMarkdown = computed(() => {
   text-decoration: underline;
 }
 .message.user .markdown-body blockquote {
-  border-left-color: rgba(255,255,255,0.5);
-  color: rgba(255,255,255,0.9);
-  background: rgba(255,255,255,0.1);
+  border-left-color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.1);
 }
 </style>
