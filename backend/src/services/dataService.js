@@ -33,7 +33,7 @@ class DataService {
     // Load FAQ data
     try {
       this.faqData = JSON.parse(
-        fs.readFileSync(path.join(dataPath, "faq.json"), "utf8")
+        fs.readFileSync(path.join(dataPath, "faq.json"), "utf8"),
       );
       console.log("📚 Loaded FAQ data:", this.faqData.length, "items");
     } catch (e) {
@@ -44,7 +44,7 @@ class DataService {
     // Load legal data
     try {
       this.legalData = JSON.parse(
-        fs.readFileSync(path.join(dataPath, "legal.json"), "utf8")
+        fs.readFileSync(path.join(dataPath, "legal.json"), "utf8"),
       );
       console.log("📚 Loaded legal data:", this.legalData.length, "items");
     } catch (e) {
@@ -55,7 +55,7 @@ class DataService {
     // Load misc data
     try {
       this.miscData = JSON.parse(
-        fs.readFileSync(path.join(dataPath, "misc.json"), "utf8")
+        fs.readFileSync(path.join(dataPath, "misc.json"), "utf8"),
       );
       console.log("📚 Loaded misc data:", this.miscData.length, "items");
     } catch (e) {
@@ -71,7 +71,7 @@ class DataService {
       "..",
       "..",
       "..",
-      "documents"
+      "documents",
     );
 
     if (!fs.existsSync(documentsPath)) {
@@ -82,13 +82,12 @@ class DataService {
 
     console.log("📄 Loading PDF documents...");
     try {
-      this.pdfDocuments = await this.pdfReader.loadPDFsFromDirectory(
-        documentsPath
-      );
+      this.pdfDocuments =
+        await this.pdfReader.loadPDFsFromDirectory(documentsPath);
       console.log(
         "📚 Loaded PDF documents:",
         this.pdfDocuments.length,
-        "files"
+        "files",
       );
     } catch (error) {
       console.error("❌ Error loading PDFs:", error.message);
@@ -124,23 +123,37 @@ class DataService {
   addPdfChunks(chunks, metadata) {
     if (!chunks || !Array.isArray(chunks)) return;
 
-    // Add to allSearchableData
-    // We filter out old chunks from the same file if re-uploading (simplistic strategy)
-    this.allSearchableData = this.allSearchableData.filter(
-      item => !(item.type === 'pdf_chunk' && item.title === metadata.title)
-    );
+    // Remove old chunks from the same file to prevent duplicates
+    // Match by both type and source/title to ensure we only remove chunks from this specific file
+    const filename = metadata.filename || metadata.title;
 
+    this.allSearchableData = this.allSearchableData.filter((item) => {
+      // Keep all non-PDF chunks
+      if (item.type !== "pdf_chunk") return true;
+
+      // Remove PDF chunks that match the current file
+      // Check both 'source' and 'title' fields as different chunk sources may use different properties
+      const itemSource = item.source || item.title;
+      return itemSource !== filename && itemSource !== metadata.title;
+    });
+
+    // Add new chunks
     this.allSearchableData.push(...chunks);
 
     // Update pdfDocuments metadata list
-    const existingDocIndex = this.pdfDocuments.findIndex(d => d.title === metadata.title);
+    const existingDocIndex = this.pdfDocuments.findIndex(
+      (d) => (d.filename || d.title) === filename || d.title === metadata.title,
+    );
+
     if (existingDocIndex >= 0) {
       this.pdfDocuments[existingDocIndex] = metadata;
     } else {
       this.pdfDocuments.push(metadata);
     }
 
-    console.log(`✅ Added ${chunks.length} chunks for ${metadata.title}`);
+    console.log(
+      `✅ Added ${chunks.length} chunks for ${filename || metadata.title}`,
+    );
   }
 
   getData() {
