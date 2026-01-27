@@ -105,5 +105,5 @@ const props = defineProps({
 
 // Define emitted events
 // Using defineEmits macro to declare the events this component can emit
-const emit = defineEmits(["toggle-mode", "clear-chat"]);
+defineEmits(["toggle-mode", "clear-chat"]);
 </script>

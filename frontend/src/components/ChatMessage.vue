@@ -59,7 +59,9 @@ const sanitizedMarkdown = computed(() => {
     return DOMPurify.sanitize(rawHtml);
   } catch (e) {
     console.error("Markdown parsing error:", e);
-    return props.message.text;
+    // Sanitize raw text as well to prevent XSS if backend is compromised
+    // Convert to HTML-safe text by escaping HTML entities
+    return DOMPurify.sanitize(props.message.text, { ALLOWED_TAGS: [] });
   }
 });
 </script>

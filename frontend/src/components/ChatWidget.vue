@@ -42,9 +42,7 @@ const {
   switchMode,
   clearMessages,
   addBotMessage,
-  llm,
-  currentDocument,
-  uploadFile
+  uploadFile,
 } = useChat();
 
 const handleSendMessage = async (message) => {
