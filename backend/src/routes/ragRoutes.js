@@ -14,7 +14,10 @@ const upload = multer({
     if (file.mimetype === "application/pdf") {
       cb(null, true);
     } else {
-      cb(new Error("Only PDF files are allowed"), false);
+      // Create a MulterError-like object that will be properly handled
+      const error = new Error("Only PDF files are allowed");
+      error.code = "INVALID_FILE_TYPE";
+      cb(error, false);
     }
   },
 });
@@ -48,8 +51,18 @@ router.use((err, req, res, next) => {
           message: err.message || "File upload failed",
         });
     }
-  } else if (err.message === "Only PDF files are allowed") {
+  } else if (err && err.code === "INVALID_FILE_TYPE") {
     // Handle file type validation error from fileFilter
+    return res.status(415).json({
+      error: "Unsupported file type",
+      message: err.message || "Only PDF files are allowed",
+    });
+  } else if (
+    err &&
+    err.message &&
+    err.message.includes("Only PDF files are allowed")
+  ) {
+    // Fallback for file type errors
     return res.status(415).json({
       error: "Unsupported file type",
       message: "Only PDF files are allowed",
