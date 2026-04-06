@@ -1,6 +1,8 @@
 const pdf = require("pdf-parse");
 const { searchService } = require("./searchService");
 const dataService = require("./dataService");
+const { pool } = require("../db");
+const { generateEmbedding } = require("../utils/embeddings");
 
 class RagService {
   constructor() {
@@ -29,50 +31,57 @@ class RagService {
       const chunks = this.chunkText(text, this.CHUNK_SIZE, this.CHUNK_OVERLAP);
       console.log(`📦 Generated ${chunks.length} chunks`);
 
-      // 3. Add to DataService (in-memory storage for this demo)
-      // In a production app, we would compute embeddings here and store in a vector DB
-      const processedChunks = chunks.map((chunk, index) => {
-        // Determine which page(s) this chunk spans
-        const pages = this.getChunkPages(chunk, text, pageMap);
+      // 3. Process each chunk and save to Neon DB
+      const client = await pool.connect();
+      try {
+        await client.query('BEGIN');
+        
+        for (let i = 0; i < chunks.length; i++) {
+          const chunk = chunks[i];
+          const pages = this.getChunkPages(chunk, text, pageMap);
+          
+          // Generate embedding for the chunk
+          const embedding = await generateEmbedding(chunk);
 
-        return {
-          id: `${filename}-${index}`,
-          type: "pdf_chunk",
-          title: filename,
-          content: chunk,
-          source: filename,
-          page: pages.start,
-          pageEnd: pages.end,
-          pages:
-            pages.start === pages.end
-              ? `${pages.start}`
-              : `${pages.start}-${pages.end}`,
-          chunkIndex: index + 1,
-          totalChunks: chunks.length,
-          extractedAt: new Date().toISOString(),
-        };
-      });
+          const metadata = {
+            filename,
+            page: pages.start,
+            pageEnd: pages.end,
+            chunkIndex: i + 1,
+            totalChunks: chunks.length,
+            extractedAt: new Date().toISOString()
+          };
 
-      // Store chunks
-      dataService.addPdfChunks(processedChunks, {
-        filename,
-        title: filename,
-        pages: totalPages,
-        extractedAt: new Date().toISOString(),
-      });
+          // Store in Neon with pgvector
+          await client.query(
+            'INSERT INTO documents (content, embedding, metadata) VALUES ($1, $2, $3)',
+            [chunk, JSON.stringify(embedding), JSON.stringify(metadata)]
+          );
 
-      // Update search indices to include new data
-      // This is more efficient than reinitializing as it doesn't reload all data
+          if ((i + 1) % 10 === 0 || i === chunks.length - 1) {
+            console.log(`💾 Progress: ${i + 1}/${chunks.length} chunks stored`);
+          }
+        }
+
+        await client.query('COMMIT');
+      } catch (err) {
+        await client.query('ROLLBACK');
+        throw err;
+      } finally {
+        client.release();
+      }
+
+      // Update legacy search indices to include new data (for backward compatibility)
       searchService.updateSearchIndices();
 
       return {
         success: true,
-        chunks: processedChunks,
+        totalChunks: chunks.length,
         totalPages,
       };
     } catch (error) {
       console.error("❌ PDF extraction error:", error);
-      throw new Error("Failed to process PDF document");
+      throw new Error("Failed to process PDF document: " + error.message);
     }
   }
 

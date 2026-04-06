@@ -1,6 +1,8 @@
 const Fuse = require("fuse.js");
 const dataService = require("./dataService");
 const { formatPDFResponse } = require("../utils/formatters");
+const { pool } = require("../db");
+const { generateEmbedding } = require("../utils/embeddings");
 
 class SearchService {
   constructor() {
@@ -11,6 +13,64 @@ class SearchService {
     this.allDataFuse = null;
     this.initialized = false;
     this.initializationPromise = null;
+  }
+
+  /**
+   * Perform a hybrid search on the Neon database (Vector + Full-Text Search)
+   * @param {string} query - The search query
+   * @returns {Promise<Array>} - Search results
+   */
+  async searchLegalDatabase(query) {
+    try {
+      console.log(`🔎 Hybrid Search on Neon: "${query}"`);
+      
+      // 1. Generate query embedding
+      const queryEmbedding = await generateEmbedding(query);
+      
+      // 2. Perform Hybrid Search using SQL
+      // Combining Vector Similarity (Cosine) and Full-Text Search (Websearch)
+      // We use a simple RRF-like or weighted approach here
+      const sql = `
+        WITH vector_search AS (
+          SELECT id, content, metadata, 1 - (embedding <=> $1::vector) as similarity
+          FROM documents
+          ORDER BY embedding <=> $1::vector
+          LIMIT 10
+        ),
+        fts_search AS (
+          SELECT id, content, metadata, ts_rank_cd(fts_tokens, websearch_to_tsquery('english', $2)) as rank
+          FROM documents
+          WHERE fts_tokens @@ websearch_to_tsquery('english', $2)
+          LIMIT 10
+        )
+        SELECT 
+          COALESCE(v.id, f.id) as id,
+          COALESCE(v.content, f.content) as content,
+          COALESCE(v.metadata, f.metadata) as metadata,
+          COALESCE(v.similarity, 0) as similarity,
+          COALESCE(f.rank, 0) as rank,
+          (COALESCE(v.similarity, 0) * 0.7 + COALESCE(f.rank, 0) * 0.3) as combined_score
+        FROM vector_search v
+        FULL OUTER JOIN fts_search f ON v.id = f.id
+        ORDER BY combined_score DESC
+        LIMIT 5;
+      `;
+
+      const { rows } = await pool.query(sql, [JSON.stringify(queryEmbedding), query]);
+      
+      console.log(`✅ Found ${rows.length} relevant legal chunks in Neon`);
+      
+      return rows.map(row => ({
+        id: row.id,
+        content: row.content,
+        metadata: typeof row.metadata === 'string' ? JSON.parse(row.metadata) : row.metadata,
+        score: row.combined_score,
+        type: 'pdf_chunk'
+      }));
+    } catch (err) {
+      console.error('❌ Neon search error:', err);
+      return []; // Fallback to empty if DB search fails
+    }
   }
 
   async initialize() {
@@ -367,7 +427,25 @@ class SearchService {
       };
     }
 
-    // PRIORITY 3-7: Category-based keyword matching using strategies
+    // PRIORITY 3: Hybrid Search on Neon (Persistent PDF/Legal data)
+    console.log("📄 Searching Neon Hybrid Search...");
+    const neonResults = await this.searchLegalDatabase(message);
+    if (neonResults.length > 0 && neonResults[0].score >= 0.4) {
+      const bestNeonMatch = neonResults[0];
+      console.log(`✓ Neon Hybrid match (${bestNeonMatch.score.toFixed(2)}):`, bestNeonMatch.metadata.filename);
+      
+      const sourceInfo = bestNeonMatch.metadata.page 
+        ? `${bestNeonMatch.metadata.filename} (Page ${bestNeonMatch.metadata.page})`
+        : bestNeonMatch.metadata.filename;
+
+      return {
+        response: `${formatPDFResponse(bestNeonMatch.content)}\n\n*Source: ${sourceInfo}*`,
+        source: `Neon DB - ${bestNeonMatch.metadata.filename}`,
+        sourceType: "pdf",
+      };
+    }
+
+    // PRIORITY 4-8: Category-based keyword matching using strategies
     const strategies = this.getSearchStrategies();
 
     for (const strategy of strategies) {
