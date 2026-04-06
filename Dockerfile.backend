@@ -1,6 +1,6 @@
 FROM node:18-alpine
 
-# Backend Dockerfile for FAQ Chatbot
+# Backend Dockerfile for DeClerk
 WORKDIR /app
 
 ENV NODE_ENV=production

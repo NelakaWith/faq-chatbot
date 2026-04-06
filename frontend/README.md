@@ -1,6 +1,6 @@
-# FAQ Chatbot — Frontend
+# DeClerk UI — Frontend
 
-A Vue 3 frontend for the FAQ Chatbot. This small README explains how to run the development server, build for production, and where the main UI components live.
+A Vue 3 frontend for the DeClerk application. This small README explains how to run the development server, build for production, and where the main UI components live.
 
 ## Quick start
 
@@ -44,7 +44,7 @@ npm run preview
 
 ## Default Chat Mode
 
-- The default chat mode is now **LLM-powered chat** (`llm`). Users will start in LLM mode instead of FAQ mode.
+- The default chat mode is now **LLM-powered chat** (`llm`). Users will start in LLM mode instead of the knowledge base search mode.
 - This change requires a valid API key (e.g., OpenRouter, Gemini, or Groq) to be configured in the backend for the application to function on first launch.
 - If no API key is set, users may see errors or the chat may not function until configuration is complete.
 

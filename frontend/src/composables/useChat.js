@@ -3,7 +3,7 @@ import axios from "axios";
 import { useChatLLM } from "./useChatLLM";
 
 /**
- * Main chat composable that handles both FAQ search and LLM functionality
+ * Main chat composable that handles both search and LLM functionality
  * Provides a unified interface for different chat modes
  */
 export function useChat() {
@@ -88,7 +88,7 @@ export function useChat() {
   };
 
   /**
-   * Send a message using FAQ search mode
+   * Send a message using Knowledge Base search mode
    * @param {string} text - User message
    * @returns {Promise<Object>} Bot response
    */

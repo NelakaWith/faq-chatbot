@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3000;
 
 async function startServer() {
   try {
-    console.log("🚀 Starting FAQ Chatbot Server...");
+    console.log("🚀 Starting DeClerk API Server...");
 
     // Initialize search service (loads data and creates search indexes)
     await initializeSearchService();
