@@ -246,7 +246,7 @@ const handleOpenRouterChat = async (req, res) => {
                   process.env.OPENROUTER_REFERER || req.get("Referer"),
               }
             : {}),
-          "X-Title": process.env.OPENROUTER_TITLE || "FAQ Chatbot",
+          "X-Title": process.env.OPENROUTER_TITLE || "DeClerk",
         },
       },
     );

@@ -1,5 +1,9 @@
 name: PR Commitlint
 
+permissions:
+  contents: read
+  pull-requests: read
+
 on:
   pull_request:
     types: [opened, reopened, synchronize, edited]
@@ -7,9 +11,6 @@ on:
 jobs:
   commitlint:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: read
     steps:
       - name: Checkout PR
         uses: actions/checkout@v4
