@@ -421,31 +421,34 @@ const handleDefaultLlmChat = async (req, res) => {
         console.log(`📚 Found ${contextResults.length} context snippets`);
         sources = contextResults.map((res) => ({
           title: formatLegalTitle(res.metadata.filename),
+          chapter: res.metadata.chapter || "Unknown",
+          part: res.metadata.part || "Unknown",
           score: res.score,
         }));
 
         contextPrompt =
-          "\nUse the following legal context from our database to help answer the user's question. " +
-          "\nINSTRUCTIONS FOR CITATIONS:\n" +
-          "1. IGNORE any 'Page 1' metadata. It is currently unreliable.\n" +
-          "2. SCAN the provided text carefully to find the 'Chapter' name/number and 'Section' number (e.g., 'Section 129' or '129.').\n" +
-          "3. USE the correct legal term 'Section' (not 'Point') for the numbered paragraphs.\n" +
-          "4. REFER to documents by their legal titles. NEVER use filenames like '.pdf'.\n" +
-          "5. FORMAT CITATIONS as: (Source: [Title], Chapter [X], Section [Y]).\n" +
-          "6. Provide a consolidated list of sources at the end of your response.\n\n" +
-          "DATABASE CONTEXT:\n" +
+          "\n# LEGAL CONTEXT FROM DATABASE (HIERARCHY-AWARE)\n" +
           contextResults
             .map((res, i) => {
               const title = formatLegalTitle(res.metadata.filename);
-              return `[[Reference ${i + 1} from ${title}]]: ${res.content}`;
+              const chapter = res.metadata.chapter || "Chapter Unknown";
+              const part = res.metadata.part || "Part Unknown";
+              return `[[Reference ${i + 1} from ${title} | ${part} | ${chapter}]]: ${res.content}`;
             })
-            .join("\n\n");
+            .join("\n\n") +
+          "\n\n# INSTRUCTIONS FOR YOUR RESPONSE (STRICT):\n" +
+          "1. **STRUCTURE**: Use a highly structured format with `###` Markdown headers, **bold text** for key legal terms, and bulleted/numbered lists for procedures.\n" +
+          "2. **CITATIONS**: Use the Part/Chapter/Section information provided in the Reference tags for your citations.\n" +
+          "3. **ACCURACY**: If a Chapter/Part is provided, use it. If not, cite only the Section and Title.\n" +
+          "4. **FORMAT**: Citations as: (Source: [Title], Chapter [X], Section [Y]).\n" +
+          "5. **TERMINOLOGY**: Use 'Section' for numbered points. Never use 'Snippet' or 'Point'.\n" +
+          "6. **SUMMARY**: Add a 'Legal Basis' section at the end summarizing all citations.";
 
         // Inject context into the system message or as a new system message
         const systemMsgIndex = messages.findIndex((m) => m.role === "system");
         const systemBase =
-          "You are a professional legal assistant. You must answer accurately using only the provided document context. " +
-          "Always cite your sources properly according to the document titles provided.";
+          "You are an expert Legal Assistant. Your responses must be professional, highly structured, and strictly grounded in the provided legal context. " +
+          "If the information is not in the context, clearly state that you are using general knowledge.";
 
         if (systemMsgIndex !== -1) {
           // Replace or append to system message

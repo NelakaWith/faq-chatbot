@@ -19,8 +19,8 @@ class RagService {
     try {
       console.log(`📄 Processing PDF: ${filename}`);
 
-      // 1. Extract text from PDF with page tracking
-      const { text, pageMap, totalPages } =
+      // 1. Extract text from PDF with page tracking and structural detection
+      const { text, pageMap, totalPages, structures } =
         await this.extractTextWithPages(fileBuffer);
 
       console.log(
@@ -43,7 +43,9 @@ class RagService {
         for (let j = 0; j < batch.length; j++) {
           const chunk = batch[j];
           const chunkIndex = i + j;
+          const charIndex = text.indexOf(chunk);
           const pages = this.getChunkPages(chunk, text, pageMap);
+          const structure = this.getChunkStructure(charIndex, structures);
           
           try {
             const embedding = await generateEmbedding(chunk);
@@ -53,7 +55,8 @@ class RagService {
               metadata: {
                 filename,
                 page: pages.start,
-                pageEnd: pages.end,
+                part: structure.part,
+                chapter: structure.chapter,
                 chunkIndex: chunkIndex + 1,
                 totalChunks: chunks.length,
                 extractedAt: new Date().toISOString()
@@ -104,105 +107,70 @@ class RagService {
   }
 
   /**
-   * Extract text from PDF with page boundary tracking
+   * Extract text from PDF with page boundary and structural tracking
    * @param {Buffer} fileBuffer - The PDF file buffer
-   * @returns {Promise<{text: string, pageMap: Array, totalPages: number}>}
+   * @returns {Promise<{text: string, pageMap: Array, totalPages: number, structures: Array}>}
    */
   async extractTextWithPages(fileBuffer) {
-    const pageTexts = [];
-    const pageMap = []; // Array of {page: number, startIndex: number, endIndex: number}
+    const data = await pdf(fileBuffer);
+    const text = data.text;
+    const totalPages = data.numpages;
 
-    // Custom render page function to track text by page
-    const options = {
-      pagerender: async (pageData) => {
-        const renderOptions = {
-          normalizeWhitespace: false,
-          disableCombineTextItems: false,
-        };
+    // Build the structural map (Parts, Chapters)
+    const structures = [];
+    const lines = text.split('\n');
+    let currentPart = null;
+    let currentChapter = null;
+    let totalChars = 0;
 
-        return pageData.getTextContent(renderOptions).then((textContent) => {
-          const pageText = textContent.items.map((item) => item.str).join(" ");
-          return pageText;
-        });
-      },
-    };
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        const lineLength = lines[i].length + 1; // +1 for the newline
 
-    const data = await pdf(fileBuffer, options);
+        // Detect Part
+        const partMatch = line.match(/^PART\s+([IVXLCDM]+|[\d]+)/i);
+        if (partMatch) {
+            currentPart = line;
+            // The next line might be the title
+            const nextLine = lines[i+1]?.trim();
+            if (nextLine && !nextLine.match(/^CHAPTER/i) && nextLine.length > 3) {
+                currentPart += `: ${nextLine}`;
+            }
+            structures.push({ type: 'PART', name: currentPart, index: totalChars });
+        }
 
-    // Build the full text and page map
-    let currentIndex = 0;
-    const fullTextParts = [];
+        // Detect Chapter
+        const chapterMatch = line.match(/^CHAPTER\s+([IVXLCDM]+|[\d]+)/i);
+        if (chapterMatch) {
+            currentChapter = line;
+            // The next line might be the title
+            const nextLine = lines[i+1]?.trim();
+            if (nextLine && nextLine.length > 3 && !nextLine.match(/^\d+\./)) {
+                currentChapter += `: ${nextLine}`;
+            }
+            structures.push({ type: 'CHAPTER', name: currentChapter, index: totalChars });
+        }
 
-    // Process each page
-    for (let pageNum = 1; pageNum <= data.numpages; pageNum++) {
-      // Extract text for this page
-      const pageBuffer = fileBuffer;
-      const pageOptions = {
-        ...options,
-        max: pageNum,
-        // Get only this specific page
-        pagerender: async (pageData) => {
-          if (pageData.pageIndex + 1 !== pageNum) return "";
-
-          const renderOptions = {
-            normalizeWhitespace: false,
-            disableCombineTextItems: false,
-          };
-
-          return pageData.getTextContent(renderOptions).then((textContent) => {
-            return textContent.items.map((item) => item.str).join(" ");
-          });
-        },
-      };
-
-      // For simplicity, we'll use the full text and estimate page boundaries
-      // This is a reasonable approximation for most PDFs
-      const pageText = data.text
-        .split("\n")
-        .slice(
-          Math.floor(
-            ((pageNum - 1) * data.text.split("\n").length) / data.numpages,
-          ),
-          Math.floor((pageNum * data.text.split("\n").length) / data.numpages),
-        )
-        .join("\n");
-
-      const startIndex = currentIndex;
-      const endIndex = currentIndex + pageText.length;
-
-      pageMap.push({
-        page: pageNum,
-        startIndex,
-        endIndex,
-      });
-
-      fullTextParts.push(pageText);
-      currentIndex = endIndex;
+        totalChars += lineLength;
     }
 
-    const text = data.text; // Use the original extracted text for consistency
-
-    // Create a more accurate page map based on actual text
-    const accuratePageMap = [];
-    const avgPageLength = Math.floor(text.length / data.numpages);
-
-    for (let i = 0; i < data.numpages; i++) {
-      accuratePageMap.push({
+    // Create a page map (approximate)
+    const avgPageLength = Math.floor(text.length / totalPages);
+    const pageMap = [];
+    for (let i = 0; i < totalPages; i++) {
+      pageMap.push({
         page: i + 1,
         startIndex: i * avgPageLength,
         endIndex: (i + 1) * avgPageLength,
       });
     }
-
-    // Adjust the last page to include any remaining text
-    if (accuratePageMap.length > 0) {
-      accuratePageMap[accuratePageMap.length - 1].endIndex = text.length;
-    }
+    if (pageMap.length > 0) pageMap[pageMap.length - 1].endIndex = text.length;
 
     return {
       text,
-      pageMap: accuratePageMap,
-      totalPages: data.numpages,
+      pageMap,
+      totalPages,
+      structures
     };
   }
 
@@ -240,6 +208,25 @@ class RagService {
     }
 
     return { start: startPage, end: endPage };
+  }
+
+  /**
+   * Determine the current Part and Chapter for a given character index
+   */
+  getChunkStructure(charIndex, structures) {
+    let currentPart = "Unknown Part";
+    let currentChapter = "Unknown Chapter";
+
+    for (const struct of structures) {
+        if (struct.index <= charIndex) {
+            if (struct.type === 'PART') currentPart = struct.name;
+            if (struct.type === 'CHAPTER') currentChapter = struct.name;
+        } else {
+            break;
+        }
+    }
+
+    return { part: currentPart, chapter: currentChapter };
   }
 
   /**
