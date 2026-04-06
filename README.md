@@ -22,7 +22,7 @@ A modern AI-powered chatbot with intelligent knowledge base search and LLM integ
 
 This project demonstrates a full-stack chatbot application with dual operational modes:
 
-- **FAQ Mode**: Intelligent search through structured knowledge bases with fuzzy matching
+- **Search Mode**: Intelligent search through structured knowledge bases with fuzzy matching
 - **AI Assistant Mode**: OpenRouter API integration with Google Gemma 3 for conversational AI
 
 Built as a technical showcase demonstrating modern web development practices, component architecture, and AI integration patterns.
@@ -166,7 +166,7 @@ declerk/
 
 | Method | Endpoint        | Description                |
 | ------ | --------------- | -------------------------- |
-| `POST` | `/api/chat`     | FAQ knowledge base search  |
+| `POST` | `/api/chat`     | Knowledge base search      |
 | `POST` | `/api/chat/llm` | OpenRouter AI conversation |
 | `GET`  | `/api/status`   | Service status and metrics |
 | `GET`  | `/api/health`   | Health check endpoint      |
@@ -219,7 +219,7 @@ declerk/
 ## ⚠️ Default Chat Mode Change
 
 - The default chat mode is now **LLM-powered chat** (`llm`).
-- Users will start in LLM mode instead of FAQ mode.
+- Users will start in LLM mode instead of the knowledge base search mode.
 - Ensure you have configured a valid API key (OpenRouter, Gemini, or Groq) in your backend `.env` before first launch, or the chat may not function.
 
 ## 🤝 Contributing

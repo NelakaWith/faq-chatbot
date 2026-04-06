@@ -1,7 +1,7 @@
 {
   "name": "declerk-api",
   "version": "1.0.0",
-  "description": "FAQ Chatbot API",
+  "description": "DeClerk API",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -12,7 +12,7 @@
   },
   "keywords": [
     "chatbot",
-    "faq",
+    "declerk",
     "api",
     "pdf",
     "search"
