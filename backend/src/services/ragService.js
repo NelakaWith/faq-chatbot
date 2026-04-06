@@ -31,52 +31,70 @@ class RagService {
       const chunks = this.chunkText(text, this.CHUNK_SIZE, this.CHUNK_OVERLAP);
       console.log(`📦 Generated ${chunks.length} chunks`);
 
-      // 3. Process each chunk and save to Neon DB
-      const client = await pool.connect();
-      try {
-        await client.query('BEGIN');
-        
-        for (let i = 0; i < chunks.length; i++) {
-          const chunk = chunks[i];
+      // 3. Process chunks in batches to avoid database timeouts
+      const BATCH_SIZE = 20;
+      let totalProcessed = 0;
+
+      for (let i = 0; i < chunks.length; i += BATCH_SIZE) {
+        const batch = chunks.slice(i, i + BATCH_SIZE);
+        const processedBatch = [];
+
+        // Generate embeddings for the batch OUTSIDE the transaction
+        for (let j = 0; j < batch.length; j++) {
+          const chunk = batch[j];
+          const chunkIndex = i + j;
           const pages = this.getChunkPages(chunk, text, pageMap);
           
-          // Generate embedding for the chunk
-          const embedding = await generateEmbedding(chunk);
-
-          const metadata = {
-            filename,
-            page: pages.start,
-            pageEnd: pages.end,
-            chunkIndex: i + 1,
-            totalChunks: chunks.length,
-            extractedAt: new Date().toISOString()
-          };
-
-          // Store in Neon with pgvector
-          await client.query(
-            'INSERT INTO documents (content, embedding, metadata) VALUES ($1, $2, $3)',
-            [chunk, JSON.stringify(embedding), JSON.stringify(metadata)]
-          );
-
-          if ((i + 1) % 10 === 0 || i === chunks.length - 1) {
-            console.log(`💾 Progress: ${i + 1}/${chunks.length} chunks stored`);
+          try {
+            const embedding = await generateEmbedding(chunk);
+            processedBatch.push({
+              content: chunk,
+              embedding,
+              metadata: {
+                filename,
+                page: pages.start,
+                pageEnd: pages.end,
+                chunkIndex: chunkIndex + 1,
+                totalChunks: chunks.length,
+                extractedAt: new Date().toISOString()
+              }
+            });
+          } catch (embedError) {
+            console.error(`⚠️ Failed to generate embedding for chunk ${chunkIndex + 1}:`, embedError);
+            // Continue with other chunks
           }
         }
 
-        await client.query('COMMIT');
-      } catch (err) {
-        await client.query('ROLLBACK');
-        throw err;
-      } finally {
-        client.release();
+        // Save batch to database in a short-lived transaction
+        if (processedBatch.length > 0) {
+          const client = await pool.connect();
+          try {
+            await client.query('BEGIN');
+            for (const item of processedBatch) {
+              await client.query(
+                'INSERT INTO documents (content, embedding, metadata) VALUES ($1, $2, $3)',
+                [item.content, JSON.stringify(item.embedding), JSON.stringify(item.metadata)]
+              );
+            }
+            await client.query('COMMIT');
+            totalProcessed += processedBatch.length;
+            console.log(`💾 Progress: ${totalProcessed}/${chunks.length} chunks stored`);
+          } catch (dbErr) {
+            await client.query('ROLLBACK');
+            console.error(`❌ Batch database error (batch starting at ${i}):`, dbErr);
+          } finally {
+            client.release();
+          }
+        }
       }
 
       // Update legacy search indices to include new data (for backward compatibility)
       searchService.updateSearchIndices();
 
       return {
-        success: true,
+        success: totalProcessed > 0,
         totalChunks: chunks.length,
+        processedChunks: totalProcessed,
         totalPages,
       };
     } catch (error) {
@@ -234,117 +252,39 @@ class RagService {
     const chunks = [];
     let start = 0;
 
-    // Normalize whitespace while preserving paragraph breaks
-    const cleanText = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+    // Normalize whitespace
+    const cleanText = text.replace(/\s+/g, " ");
 
     while (start < cleanText.length) {
-      let end = Math.min(start + size, cleanText.length);
-
-      // If not at the end of text, find a good breaking point
+      let end = start + size;
+      
       if (end < cleanText.length) {
-        end = this.findSemanticBoundary(cleanText, start, end, size);
+        // Look for a reasonable boundary within the last 20% of the chunk
+        const searchRange = Math.floor(size * 0.2);
+        const searchText = cleanText.slice(end - searchRange, end + 50);
+        
+        // Try paragraph, then sentence, then space
+        const pMatch = searchText.match(/\n\n/);
+        const sMatch = searchText.match(/[.!?]\s/);
+        const wMatch = searchText.match(/\s/);
+        
+        const boundary = pMatch || sMatch || wMatch;
+        if (boundary) {
+          end = (end - searchRange) + boundary.index + boundary[0].length;
+        }
       }
 
-      const chunk = cleanText.slice(start, end).trim();
+      const chunk = cleanText.slice(start, Math.min(end, cleanText.length)).trim();
       if (chunk.length > 0) {
         chunks.push(chunk);
       }
 
-      // Move start forward, accounting for overlap
-      start = end - overlap;
-
-      // Ensure we make progress even with overlap
-      if (
-        start <= chunks.length > 0
-          ? cleanText.indexOf(chunks[chunks.length - 1])
-          : 0
-      ) {
-        start = end;
-      }
+      // Ensure we always move forward by at least 1 character even if overlap is large
+      const nextStart = end - overlap;
+      start = nextStart > start ? nextStart : end;
     }
 
     return chunks;
-  }
-
-  /**
-   * Find a semantic boundary (paragraph, sentence, or word) near the target position
-   * @param {string} text
-   * @param {number} start - Start position of chunk
-   * @param {number} end - Target end position
-   * @param {number} maxSize - Maximum chunk size
-   * @returns {number} - Adjusted end position
-   */
-  findSemanticBoundary(text, start, end, maxSize) {
-    const searchStart = Math.max(start, end - 100); // Look back up to 100 chars
-    const searchText = text.slice(searchStart, end + 100); // Look ahead up to 100 chars
-    const offset = searchStart;
-
-    // 1. Try to break at paragraph (double newline or single newline followed by indent/capital)
-    const paragraphPattern = /\n\n+|\n(?=[A-Z]|\s{2,})/g;
-    let match;
-    let bestParagraphBreak = -1;
-
-    paragraphPattern.lastIndex = 0;
-    while ((match = paragraphPattern.exec(searchText)) !== null) {
-      const breakPos = offset + match.index + match[0].length;
-      if (breakPos <= end && breakPos >= end - 200) {
-        bestParagraphBreak = breakPos;
-      } else if (breakPos > end) {
-        if (bestParagraphBreak === -1 && breakPos <= start + maxSize) {
-          bestParagraphBreak = breakPos;
-        }
-        break;
-      }
-    }
-
-    if (bestParagraphBreak !== -1) {
-      return bestParagraphBreak;
-    }
-
-    // 2. Try to break at sentence end (. ! ? followed by space or newline)
-    const sentencePattern = /[.!?][\s\n]+/g;
-    let bestSentenceBreak = -1;
-
-    sentencePattern.lastIndex = 0;
-    while ((match = sentencePattern.exec(searchText)) !== null) {
-      const breakPos = offset + match.index + match[0].length;
-      if (breakPos <= end && breakPos >= end - 100) {
-        bestSentenceBreak = breakPos;
-      } else if (breakPos > end) {
-        if (bestSentenceBreak === -1 && breakPos <= start + maxSize) {
-          bestSentenceBreak = breakPos;
-        }
-        break;
-      }
-    }
-
-    if (bestSentenceBreak !== -1) {
-      return bestSentenceBreak;
-    }
-
-    // 3. Try to break at word boundary (space, newline, or punctuation)
-    const wordPattern = /[\s\n,;:]+/g;
-    let bestWordBreak = -1;
-
-    wordPattern.lastIndex = 0;
-    while ((match = wordPattern.exec(searchText)) !== null) {
-      const breakPos = offset + match.index + match[0].length;
-      if (breakPos <= end && breakPos >= end - 50) {
-        bestWordBreak = breakPos;
-      } else if (breakPos > end) {
-        if (bestWordBreak === -1 && breakPos <= start + maxSize) {
-          bestWordBreak = breakPos;
-        }
-        break;
-      }
-    }
-
-    if (bestWordBreak !== -1) {
-      return bestWordBreak;
-    }
-
-    // 4. Fallback: return original end if no good boundary found
-    return end;
   }
 }
 

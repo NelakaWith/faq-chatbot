@@ -65,12 +65,8 @@ const handleFileSelected = async (file) => {
 };
 
 const toggleChatMode = () => {
-  // Cycle modes: faq -> llm -> kb -> faq
-  let newMode = "faq";
-  if (chatMode.value === "faq") newMode = "llm";
-  else if (chatMode.value === "llm") newMode = "kb";
-  else if (chatMode.value === "kb") newMode = "faq";
-
+  // Cycle modes: llm -> kb -> llm
+  let newMode = chatMode.value === "llm" ? "kb" : "llm";
   switchMode(newMode);
 };
 
