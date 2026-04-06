@@ -1,5 +1,6 @@
 const { searchService } = require("../services/searchService");
 const axios = require("axios");
+const { formatLegalTitle } = require("../config/legalNames");
 
 /**
  * Handle chat requests
@@ -419,31 +420,41 @@ const handleDefaultLlmChat = async (req, res) => {
       if (contextResults.length > 0) {
         console.log(`📚 Found ${contextResults.length} context snippets`);
         sources = contextResults.map((res) => ({
-          title: res.metadata.filename,
-          page: res.metadata.page,
+          title: formatLegalTitle(res.metadata.filename),
           score: res.score,
         }));
 
         contextPrompt =
           "\nUse the following legal context from our database to help answer the user's question. " +
-          "If the answer is found in the context, please cite the Source and Page Number. " +
-          "If the answer is not in the context, you may use your general knowledge but mention that it wasn't found in the specific uploaded documents.\n\n" +
+          "\nINSTRUCTIONS FOR CITATIONS:\n" +
+          "1. IGNORE any 'Page 1' metadata. It is currently unreliable.\n" +
+          "2. SCAN the provided text carefully to find the 'Chapter' name/number and 'Section' number (e.g., 'Section 129' or '129.').\n" +
+          "3. USE the correct legal term 'Section' (not 'Point') for the numbered paragraphs.\n" +
+          "4. REFER to documents by their legal titles. NEVER use filenames like '.pdf'.\n" +
+          "5. FORMAT CITATIONS as: (Source: [Title], Chapter [X], Section [Y]).\n" +
+          "6. Provide a consolidated list of sources at the end of your response.\n\n" +
           "DATABASE CONTEXT:\n" +
           contextResults
-            .map(
-              (res, i) =>
-                `[Snippet ${i + 1} from ${res.metadata.filename}, Page ${res.metadata.page}]: ${res.content}`,
-            )
+            .map((res, i) => {
+              const title = formatLegalTitle(res.metadata.filename);
+              return `[[Reference ${i + 1} from ${title}]]: ${res.content}`;
+            })
             .join("\n\n");
 
         // Inject context into the system message or as a new system message
         const systemMsgIndex = messages.findIndex((m) => m.role === "system");
+        const systemBase =
+          "You are a professional legal assistant. You must answer accurately using only the provided document context. " +
+          "Always cite your sources properly according to the document titles provided.";
+
         if (systemMsgIndex !== -1) {
-          messages[systemMsgIndex].content += "\n\n" + contextPrompt;
+          // Replace or append to system message
+          messages[systemMsgIndex].content =
+            systemBase + "\n\n" + contextPrompt;
         } else {
           messages.unshift({
             role: "system",
-            content: "You are a professional legal assistant. " + contextPrompt,
+            content: systemBase + contextPrompt,
           });
         }
       }
@@ -463,9 +474,7 @@ const handleDefaultLlmChat = async (req, res) => {
         response: responseText, // Add convenient top-level response
         sources: sources,
         source:
-          sources.length > 0
-            ? `Legal PDF: ${sources[0].title}`
-            : "General Knowledge",
+          sources.length > 0 ? `${sources[0].title}` : "General Knowledge",
         sourceType: sources.length > 0 ? "rag_persistent" : "llm_general",
       });
     }
