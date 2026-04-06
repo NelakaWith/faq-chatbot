@@ -1,3 +1,10 @@
+# [2.3.0](https://github.com/NelakaWith/de-clerk/compare/v2.2.0...v2.3.0) (2026-04-06)
+
+
+### Features
+
+* **branding:** implement backend server and frontend chat composable for DeClerk application ([67d7ebb](https://github.com/NelakaWith/de-clerk/commit/67d7ebb2d625fc51e7a2821d238c05e97e8a2f2c))
+
 # [2.2.0](https://github.com/NelakaWith/de-clerk/compare/v2.1.0...v2.2.0) (2026-04-06)
 
 

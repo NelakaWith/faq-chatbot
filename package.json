@@ -1,7 +1,7 @@
 {
   "name": "declerk",
   "private": true,
-  "version": "2.2.0",
+  "version": "2.3.0",
   "scripts": {
     "prepare": "husky install",
     "commit": "git-cz",
