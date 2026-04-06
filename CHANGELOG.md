@@ -1,3 +1,13 @@
+# [2.1.0](https://github.com/NelakaWith/faq-chatbot/compare/v2.0.0...v2.1.0) (2026-04-06)
+
+
+### Features
+
+* **arg:** implement RAG-enabled chat controller and PDF embedding scripts ([975893b](https://github.com/NelakaWith/faq-chatbot/commit/975893b1039110376e470986611c39ec2425d7db))
+* **chat:** implement legal document title formatting and add multi-provider chat controller support ([68b4157](https://github.com/NelakaWith/faq-chatbot/commit/68b4157646d88398282259533b9e0743e299d2cd))
+* **embeddings:** implement search service with hybrid vector and full-text search capabilities for FAQ and legal documentation ([e5561f6](https://github.com/NelakaWith/faq-chatbot/commit/e5561f698a07ad22e0f07840548487dd81fe84e3))
+* **vectors:** implement RAG-enabled chatbot backend with multi-provider LLM support and frontend chat interface ([29b75b8](https://github.com/NelakaWith/faq-chatbot/commit/29b75b86fe0312b481de276d51111d3a08d32a0a))
+
 # [2.0.0](https://github.com/NelakaWith/faq-chatbot/compare/v1.4.0...v2.0.0) (2026-01-27)
 
 
