@@ -12,6 +12,11 @@ async function startServer() {
     // Initialize search service (loads data and creates search indexes)
     await initializeSearchService();
 
+    // Initialize Neon Database (pgvector schema)
+    const { initializeSchema, initVector } = require("./src/db");
+    await initializeSchema();
+    await initVector();
+
     // Start HTTP server
     const server = app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);

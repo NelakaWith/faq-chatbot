@@ -1,6 +1,8 @@
 const pdf = require("pdf-parse");
 const { searchService } = require("./searchService");
 const dataService = require("./dataService");
+const { pool } = require("../db");
+const { generateEmbedding } = require("../utils/embeddings");
 
 class RagService {
   constructor() {
@@ -17,8 +19,8 @@ class RagService {
     try {
       console.log(`📄 Processing PDF: ${filename}`);
 
-      // 1. Extract text from PDF with page tracking
-      const { text, pageMap, totalPages } =
+      // 1. Extract text from PDF with page tracking and structural detection
+      const { text, pageMap, totalPages, structures } =
         await this.extractTextWithPages(fileBuffer);
 
       console.log(
@@ -29,153 +31,146 @@ class RagService {
       const chunks = this.chunkText(text, this.CHUNK_SIZE, this.CHUNK_OVERLAP);
       console.log(`📦 Generated ${chunks.length} chunks`);
 
-      // 3. Add to DataService (in-memory storage for this demo)
-      // In a production app, we would compute embeddings here and store in a vector DB
-      const processedChunks = chunks.map((chunk, index) => {
-        // Determine which page(s) this chunk spans
-        const pages = this.getChunkPages(chunk, text, pageMap);
+      // 3. Process chunks in batches to avoid database timeouts
+      const BATCH_SIZE = 20;
+      let totalProcessed = 0;
 
-        return {
-          id: `${filename}-${index}`,
-          type: "pdf_chunk",
-          title: filename,
-          content: chunk,
-          source: filename,
-          page: pages.start,
-          pageEnd: pages.end,
-          pages:
-            pages.start === pages.end
-              ? `${pages.start}`
-              : `${pages.start}-${pages.end}`,
-          chunkIndex: index + 1,
-          totalChunks: chunks.length,
-          extractedAt: new Date().toISOString(),
-        };
-      });
+      for (let i = 0; i < chunks.length; i += BATCH_SIZE) {
+        const batch = chunks.slice(i, i + BATCH_SIZE);
+        const processedBatch = [];
 
-      // Store chunks
-      dataService.addPdfChunks(processedChunks, {
-        filename,
-        title: filename,
-        pages: totalPages,
-        extractedAt: new Date().toISOString(),
-      });
+        // Generate embeddings for the batch OUTSIDE the transaction
+        for (let j = 0; j < batch.length; j++) {
+          const chunk = batch[j];
+          const chunkIndex = i + j;
+          const charIndex = text.indexOf(chunk);
+          const pages = this.getChunkPages(chunk, text, pageMap);
+          const structure = this.getChunkStructure(charIndex, structures);
+          
+          try {
+            const embedding = await generateEmbedding(chunk);
+            processedBatch.push({
+              content: chunk,
+              embedding,
+              metadata: {
+                filename,
+                page: pages.start,
+                part: structure.part,
+                chapter: structure.chapter,
+                chunkIndex: chunkIndex + 1,
+                totalChunks: chunks.length,
+                extractedAt: new Date().toISOString()
+              }
+            });
+          } catch (embedError) {
+            console.error(`⚠️ Failed to generate embedding for chunk ${chunkIndex + 1}:`, embedError);
+            // Continue with other chunks
+          }
+        }
 
-      // Update search indices to include new data
-      // This is more efficient than reinitializing as it doesn't reload all data
+        // Save batch to database in a short-lived transaction
+        if (processedBatch.length > 0) {
+          const client = await pool.connect();
+          try {
+            await client.query('BEGIN');
+            for (const item of processedBatch) {
+              await client.query(
+                'INSERT INTO documents (content, embedding, metadata) VALUES ($1, $2, $3)',
+                [item.content, JSON.stringify(item.embedding), JSON.stringify(item.metadata)]
+              );
+            }
+            await client.query('COMMIT');
+            totalProcessed += processedBatch.length;
+            console.log(`💾 Progress: ${totalProcessed}/${chunks.length} chunks stored`);
+          } catch (dbErr) {
+            await client.query('ROLLBACK');
+            console.error(`❌ Batch database error (batch starting at ${i}):`, dbErr);
+          } finally {
+            client.release();
+          }
+        }
+      }
+
+      // Update legacy search indices to include new data (for backward compatibility)
       searchService.updateSearchIndices();
 
       return {
-        success: true,
-        chunks: processedChunks,
+        success: totalProcessed > 0,
+        totalChunks: chunks.length,
+        processedChunks: totalProcessed,
         totalPages,
       };
     } catch (error) {
       console.error("❌ PDF extraction error:", error);
-      throw new Error("Failed to process PDF document");
+      throw new Error("Failed to process PDF document: " + error.message);
     }
   }
 
   /**
-   * Extract text from PDF with page boundary tracking
+   * Extract text from PDF with page boundary and structural tracking
    * @param {Buffer} fileBuffer - The PDF file buffer
-   * @returns {Promise<{text: string, pageMap: Array, totalPages: number}>}
+   * @returns {Promise<{text: string, pageMap: Array, totalPages: number, structures: Array}>}
    */
   async extractTextWithPages(fileBuffer) {
-    const pageTexts = [];
-    const pageMap = []; // Array of {page: number, startIndex: number, endIndex: number}
+    const data = await pdf(fileBuffer);
+    const text = data.text;
+    const totalPages = data.numpages;
 
-    // Custom render page function to track text by page
-    const options = {
-      pagerender: async (pageData) => {
-        const renderOptions = {
-          normalizeWhitespace: false,
-          disableCombineTextItems: false,
-        };
+    // Build the structural map (Parts, Chapters)
+    const structures = [];
+    const lines = text.split('\n');
+    let currentPart = null;
+    let currentChapter = null;
+    let totalChars = 0;
 
-        return pageData.getTextContent(renderOptions).then((textContent) => {
-          const pageText = textContent.items.map((item) => item.str).join(" ");
-          return pageText;
-        });
-      },
-    };
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        const lineLength = lines[i].length + 1; // +1 for the newline
 
-    const data = await pdf(fileBuffer, options);
+        // Detect Part
+        const partMatch = line.match(/^PART\s+([IVXLCDM]+|[\d]+)/i);
+        if (partMatch) {
+            currentPart = line;
+            // The next line might be the title
+            const nextLine = lines[i+1]?.trim();
+            if (nextLine && !nextLine.match(/^CHAPTER/i) && nextLine.length > 3) {
+                currentPart += `: ${nextLine}`;
+            }
+            structures.push({ type: 'PART', name: currentPart, index: totalChars });
+        }
 
-    // Build the full text and page map
-    let currentIndex = 0;
-    const fullTextParts = [];
+        // Detect Chapter
+        const chapterMatch = line.match(/^CHAPTER\s+([IVXLCDM]+|[\d]+)/i);
+        if (chapterMatch) {
+            currentChapter = line;
+            // The next line might be the title
+            const nextLine = lines[i+1]?.trim();
+            if (nextLine && nextLine.length > 3 && !nextLine.match(/^\d+\./)) {
+                currentChapter += `: ${nextLine}`;
+            }
+            structures.push({ type: 'CHAPTER', name: currentChapter, index: totalChars });
+        }
 
-    // Process each page
-    for (let pageNum = 1; pageNum <= data.numpages; pageNum++) {
-      // Extract text for this page
-      const pageBuffer = fileBuffer;
-      const pageOptions = {
-        ...options,
-        max: pageNum,
-        // Get only this specific page
-        pagerender: async (pageData) => {
-          if (pageData.pageIndex + 1 !== pageNum) return "";
-
-          const renderOptions = {
-            normalizeWhitespace: false,
-            disableCombineTextItems: false,
-          };
-
-          return pageData.getTextContent(renderOptions).then((textContent) => {
-            return textContent.items.map((item) => item.str).join(" ");
-          });
-        },
-      };
-
-      // For simplicity, we'll use the full text and estimate page boundaries
-      // This is a reasonable approximation for most PDFs
-      const pageText = data.text
-        .split("\n")
-        .slice(
-          Math.floor(
-            ((pageNum - 1) * data.text.split("\n").length) / data.numpages,
-          ),
-          Math.floor((pageNum * data.text.split("\n").length) / data.numpages),
-        )
-        .join("\n");
-
-      const startIndex = currentIndex;
-      const endIndex = currentIndex + pageText.length;
-
-      pageMap.push({
-        page: pageNum,
-        startIndex,
-        endIndex,
-      });
-
-      fullTextParts.push(pageText);
-      currentIndex = endIndex;
+        totalChars += lineLength;
     }
 
-    const text = data.text; // Use the original extracted text for consistency
-
-    // Create a more accurate page map based on actual text
-    const accuratePageMap = [];
-    const avgPageLength = Math.floor(text.length / data.numpages);
-
-    for (let i = 0; i < data.numpages; i++) {
-      accuratePageMap.push({
+    // Create a page map (approximate)
+    const avgPageLength = Math.floor(text.length / totalPages);
+    const pageMap = [];
+    for (let i = 0; i < totalPages; i++) {
+      pageMap.push({
         page: i + 1,
         startIndex: i * avgPageLength,
         endIndex: (i + 1) * avgPageLength,
       });
     }
-
-    // Adjust the last page to include any remaining text
-    if (accuratePageMap.length > 0) {
-      accuratePageMap[accuratePageMap.length - 1].endIndex = text.length;
-    }
+    if (pageMap.length > 0) pageMap[pageMap.length - 1].endIndex = text.length;
 
     return {
       text,
-      pageMap: accuratePageMap,
-      totalPages: data.numpages,
+      pageMap,
+      totalPages,
+      structures
     };
   }
 
@@ -216,6 +211,25 @@ class RagService {
   }
 
   /**
+   * Determine the current Part and Chapter for a given character index
+   */
+  getChunkStructure(charIndex, structures) {
+    let currentPart = "Unknown Part";
+    let currentChapter = "Unknown Chapter";
+
+    for (const struct of structures) {
+        if (struct.index <= charIndex) {
+            if (struct.type === 'PART') currentPart = struct.name;
+            if (struct.type === 'CHAPTER') currentChapter = struct.name;
+        } else {
+            break;
+        }
+    }
+
+    return { part: currentPart, chapter: currentChapter };
+  }
+
+  /**
    * Split text into overlapping chunks with semantic awareness
    * @param {string} text
    * @param {number} size
@@ -225,117 +239,39 @@ class RagService {
     const chunks = [];
     let start = 0;
 
-    // Normalize whitespace while preserving paragraph breaks
-    const cleanText = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+    // Normalize whitespace
+    const cleanText = text.replace(/\s+/g, " ");
 
     while (start < cleanText.length) {
-      let end = Math.min(start + size, cleanText.length);
-
-      // If not at the end of text, find a good breaking point
+      let end = start + size;
+      
       if (end < cleanText.length) {
-        end = this.findSemanticBoundary(cleanText, start, end, size);
+        // Look for a reasonable boundary within the last 20% of the chunk
+        const searchRange = Math.floor(size * 0.2);
+        const searchText = cleanText.slice(end - searchRange, end + 50);
+        
+        // Try paragraph, then sentence, then space
+        const pMatch = searchText.match(/\n\n/);
+        const sMatch = searchText.match(/[.!?]\s/);
+        const wMatch = searchText.match(/\s/);
+        
+        const boundary = pMatch || sMatch || wMatch;
+        if (boundary) {
+          end = (end - searchRange) + boundary.index + boundary[0].length;
+        }
       }
 
-      const chunk = cleanText.slice(start, end).trim();
+      const chunk = cleanText.slice(start, Math.min(end, cleanText.length)).trim();
       if (chunk.length > 0) {
         chunks.push(chunk);
       }
 
-      // Move start forward, accounting for overlap
-      start = end - overlap;
-
-      // Ensure we make progress even with overlap
-      if (
-        start <= chunks.length > 0
-          ? cleanText.indexOf(chunks[chunks.length - 1])
-          : 0
-      ) {
-        start = end;
-      }
+      // Ensure we always move forward by at least 1 character even if overlap is large
+      const nextStart = end - overlap;
+      start = nextStart > start ? nextStart : end;
     }
 
     return chunks;
-  }
-
-  /**
-   * Find a semantic boundary (paragraph, sentence, or word) near the target position
-   * @param {string} text
-   * @param {number} start - Start position of chunk
-   * @param {number} end - Target end position
-   * @param {number} maxSize - Maximum chunk size
-   * @returns {number} - Adjusted end position
-   */
-  findSemanticBoundary(text, start, end, maxSize) {
-    const searchStart = Math.max(start, end - 100); // Look back up to 100 chars
-    const searchText = text.slice(searchStart, end + 100); // Look ahead up to 100 chars
-    const offset = searchStart;
-
-    // 1. Try to break at paragraph (double newline or single newline followed by indent/capital)
-    const paragraphPattern = /\n\n+|\n(?=[A-Z]|\s{2,})/g;
-    let match;
-    let bestParagraphBreak = -1;
-
-    paragraphPattern.lastIndex = 0;
-    while ((match = paragraphPattern.exec(searchText)) !== null) {
-      const breakPos = offset + match.index + match[0].length;
-      if (breakPos <= end && breakPos >= end - 200) {
-        bestParagraphBreak = breakPos;
-      } else if (breakPos > end) {
-        if (bestParagraphBreak === -1 && breakPos <= start + maxSize) {
-          bestParagraphBreak = breakPos;
-        }
-        break;
-      }
-    }
-
-    if (bestParagraphBreak !== -1) {
-      return bestParagraphBreak;
-    }
-
-    // 2. Try to break at sentence end (. ! ? followed by space or newline)
-    const sentencePattern = /[.!?][\s\n]+/g;
-    let bestSentenceBreak = -1;
-
-    sentencePattern.lastIndex = 0;
-    while ((match = sentencePattern.exec(searchText)) !== null) {
-      const breakPos = offset + match.index + match[0].length;
-      if (breakPos <= end && breakPos >= end - 100) {
-        bestSentenceBreak = breakPos;
-      } else if (breakPos > end) {
-        if (bestSentenceBreak === -1 && breakPos <= start + maxSize) {
-          bestSentenceBreak = breakPos;
-        }
-        break;
-      }
-    }
-
-    if (bestSentenceBreak !== -1) {
-      return bestSentenceBreak;
-    }
-
-    // 3. Try to break at word boundary (space, newline, or punctuation)
-    const wordPattern = /[\s\n,;:]+/g;
-    let bestWordBreak = -1;
-
-    wordPattern.lastIndex = 0;
-    while ((match = wordPattern.exec(searchText)) !== null) {
-      const breakPos = offset + match.index + match[0].length;
-      if (breakPos <= end && breakPos >= end - 50) {
-        bestWordBreak = breakPos;
-      } else if (breakPos > end) {
-        if (bestWordBreak === -1 && breakPos <= start + maxSize) {
-          bestWordBreak = breakPos;
-        }
-        break;
-      }
-    }
-
-    if (bestWordBreak !== -1) {
-      return bestWordBreak;
-    }
-
-    // 4. Fallback: return original end if no good boundary found
-    return end;
   }
 }
 

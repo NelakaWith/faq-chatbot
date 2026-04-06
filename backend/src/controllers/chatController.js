@@ -1,8 +1,16 @@
 const { searchService } = require("../services/searchService");
 const axios = require("axios");
+const { formatLegalTitle } = require("../config/legalNames");
 
 /**
  * Handle chat requests
+ */
+/**
+ * Handle chat requests with RAG (Retrieval-Augmented Generation)
+ */
+/**
+ * Handle chat requests (Entry point for the chatbot UI)
+ * This now leverages the unified RAG dispatcher in handleDefaultLlmChat
  */
 const handleChatRequest = async (req, res) => {
   try {
@@ -19,44 +27,16 @@ const handleChatRequest = async (req, res) => {
       });
     }
 
-    console.log(`🔍 Processing: "${message}"`);
+    console.log(`🚀 Chat entry point: "${message}"`);
 
-    const result = await searchService.searchKnowledgeBase(message.trim());
-
-    // Ensure UI gets button suggestions even for plain fallback responses
-    if (
-      result &&
-      result.sourceType === "fallback" &&
-      !result.buttonSuggestions
-    ) {
-      result.buttonSuggestions = [
-        {
-          text: "How do I create an account?",
-          action: "ask",
-          value: "How do I create an account?",
-        },
-        {
-          text: "How do I reset my password?",
-          action: "ask",
-          value: "How do I reset my password?",
-        },
-        {
-          text: "How can I contact customer support?",
-          action: "ask",
-          value: "How can I contact customer support?",
-        },
-      ];
-    }
-
-    res.json(result);
+    // The unified RAG logic is now inside handleDefaultLlmChat
+    return handleDefaultLlmChat(req, res);
   } catch (error) {
     console.error("❌ Chat request error:", error);
     res.status(500).json({
-      error: "Search failed",
+      error: "Chat request failed",
       response:
-        "I'm sorry, I encountered an error while processing your request. Please try again.",
-      source: "System",
-      sourceType: "error",
+        "I'm sorry, I encountered an error while processing your request.",
     });
   }
 };
@@ -410,14 +390,106 @@ const handleGroqChat = async (req, res) => {
 };
 
 /**
- * Handle Default LLM chat (Dispatcher)
- * Dispatches to specific handlers based on provider
+ * Handle Default LLM chat (Dispatcher) with RAG support
+ * Dispatches to specific handlers after augmenting with database context
  */
 const handleDefaultLlmChat = async (req, res) => {
-  const { provider } = req.body;
+  let { provider, messages, message } = req.body;
+
+  // 1. If we have a single 'message' but no messages array, create it
+  if (!messages && message) {
+    messages = [{ role: "user", content: message }];
+  }
+
+  if (!messages || messages.length === 0) {
+    return res.status(400).json({ error: "No messages provided" });
+  }
+
+  const lastUserMsg = [...messages].reverse().find((m) => m.role === "user");
+  const query = lastUserMsg ? lastUserMsg.content : "";
+
+  // 2. Retrieve RAG Context (if not already handled or if desired for all queries)
+  let contextPrompt = "";
+  let sources = [];
+
+  if (query) {
+    try {
+      console.log(`🔎 Dispatcher RAG search for: "${query}"`);
+      const contextResults = await searchService.searchLegalDatabase(query);
+
+      if (contextResults.length > 0) {
+        console.log(`📚 Found ${contextResults.length} context snippets`);
+        sources = contextResults.map((res) => ({
+          title: formatLegalTitle(res.metadata.filename),
+          chapter: res.metadata.chapter || "Unknown",
+          part: res.metadata.part || "Unknown",
+          score: res.score,
+        }));
+
+        contextPrompt =
+          "\n# LEGAL CONTEXT FROM DATABASE (HIERARCHY-AWARE)\n" +
+          contextResults
+            .map((res, i) => {
+              const title = formatLegalTitle(res.metadata.filename);
+              const chapter = res.metadata.chapter || "Chapter Unknown";
+              const part = res.metadata.part || "Part Unknown";
+              return `[[Reference ${i + 1} from ${title} | ${part} | ${chapter}]]: ${res.content}`;
+            })
+            .join("\n\n") +
+          "\n\n# INSTRUCTIONS FOR YOUR RESPONSE (STRICT):\n" +
+          "1. **STRUCTURE**: Use a highly structured format with `###` Markdown headers, **bold text** for key legal terms, and bulleted/numbered lists for procedures.\n" +
+          "2. **CITATIONS**: Use the Part/Chapter/Section information provided in the Reference tags for your citations.\n" +
+          "3. **ACCURACY**: If a Chapter/Part is provided, use it. If not, cite only the Section and Title.\n" +
+          "4. **FORMAT**: Citations as: (Source: [Title], Chapter [X], Section [Y]).\n" +
+          "5. **TERMINOLOGY**: Use 'Section' for numbered points. Never use 'Snippet' or 'Point'.\n" +
+          "6. **SUMMARY**: Add a 'Legal Basis' section at the end summarizing all citations.";
+
+        // Inject context into the system message or as a new system message
+        const systemMsgIndex = messages.findIndex((m) => m.role === "system");
+        const systemBase =
+          "You are an expert Legal Assistant. Your responses must be professional, highly structured, and strictly grounded in the provided legal context. " +
+          "If the information is not in the context, clearly state that you are using general knowledge.";
+
+        if (systemMsgIndex !== -1) {
+          // Replace or append to system message
+          messages[systemMsgIndex].content =
+            systemBase + "\n\n" + contextPrompt;
+        } else {
+          messages.unshift({
+            role: "system",
+            content: systemBase + contextPrompt,
+          });
+        }
+      }
+    } catch (err) {
+      console.error("⚠️ RAG Dispatcher Error:", err);
+    }
+  }
+
+  // 3. Setup Response Interceptor to add metadata
+  const originalJson = res.json.bind(res);
+  res.json = (data) => {
+    // If it's a standard LLM response format, wrap it with RAG metadata
+    if (data && data.choices && data.choices[0]) {
+      const responseText = data.choices[0].message.content;
+      return originalJson({
+        ...data, // Keep original LLM metadata (usage, model, etc.)
+        response: responseText, // Add convenient top-level response
+        sources: sources,
+        source:
+          sources.length > 0 ? `${sources[0].title}` : "General Knowledge",
+        sourceType: sources.length > 0 ? "rag_persistent" : "llm_general",
+      });
+    }
+    return originalJson(data);
+  };
+
+  // 4. Final Dispatch
   const p = provider
     ? provider.toLowerCase()
-    : process.env.DEFAULT_LLM_PROVIDER || "openrouter";
+    : process.env.DEFAULT_LLM_PROVIDER || "groq";
+
+  req.body.messages = messages; // Update the request body with augmented messages
 
   if (p === "groq") {
     return handleGroqChat(req, res);
@@ -426,8 +498,7 @@ const handleDefaultLlmChat = async (req, res) => {
   } else if (p === "openrouter") {
     return handleOpenRouterChat(req, res);
   } else {
-    // Fallback to OpenRouter for backward compatibility if provider is unknown or not set
-    return handleOpenRouterChat(req, res);
+    return handleGroqChat(req, res);
   }
 };
 

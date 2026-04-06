@@ -3,10 +3,7 @@
     <div class="chat-title-section">
       <span class="chat-title">🤖 {{ title }}</span>
       <div class="chat-mode-indicator">
-        <span v-if="chatMode === 'faq'" class="mode-badge faq"
-          >📚 FAQ Mode</span
-        >
-        <span v-else-if="chatMode === 'kb'" class="mode-badge kb">
+        <span v-if="chatMode === 'kb'" class="mode-badge kb">
           📄 Knowledge Base
         </span>
         <span v-else class="mode-badge llm">
@@ -20,30 +17,14 @@
         @click="$emit('toggle-mode')"
         class="mode-toggle-btn"
         :title="
-          chatMode === 'faq'
-            ? 'Switch to AI Assistant'
-            : chatMode === 'llm'
-              ? 'Switch to Knowledge Base'
-              : 'Switch to FAQ Mode'
+          chatMode === 'llm'
+            ? 'Switch to Knowledge Base'
+            : 'Switch to AI Assistant'
         "
       >
-        <!-- FAQ Mode: Sparkles icon -->
-        <svg
-          v-if="chatMode === 'faq'"
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 512 512"
-        >
-          <path
-            fill="#fff"
-            d="m320 192l-85.333-32L320 127.968l32-85.301l32.03 85.301L469.333 160l-85.303 32L352 277.333zM149.333 362.667L42.667 320l106.666-42.667L192 170.667l42.667 106.666L341.333 320l-106.666 42.667L192 469.333z"
-          />
-        </svg>
-
         <!-- LLM Mode: Brain/AI icon -->
         <svg
-          v-else-if="chatMode === 'llm'"
+          v-if="chatMode === 'llm'"
           xmlns="http://www.w3.org/2000/svg"
           width="16"
           height="16"
@@ -106,7 +87,7 @@ const props = defineProps({
   chatMode: {
     type: String,
     required: true,
-    validator: (value) => ["faq", "llm", "kb"].includes(value),
+    validator: (value) => ["llm", "kb"].includes(value),
   },
   modelName: {
     type: String,

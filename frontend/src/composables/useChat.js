@@ -218,21 +218,17 @@ export function useChat() {
    * @param {string} mode - 'faq', 'llm', or 'kb'
    */
   const switchMode = (mode) => {
-    if (mode !== chatMode.value) {
+    if (mode !== chatMode.value && mode !== "faq") {
       chatMode.value = mode;
 
-      // Clear conversation history when switching to FAQ mode
-      if (mode === "faq") {
-        conversationHistory.value = [];
-      }
+      // Clear conversation history when switching modes if needed
+      // (Simplified for LLM/KB only)
 
       // Add system message about mode switch
       addBotMessage(
         mode === "llm"
           ? "🤖 Switched to AI Assistant mode. I can now have detailed conversations and help with various tasks."
-          : mode === "kb"
-            ? "📄 Switched to Knowledge Base mode. Upload a PDF and I'll analyze it for you."
-            : "📚 Switched to FAQ mode. I'll search our knowledge base to answer your questions.",
+          : "📄 Switched to Knowledge Base mode. Upload a PDF and I'll analyze it for you.",
         {
           sourceType: "system",
           mode: mode,
