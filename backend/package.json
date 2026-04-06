@@ -1,5 +1,5 @@
 {
-  "name": "faq-chatbot-api",
+  "name": "declerk-api",
   "version": "1.0.0",
   "description": "FAQ Chatbot API",
   "main": "server.js",

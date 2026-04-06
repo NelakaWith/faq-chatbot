@@ -82,7 +82,7 @@
 const props = defineProps({
   title: {
     type: String,
-    default: "FAQ Chatbot",
+    default: "DeClerk",
   },
   chatMode: {
     type: String,

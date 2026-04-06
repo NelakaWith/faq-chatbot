@@ -1,7 +1,7 @@
-# 🤖 FAQ-Chatbot
+# 🤖 DeClerk
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Available-brightgreen?style=flat-square&logo=vercel)](https://faq-chatbot.nelakawithanage.com/)
-[![Deployment Status](https://img.shields.io/badge/Deployment-Active-success?style=flat-square&logo=github-actions)](https://github.com/NelakaWith/faq-chatbot/actions)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Available-brightgreen?style=flat-square&logo=vercel)](https://declerk.nelaka.xyz/)
+[![Deployment Status](https://img.shields.io/badge/Deployment-Active-success?style=flat-square&logo=github-actions)](https://github.com/NelakaWith/de-clerk/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green?style=flat-square&logo=node.js)](https://nodejs.org/)
 [![Vue.js](https://img.shields.io/badge/Vue.js-3.0-4FC08D?style=flat-square&logo=vue.js)](https://vuejs.org/)
@@ -16,7 +16,7 @@ A modern AI-powered chatbot with intelligent knowledge base search and LLM integ
 
 ## 🔗 Live Demo
 
-**[Try the Live Demo](https://faq-chatbot.nelakawithanage.com/)** | [Video Demo](#)
+**[Try the Live Demo](https://declerk.nelaka.xyz/)**
 
 ## 📋 Overview
 
@@ -93,8 +93,8 @@ Built as a technical showcase demonstrating modern web development practices, co
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/NelakaWith/faq-chatbot.git
-   cd faq-chatbot
+   git clone https://github.com/NelakaWith/de-clerk.git
+   cd de-clerk
    ```
 
 2. **Install dependencies**
@@ -142,7 +142,7 @@ run-demo.bat
 ## 📚 Project Structure
 
 ```
-faq-chatbot/
+declerk/
 ├── backend/              # Express.js API server
 │   ├── src/
 │   │   ├── controllers/   # Request handlers
@@ -231,7 +231,7 @@ Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTIN
 **Nelaka Withanage**
 
 - GitHub: [@NelakaWith](https://github.com/NelakaWith)
-- Portfolio: [nelakawith.netlify.app](https://nelakawith.netlify.app/)
+- Portfolio: [nelaka.xyz](https://nelaka.xyz/)
 - LinkedIn: [in/nelaka-withanage/](https://www.linkedin.com/in/nelaka-withanage/)
 
 ## 📄 License
@@ -242,4 +242,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ⭐ **Star this repository if you found it helpful!**
 
-_Built with ❤️ using Express.js, Vue.js, and the OpenRouter API_
+_Built with ❤️ using Express.js, Vue.js, and the Groq API_
