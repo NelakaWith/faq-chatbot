@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/NelakaWith/de-clerk/compare/v2.1.0...v2.2.0) (2026-04-06)
+
+
+### Features
+
+* **brand:** implement backend chat controller with multi-provider LLM support and initialize project structure ([6a130c2](https://github.com/NelakaWith/de-clerk/commit/6a130c2b4ef6efcc8c5f0234c654846c0fb6c131))
+
 # [2.1.0](https://github.com/NelakaWith/faq-chatbot/compare/v2.0.0...v2.1.0) (2026-04-06)
 
 
