@@ -2,7 +2,7 @@ const Fuse = require("fuse.js");
 const dataService = require("./dataService");
 const { formatPDFResponse } = require("../utils/formatters");
 const { pool } = require("../db");
-const { generateEmbedding } = require("../utils/embeddings");
+const { generateEmbedding, preloadEmbeddingPipeline } = require("../utils/embeddings");
 
 class SearchService {
   constructor() {
@@ -98,6 +98,9 @@ class SearchService {
 
     // Load all data
     await dataService.loadAllData();
+    
+    // Preload embedding model (crucial for 1GB Droplet)
+    await preloadEmbeddingPipeline();
 
     // Create Fuse instances
     this.createFuseInstances();
