@@ -4,15 +4,22 @@ let embeddingPipeline = null;
 
 /**
  * Get or initialize the embedding pipeline
- * Using BGE-M3 model for multilingual and long-context support
+ * Using all-MiniLM-L6-v2 for lightweight 1GB Droplet support
  */
 async function getPipeline() {
   if (!embeddingPipeline) {
-    console.log('🤖 Loading embedding model (BGE-M3)...');
-    embeddingPipeline = await pipeline('feature-extraction', 'Xenova/bge-m3');
+    console.log('🤖 Loading embedding model (all-MiniLM-L6-v2)...');
+    embeddingPipeline = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2');
     console.log('✅ Embedding model loaded');
   }
   return embeddingPipeline;
+}
+
+/**
+ * Explicitly preload the embedding pipeline at startup
+ */
+async function preloadEmbeddingPipeline() {
+  return await getPipeline();
 }
 
 /**
@@ -34,5 +41,6 @@ async function generateEmbedding(text) {
 }
 
 module.exports = {
-  generateEmbedding
+  generateEmbedding,
+  preloadEmbeddingPipeline
 };
