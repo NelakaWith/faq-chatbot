@@ -12,81 +12,81 @@
 [![Fuse.js](https://img.shields.io/badge/Fuse.js-Search-orange?style=flat-square)](https://fusejs.io/)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow?style=flat-square&logo=conventionalcommits)](https://conventionalcommits.org)
 
-A modern AI-powered chatbot with intelligent knowledge base search and LLM integration, built with Vue 3 and Node.js.
+**Advanced AI-powered Legal RAG & Multi-Provider Chatbot**
+
+DeClerk is a sophisticated full-stack chatbot solution designed for enterprise-grade Retrieval-Augmented Generation (RAG). It features deep structural analysis of PDF documents, semantic vector search with `pgvector`, and a multi-provider AI engine supporting Gemini, Groq, and OpenRouter.
 
 ## 🔗 Live Demo
 
-**[Try the Live Demo](https://declerk.nelaka.xyz/)**
+**[Explore DeClerk Live](https://declerk.nelaka.xyz/)**
 
 ## 📋 Overview
 
-This project demonstrates a full-stack chatbot application with dual operational modes:
+DeClerk goes beyond simple keyword matching. It implements a multi-layered approach to information retrieval and conversation:
 
-- **Search Mode**: Intelligent search through structured knowledge bases with fuzzy matching
-- **AI Assistant Mode**: OpenRouter API integration with Google Gemma 3 for conversational AI
+- **Intelligent RAG**: Semantic search using `pgvector` and local embedding generation with Transformers.js.
+- **Structural PDF Analysis**: Automatically detects "Parts" and "Chapters" in complex (e.g., legal) documents for contextual responses.
+- **Multi-Provider AI**: Seamlessly switch between Google Gemini 1.5, Groq (Llama 3/Mixtral), or OpenRouter models.
+- **Fuzzy Search Fallback**: High-performance local search using Fuse.js for exact and near-match queries.
 
-Built as a technical showcase demonstrating modern web development practices, component architecture, and AI integration patterns.
+Built with modern web standards, DeClerk demonstrates production-ready patterns for AI integration, document processing, and reactive UI design.
 
 ## ✨ Key Features
 
-### 🧠 Intelligent Search System
+### 🧠 Advanced RAG System
 
-- **Multi-layered Search**: Exact match → Keyword detection → Fuzzy search → PDF fallback
-- **Semantic Understanding**: Synonym handling and context-aware responses
-- **PDF Processing**: Automatic document parsing and content extraction
+- **Vector search**: Deep semantic understanding using `pgvector` on Neon PostgreSQL.
+- **Local Embeddings**: Privacy-focused embedding generation using `@xenova/transformers`.
+- **Structural Awareness**: Extracts hierarchical information (Chapter/Section) from PDFs to provide precise citations.
+- **Smart Chunking**: Semantically-aware text splitting with overlap for better context preservation.
 
-### 🤖 AI Integration
+### 🤖 Multi-Provider AI Engine
 
-- **OpenRouter API**: Integration with Google Gemma 3 model (free tier)
-- **Conversation Management**: Stateful chat with conversation history
-- **Mode Switching**: Seamless transition between FAQ and AI modes
+- **Google Gemini**: Integration with Gemini 1.5 Pro/Flash for high-reasoning tasks.
+- **Groq API**: Blazing fast responses using Llama 3 and Mixtral models.
+- **OpenRouter**: Unified access point for a wide range of open-source LLMs.
+- **Stateful Chats**: Persistent conversation history for context-aware interactions.
 
-### 🎨 Modern Frontend
+### 🎨 Premium Frontend
 
-- **Vue 3 Composition API**: Component-based architecture with reactive state
-- **Real-time UI**: Typing indicators, loading states, and smooth animations
-- **Responsive Design**: Mobile-first approach with elegant chat interface
+- **Vue 3 Composition API**: Modular, reactive component architecture.
+- **Dynamic File Uploads**: Real-time PDF processing and indexing via the UI.
+- **Rich Interaction**: Fluid typing indicators, markdown rendering, and smooth transitions.
+- **Responsive Mastery**: Tailored experiences for both desktop and mobile users.
 
-### 🔧 Developer Experience
+### 🔧 Developer First
 
-- **Hot Reload**: Development servers with live updates
-- **Error Handling**: Comprehensive error boundaries and fallback responses
-- **API Documentation**: Well-documented RESTful endpoints
+- **Scalable Architecture**: Clean separation of services, controllers, and database layers.
+- **Automated Schema**: Self-initializing database tables and vector extensions on startup.
+- **Health Monitoring**: Built-in endpoints for service metrics and connectivity status.
 
 ## 🛠️ Tech Stack
 
 ### Frontend
-
-- **Vue 3** - Progressive JavaScript framework with Composition API
-- **Vite** - Fast build tool and development server
-- **Axios** - HTTP client for API communication
-- **CSS3** - Custom animations and responsive design
+- **Vue 3** - Framework with Composition API
+- **Vite** - Modern frontend tooling
+- **Axios** - Promise-based HTTP client
+- **CSS3/Animations** - Custom-crafted premium aesthetics
 
 ### Backend
+- **Node.js & Express** - Efficient server-side runtime and framework
+- **Neon / PostgreSQL** - Serverless database with `pgvector` support
+- **Fuse.js** - Lightweight fuzzy search for local data
+- **PDF-parse** - Robust PDF text extraction
 
-- **Node.js** - JavaScript runtime environment
-- **Express.js** - Web application framework
-- **Fuse.js** - Powerful fuzzy search library
-- **PDF-Parse** - PDF text extraction utility
-
-### AI & APIs
-
-- **OpenRouter API** - LLM gateway service
-- **Google Gemma 3** - Large language model (free tier)
-- **REST Architecture** - Clean API design patterns
-
-### DevOps & Tools
-
-- **Git** - Version control with conventional commits
-- **npm workspaces** - Monorepo dependency management
-- **Environment Configuration** - Secure API key management
+### AI & Embeddings
+- **Gemini API** - Google's latest generative models
+- **Groq API** - Low-latency LLM inference
+- **Transformers.js** - Local ML for embedding generation
+- **OpenRouter** - Aggregated AI model gateway
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 
-- Node.js 16+ and npm
-- OpenRouter API key (free tier available)
+- **Node.js 18+** and **npm**
+- **Neon.tech** account (or any PostgreSQL with `pgvector`)
+- One or more AI API Keys (Gemini, Groq, or OpenRouter)
 
 ### Installation
 
@@ -97,134 +97,90 @@ Built as a technical showcase demonstrating modern web development practices, co
    cd de-clerk
    ```
 
-2. **Install dependencies**
+2. **Install all dependencies**
 
    ```bash
    npm install
    ```
 
-3. **Configure environment**
+3. **Configure Environment Variables**
+
+   Navigate to the `backend` directory and create your `.env` file:
 
    ```bash
    cd backend
    cp .env.example .env
-   # Add your OPENROUTER_API_KEY to .env
    ```
 
-4. **Start development servers**
+   Add your credentials to `.env`:
+   - `NEON_DATABASE_URL`: Your PostgreSQL connection string.
+   - `GEMINI_API_KEY`: [Optional] Google AI Studio key.
+   - `GROQ_API_KEY`: [Optional] Groq Console key.
+   - `OPENROUTER_API_KEY`: [Optional] OpenRouter key.
 
-   **Backend** (Terminal 1):
+4. **Launch Development Servers**
 
+   **Terminal 1 (Backend):**
    ```bash
    cd backend
    npm run dev
    ```
 
-   **Frontend** (Terminal 2):
-
+   **Terminal 2 (Frontend):**
    ```bash
    cd frontend
    npm run dev
    ```
 
-5. **Access the application**
-   - Frontend: http://localhost:5173
-   - Backend API: http://localhost:3000
-   - API Health: http://localhost:3000/health
+5. **Access Application**
+   - **Frontend UI**: [http://localhost:5173](http://localhost:5173)
+   - **API Status**: [http://localhost:3000/health](http://localhost:3000/health)
 
-### Windows Quick Start
-
+### Windows Quick Launch
+Simply execute the included batch file for a onend-click setup:
 ```cmd
-# Run the included batch file
 run-demo.bat
 ```
 
 ## 📚 Project Structure
 
-```
+```bash
 declerk/
-├── backend/              # Express.js API server
+├── backend/               # Express.js Server
 │   ├── src/
-│   │   ├── controllers/   # Request handlers
-│   │   ├── routes/        # API endpoints
-│   │   ├── services/      # Business logic
-│   │   └── utils/         # Helper functions
-│   ├── data/             # Knowledge base JSON files
-│   └── server.js         # Entry point
-├── frontend/             # Vue 3 SPA
+│   │   ├── controllers/   # Request logic handlers
+│   │   ├── routes/        # API route definitions
+│   │   ├── services/      # RAG, Search, and AI logic
+│   │   └── db/            # Database schema & connection
+│   └── data/              # Default JSON knowledge bases
+├── frontend/              # Vue 3 Application
 │   ├── src/
-│   │   ├── components/    # Vue components
-│   │   ├── composables/   # Reusable logic
-│   │   └── styles/        # CSS modules
-│   └── vite.config.js
-├── documents/            # PDF knowledge base
-├── .github/workflows/    # CI/CD automation
-└── README.md
+│   │   ├── components/    # Reusable UI components
+│   │   └── composables/   # Shared reactive logic
+├── documents/             # Storage for local PDF sources
+├── scripts/               # Maintenance and utility scripts
+└── docker-compose.yml     # Containerization config
 ```
 
 ## 🧪 API Endpoints
 
-| Method | Endpoint        | Description                |
-| ------ | --------------- | -------------------------- |
-| `POST` | `/api/chat`     | Knowledge base search      |
-| `POST` | `/api/chat/llm` | OpenRouter AI conversation |
-| `GET`  | `/api/status`   | Service status and metrics |
-| `GET`  | `/api/health`   | Health check endpoint      |
-
-## 📖 Key Learnings
-
-### Technical Implementation
-
-- **Vue 3 Composables**: Learned reactive state management and composition patterns
-- **API Integration**: Implemented secure proxy patterns for external API consumption
-- **Search Algorithms**: Built multi-tier search with fallback strategies
-- **Component Architecture**: Designed reusable, maintainable component structures
-
-### Best Practices
-
-- **Error Handling**: Implemented comprehensive error boundaries and user feedback
-- **State Management**: Used reactive patterns for real-time UI updates
-- **API Design**: Created RESTful endpoints with proper status codes and responses
-- **Security**: Implemented environment-based configuration and API key protection
-
-### Problem Solving
-
-- **Performance**: Optimized search algorithms for large knowledge bases
-- **User Experience**: Added loading states, animations, and contextual feedback
-- **Scalability**: Designed modular architecture for easy feature expansion
-
-## 🚧 Future Improvements
-
-### Short-term Enhancements
-
-- [ ] **Vector Search**: Implement semantic search with embeddings
-- [ ] **User Authentication**: Add login/logout and conversation persistence
-- [ ] **Chat History**: Save and restore previous conversations
-- [ ] **File Upload**: Allow users to upload documents for analysis
-
-### Advanced Features
-
-- [ ] **Multi-model Support**: Add support for GPT-4, Claude, and other LLMs
-- [ ] **Voice Integration**: Implement speech-to-text and text-to-speech
-- [ ] **Admin Dashboard**: Content management interface for knowledge base
-- [ ] **Analytics**: Usage tracking and conversation analytics
-
-### Technical Improvements
-
-- [ ] **Testing Suite**: Unit tests, integration tests, and E2E testing
-- [ ] **Docker Deployment**: Containerization for easy deployment
-- [ ] **CDN Integration**: Asset optimization and global distribution
-- [ ] **Monitoring**: Application performance monitoring and alerting
-
-## ⚠️ Default Chat Mode Change
-
-- The default chat mode is now **LLM-powered chat** (`llm`).
-- Users will start in LLM mode instead of the knowledge base search mode.
-- Ensure you have configured a valid API key (OpenRouter, Gemini, or Groq) in your backend `.env` before first launch, or the chat may not function.
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/api/chat` | Intelligent hybrid search query |
+| `POST` | `/api/chat/llm` | Multi-model AI conversation |
+| `POST` | `/api/rag/upload` | Upload and vectorize PDF document |
+| `GET` | `/status` | Real-time service usage & metrics |
+| `GET` | `/health` | System connectivity health check |
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) for details on our code of conduct and development process.
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## 👨‍💻 Author
 
@@ -236,10 +192,10 @@ Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTIN
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
 
 ⭐ **Star this repository if you found it helpful!**
 
-_Built with ❤️ using Express.js, Vue.js, and the Groq API_
+_Built with excellence using Vue.js, Express.js, and next-gen AI._
