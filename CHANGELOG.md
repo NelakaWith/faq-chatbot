@@ -1,3 +1,10 @@
+## [2.3.1](https://github.com/NelakaWith/de-clerk/compare/v2.3.0...v2.3.1) (2026-04-07)
+
+
+### Bug Fixes
+
+* **embeddings:** add all-MiniLM-L6-v2 for lightweight 1GB Droplet ([0a64f11](https://github.com/NelakaWith/de-clerk/commit/0a64f1152d02d88257a91599d1f4a2f988c304dc))
+
 # [2.3.0](https://github.com/NelakaWith/de-clerk/compare/v2.2.0...v2.3.0) (2026-04-06)
 
 
