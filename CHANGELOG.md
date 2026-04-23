@@ -1,3 +1,10 @@
+## [2.3.2](https://github.com/NelakaWith/de-clerk/compare/v2.3.1...v2.3.2) (2026-04-23)
+
+
+### Performance Improvements
+
+* **frontend:** optimize bundle size and improve initial load ([2af79f7](https://github.com/NelakaWith/de-clerk/commit/2af79f7f34c4c5c71370b85fc9ba0261f9389839))
+
 ## [2.3.1](https://github.com/NelakaWith/de-clerk/compare/v2.3.0...v2.3.1) (2026-04-07)
 
 
