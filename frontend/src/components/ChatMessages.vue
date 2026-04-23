@@ -39,17 +39,21 @@ defineEmits(["suggestion-click"]);
 
 // Message container ref for scrolling
 const messagesContainer = ref(null);
+let scrollTimeout = null;
 
 // Auto-scroll to bottom when messages change
 watch(
   () => props.messages,
   () => {
-    nextTick(() => {
-      if (messagesContainer.value) {
-        messagesContainer.value.scrollTop =
-          messagesContainer.value.scrollHeight;
-      }
-    });
+    if (scrollTimeout) clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      nextTick(() => {
+        if (messagesContainer.value) {
+          messagesContainer.value.scrollTop =
+            messagesContainer.value.scrollHeight;
+        }
+      });
+    }, 50);
   },
   { deep: true }
 );

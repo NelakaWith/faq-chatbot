@@ -6,10 +6,12 @@
       :placeholder="isLoading ? 'Processing...' : 'Type your message...'"
       :disabled="isLoading"
       autocomplete="off"
+      aria-label="Chat message input"
     />
     <button
       @click="handleSendMessage"
       :disabled="isLoading || !inputMessage.trim()"
+      aria-label="Send message"
     >
       <svg
         v-if="!isLoading"
