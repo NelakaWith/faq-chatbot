@@ -5,9 +5,10 @@
 </template>
 
 <script setup>
-// Import the main ChatWidget component
-// No need to register it in 'components' option when using script setup
-import ChatWidget from "./components/ChatWidget.vue";
+import { defineAsyncComponent } from "vue";
+
+// Lazy load the ChatWidget component
+const ChatWidget = defineAsyncComponent(() => import("./components/ChatWidget.vue"));
 </script>
 
 <style>
