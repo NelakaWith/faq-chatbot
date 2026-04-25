@@ -2,8 +2,8 @@ import { ref, reactive } from "vue";
 import axios from "axios";
 
 /**
- * Composable for managing LLM (OpenRouter) chat functionality
- * Provides methods to send messages to various AI models through our backend proxy
+ * Composable for managing chat functionality
+ * Provides methods to send messages to AI models through our backend proxy
  */
 export function useChatLLM() {
   // Reactive state
@@ -13,37 +13,12 @@ export function useChatLLM() {
 
   // Chat configuration
   const config = reactive({
-    model: "llama-3.3-70b-versatile",
     temperature: 0.7,
     maxTokens: 1000,
     topP: 1,
     presencePenalty: 0,
     frequencyPenalty: 0,
   });
-
-  // Available models
-  const availableModels = [
-    {
-      id: "llama-3.3-70b-versatile",
-      name: "Llama 3.3 70B (Groq)",
-      provider: "Groq",
-    },
-    {
-      id: "llama3-8b-8192",
-      name: "Llama 3 8B (Groq)",
-      provider: "Groq",
-    },
-    {
-      id: "mixtral-8x7b-32768",
-      name: "Mixtral 8x7B (Groq)",
-      provider: "Groq",
-    },
-    {
-      id: "gemma2-9b-it",
-      name: "Gemma 2 9B (Groq)",
-      provider: "Groq",
-    },
-  ];
 
   /**
    * Get the API base URL
@@ -71,9 +46,7 @@ export function useChatLLM() {
 
       // Prepare request payload
       const payload = {
-        model: options.model || config.model,
         messages: formattedMessages,
-        provider: options.provider || availableModels.find(m => m.id === (options.model || config.model))?.provider?.toLowerCase() || 'groq',
         temperature: options.temperature ?? config.temperature,
         max_tokens: options.maxTokens ?? config.maxTokens,
         top_p: options.topP ?? config.topP,
@@ -168,7 +141,6 @@ export function useChatLLM() {
    * Reset configuration to defaults
    */
   const resetConfig = () => {
-    config.model = "llama-3.3-70b-versatile";
     config.temperature = 0.7;
     config.maxTokens = 1000;
     config.topP = 1;
@@ -204,7 +176,6 @@ export function useChatLLM() {
     error,
     lastResponse,
     config,
-    availableModels,
 
     // Methods
     sendMessage,

@@ -74,10 +74,11 @@ const handleGeminiChat = async (req, res) => {
 
     const {
       messages,
-      model = process.env.GEMINI_MODEL_NAME || "gemini-1.5-flash",
       temperature = 0.7,
       max_tokens = 2048,
     } = req.body;
+
+    const model = process.env.GEMINI_MODEL_NAME || "gemini-1.5-flash";
 
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
       return res.status(400).json({
@@ -295,7 +296,6 @@ const handleGroqChat = async (req, res) => {
 
     let {
       messages,
-      model = process.env.GROQ_MODEL_NAME || "llama3-70b-8192",
       temperature = process.env.GROQ_TEMPERATURE,
       max_tokens = process.env.GROQ_MAX_TOKENS,
     } = req.body;
@@ -394,7 +394,7 @@ const handleGroqChat = async (req, res) => {
  * Dispatches to specific handlers after augmenting with database context
  */
 const handleDefaultLlmChat = async (req, res) => {
-  let { provider, messages, message } = req.body;
+  let { messages, message } = req.body;
 
   // 1. If we have a single 'message' but no messages array, create it
   if (!messages && message) {
@@ -485,9 +485,7 @@ const handleDefaultLlmChat = async (req, res) => {
   };
 
   // 4. Final Dispatch
-  const p = provider
-    ? provider.toLowerCase()
-    : process.env.DEFAULT_LLM_PROVIDER || "groq";
+  const p = (process.env.DEFAULT_LLM_PROVIDER || "groq").toLowerCase();
 
   req.body.messages = messages; // Update the request body with augmented messages
 

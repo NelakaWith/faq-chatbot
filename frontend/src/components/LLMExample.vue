@@ -2,20 +2,6 @@
   <div class="llm-example">
     <h2>LLM Composable Examples</h2>
 
-    <!-- Model Selection -->
-    <div class="model-selector">
-      <label for="model-select">Select Model:</label>
-      <select id="model-select" v-model="selectedModel" @change="updateModel">
-        <option
-          v-for="model in llm.availableModels"
-          :key="model.id"
-          :value="model.id"
-        >
-          {{ model.name }} ({{ model.provider }})
-        </option>
-      </select>
-    </div>
-
     <!-- Configuration Panel -->
     <div class="config-panel">
       <h3>Configuration</h3>
@@ -127,7 +113,7 @@
 
         <div class="response-meta">
           <small>
-            Model: {{ llm.lastResponse.model || llm.config.model }} | Finish
+            Model: {{ llm.lastResponse.model || "N/A" }} | Finish
             Reason: {{ llm.lastResponse.choices?.[0]?.finish_reason || "N/A" }}
           </small>
         </div>
@@ -159,12 +145,7 @@ import { useChatLLM } from "../composables";
 
 const llm = useChatLLM();
 const customMessage = ref("");
-const selectedModel = ref(llm.config.model);
 const conversationMessages = ref([]);
-
-const updateModel = () => {
-  llm.updateConfig({ model: selectedModel.value });
-};
 
 const askQuestion = async (question) => {
   try {
@@ -236,23 +217,6 @@ const clearConversation = () => {
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
-}
-
-.model-selector {
-  margin-bottom: 20px;
-}
-
-.model-selector label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-.model-selector select {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
 }
 
 .config-panel {
